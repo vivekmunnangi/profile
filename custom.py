@@ -1,112 +1,226 @@
 import requests
 from bs4 import BeautifulSoup
 
-# Step 1: Scrape company info
+# Step 1: Scrape logo and description
 url = 'https://www.knapp.com/en/'
 response = requests.get(url)
 soup = BeautifulSoup(response.text, 'html.parser')
 
-# Extract company description (example: first meaningful paragraph on homepage)
-# Adjust this selector if needed for better content extraction
-company_description = soup.find('p').get_text() if soup.find('p') else "Company description not found."
+logo_img = soup.find('img')
+logo_url = logo_img['src'] if logo_img else ''
+if logo_url and logo_url.startswith('/'):
+    logo_url = 'https://www.knapp.com' + logo_url
 
-# Step 2: Your detailed skills and experience
-your_skills_experience = """
-<ul>
-  <li><strong>Programming Languages:</strong> Python, C++, R, SQL, ROS2</li>
-  <li><strong>Data Science & Machine Learning:</strong> TensorFlow, PyTorch, Scikit-Learn, NLTK, OpenCV, Pandas, NumPy, Matplotlib</li>
-  <li><strong>AI & HPC:</strong> LLMs, AutoGen, Semantic Kernel, CREW AI, NVIDIA GPUs (A100, V100, H100)</li>
-  <li><strong>Web Development:</strong> MERN stack, API development, SQL databases</li>
-  <li><strong>Visualization & BI Tools:</strong> Power BI, Tableau</li>
-  <li><strong>Databases & Cloud:</strong> MySQL, MongoDB, AWS S3</li>
-  <li><strong>Mechanical Engineering Tools:</strong> MATLAB, Ansys, SolidWorks, Fusion 360, CAD/CAM</li>
-</ul>
+company_description = soup.find('p').get_text(strip=True) if soup.find('p') else "Company description not found."
 
-<p><strong>Experience Highlights:</strong></p>
-<ul>
-  <li>Autonomous vehicle state estimation and control improving real-world performance.</li>
-  <li>Designed fail-safe trajectory modules using real-time sensor fusion.</li>
-  <li>ML-based 3D medical image registration with 97% accuracy.</li>
-  <li>Built ETL pipelines and AI dashboards for healthcare data analytics.</li>
-  <li>Developed full-stack web apps with cloud deployment.</li>
-  <li>Mechanical design of high-efficiency BLDC motors and vehicle drivetrain.</li>
-</ul>
-"""
+# Step 2: Add your content
+scope_content = "Scope of KNAPP's work includes warehouse automation, robotics, logistics software, and intelligent intralogistics systems."
+culture_content = "KNAPP fosters innovation, teamwork, and continuous learning, focusing on sustainability and future-ready logistics solutions."
+motivation_content = "I'm drawn to KNAPP’s blend of innovation and purpose. Their leadership in automation aligns with my goal to solve impactful logistics challenges using data and AI."
+fit_reason = "With hands-on experience in autonomous systems, AI, and full-stack development, I bring both the technical depth and adaptability KNAPP values."
 
-# Step 3: Your fit reason (can be customized)
-your_fit_reason = "Passion for efficient supply chains matches Knapp's mission and innovative spirit."
+experiences = [
+    {
+        "title": "Research Engineer",
+        "summary": "Developed state estimation and autonomous control for race vehicles, improving average lap speed by 20mph."
+    },
+    {
+        "title": "AI Partner, dentalmatrix.ai",
+        "summary": "Built real-time ETL pipelines and deployed LLM-powered analytics tools for dental practice intelligence."
+    },
+    {
+        "title": "Research Assistant, Imaging Lab",
+        "summary": "Designed neural networks to register 3D eye scan volumes without reference points, achieving 97% accuracy."
+    }
+]
 
-# Step 4: Create personalized HTML content with basic inline CSS
-about_me_html = f"""
+# Step 3: Build HTML
+experience_boxes = ""
+for exp in experiences:
+    experience_boxes += f"""
+    <div class="experience-box">
+      <h3>{exp['title']}</h3>
+      <p>{exp['summary']}</p>
+    </div>
+    """
+
+html = f"""
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>About Me for Knapp</title>
-<style>
-  body {{
-    font-family: Arial, sans-serif;
-    max-width: 900px;
-    margin: 2rem auto;
-    padding: 1rem;
-    background-color: #f9faff;
-    color: #333;
-  }}
-  h1, h2 {{
-    color: #0055a5;
-    border-bottom: 2px solid #0055a5;
-    padding-bottom: 0.3rem;
-  }}
-  ul {{
-    line-height: 1.6;
-  }}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Me & KNAPP</title>
+  <style>
+    body {{
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background-color: #f0f4f8;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }}
+    header {{
+      display: flex;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: white;
+      border-bottom: 2px solid #ccc;
+    }}
+    header img {{
+      height: 60px;
+      margin-right: 20px;
+    }}
+    main {{
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }}
+    section {{
+      margin-bottom: 3rem;
+    }}
+    h1, h2, h3 {{
+      color: #0055a5;
+    }}
+    .experience-grid {{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }}
+    .experience-box {{
+      background: white;
+      padding: 1rem;
+      border-left: 5px solid #0055a5;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease;
+    }}
+    .experience-box:hover {{
+      transform: scale(1.03);
+    }}
+  </style>
 </head>
 <body>
-  <h1>About Knapp</h1>
-  <p>{company_description}</p>
+  <header>
+    <img src="{logo_url}" alt="KNAPP Logo" />
+    <h1>About KNAPP</h1>
+  </header>
+  <main>
+    <section>
+      <h2>Company Description</h2>
+      <p>{company_description}</p>
+    </section>
 
-  <h2>Why I'm a Great Fit</h2>
-  <p>{your_fit_reason}</p>
+    <section>
+      <h2>Scope</h2>
+      <p>{scope_content}</p>
+    </section>
 
-  <h2>Skills and Experience</h2>
-  {your_skills_experience}
+    <section>
+      <h2>Work Culture</h2>
+      <p>{culture_content}</p>
+    </section>
+
+    <section>
+      <h2>Motivation to Join KNAPP</h2>
+      <p>{motivation_content}</p>
+    </section>
+
+    <section>
+      <h2>Why I'm a Great Fit</h2>
+      <p>{fit_reason}</p>
+    </section>
+
+    <section>
+      <h2>Work Experience</h2>
+      <div class="experience-grid">
+        {experience_boxes}
+      </div>
+    </section>
+  </main>
 </body>
 </html>
 """
 
-# Step 5: Save to file
-with open('index.html', 'w', encoding='utf-8') as file:
-    file.write(about_me_html)
+# Step 4: Save HTML file
+with open("index.html", "w", encoding="utf-8") as f:
+    f.write(html)
+
+print("✅ index.html generated.")
 
 
-# Imagine you scraped the color from the company website's CSS or meta tags
-primary_color = "#0070f3"  # for example, Knapp's blue
+
+primary_color = "#0055a5"  # KNAPP-style blue
 
 custom_css = f"""
 body {{
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f0f4f8;
   color: #333;
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 2rem;
+  margin: 0;
+  padding: 0;
 }}
 
-h1, h2, a {{
+header {{
+  display: flex;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: white;
+  border-bottom: 2px solid #ccc;
+}}
+
+header img {{
+  height: 60px;
+  margin-right: 20px;
+}}
+
+main {{
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+}}
+
+section {{
+  margin-bottom: 3rem;
+}}
+
+h1, h2, h3 {{
   color: {primary_color};
 }}
 
 h2 {{
-  border-bottom: 3px solid {primary_color};
+  border-bottom: 2px solid {primary_color};
+  padding-bottom: 0.3rem;
+  margin-bottom: 1rem;
+}}
+
+.experience-grid {{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}}
+
+.experience-box {{
+  background: white;
+  padding: 1rem;
+  border-left: 5px solid {primary_color};
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+}}
+
+.experience-box:hover {{
+  transform: scale(1.03);
+}}
+
+a {{
+  color: {primary_color};
+  text-decoration: none;
 }}
 
 a:hover {{
-  border-color: {primary_color};
+  text-decoration: underline;
 }}
 """
 
 with open("style.css", "w") as f:
     f.write(custom_css)
-print("Personalized About Me page generated as 'index.html'")
+
+print("✅ Updated style.css generated.")

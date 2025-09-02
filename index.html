@@ -2,56 +2,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>About Me for Knapp</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    max-width: 900px;
-    margin: 2rem auto;
-    padding: 1rem;
-    background-color: #f9faff;
-    color: #333;
-  }
-  h1, h2 {
-    color: #0055a5;
-    border-bottom: 2px solid #0055a5;
-    padding-bottom: 0.3rem;
-  }
-  ul {
-    line-height: 1.6;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Me & KNAPP</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background-color: #f0f4f8;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: white;
+      border-bottom: 2px solid #ccc;
+    }
+    header img {
+      height: 60px;
+      margin-right: 20px;
+    }
+    main {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+    section {
+      margin-bottom: 3rem;
+    }
+    h1, h2, h3 {
+      color: #0055a5;
+    }
+    .experience-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .experience-box {
+      background: white;
+      padding: 1rem;
+      border-left: 5px solid #0055a5;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease;
+    }
+    .experience-box:hover {
+      transform: scale(1.03);
+    }
+  </style>
 </head>
 <body>
-  <h1>About Knapp</h1>
-  <p>Looking to automate every step of your value chain? You’ve come to the right place – ready to meet our robotics and AI solutions? </p>
+  <header>
+    <img src="https://www.knapp.com/wp-content/themes/knapp/assets/img/knapp_logo.svg" alt="KNAPP Logo" />
+    <h1>About KNAPP</h1>
+  </header>
+  <main>
+    <section>
+      <h2>Company Description</h2>
+      <p>Looking to automate every step of your value chain?You’ve come to the right place – ready to meet our robotics and AI solutions?</p>
+    </section>
 
-  <h2>Why I'm a Great Fit</h2>
-  <p>Passion for efficient supply chains matches Knapp's mission and innovative spirit.</p>
+    <section>
+      <h2>Scope</h2>
+      <p>Scope of KNAPP's work includes warehouse automation, robotics, logistics software, and intelligent intralogistics systems.</p>
+    </section>
 
-  <h2>Skills and Experience</h2>
-  
-<ul>
-  <li><strong>Programming Languages:</strong> Python, C++, R, SQL, ROS2</li>
-  <li><strong>Data Science & Machine Learning:</strong> TensorFlow, PyTorch, Scikit-Learn, NLTK, OpenCV, Pandas, NumPy, Matplotlib</li>
-  <li><strong>AI & HPC:</strong> LLMs, AutoGen, Semantic Kernel, CREW AI, NVIDIA GPUs (A100, V100, H100)</li>
-  <li><strong>Web Development:</strong> MERN stack, API development, SQL databases</li>
-  <li><strong>Visualization & BI Tools:</strong> Power BI, Tableau</li>
-  <li><strong>Databases & Cloud:</strong> MySQL, MongoDB, AWS S3</li>
-  <li><strong>Mechanical Engineering Tools:</strong> MATLAB, Ansys, SolidWorks, Fusion 360, CAD/CAM</li>
-</ul>
+    <section>
+      <h2>Work Culture</h2>
+      <p>KNAPP fosters innovation, teamwork, and continuous learning, focusing on sustainability and future-ready logistics solutions.</p>
+    </section>
 
-<p><strong>Experience Highlights:</strong></p>
-<ul>
-  <li>Autonomous vehicle state estimation and control improving real-world performance.</li>
-  <li>Designed fail-safe trajectory modules using real-time sensor fusion.</li>
-  <li>ML-based 3D medical image registration with 97% accuracy.</li>
-  <li>Built ETL pipelines and AI dashboards for healthcare data analytics.</li>
-  <li>Developed full-stack web apps with cloud deployment.</li>
-  <li>Mechanical design of high-efficiency BLDC motors and vehicle drivetrain.</li>
-</ul>
+    <section>
+      <h2>Motivation to Join KNAPP</h2>
+      <p>I'm drawn to KNAPP’s blend of innovation and purpose. Their leadership in automation aligns with my goal to solve impactful logistics challenges using data and AI.</p>
+    </section>
 
+    <section>
+      <h2>Why I'm a Great Fit</h2>
+      <p>With hands-on experience in autonomous systems, AI, and full-stack development, I bring both the technical depth and adaptability KNAPP values.</p>
+    </section>
+
+    <section>
+      <h2>Work Experience</h2>
+      <div class="experience-grid">
+        
+    <div class="experience-box">
+      <h3>Research Engineer</h3>
+      <p>Developed state estimation and autonomous control for race vehicles, improving average lap speed by 20mph.</p>
+    </div>
+    
+    <div class="experience-box">
+      <h3>AI Partner, dentalmatrix.ai</h3>
+      <p>Built real-time ETL pipelines and deployed LLM-powered analytics tools for dental practice intelligence.</p>
+    </div>
+    
+    <div class="experience-box">
+      <h3>Research Assistant, Imaging Lab</h3>
+      <p>Designed neural networks to register 3D eye scan volumes without reference points, achieving 97% accuracy.</p>
+    </div>
+    
+      </div>
+    </section>
+  </main>
 </body>
 </html>
