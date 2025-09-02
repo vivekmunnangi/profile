@@ -1,0 +1,122 @@
+body {
+  margin: 0;
+<<<<<<< HEAD
+  font-family: Arial, sans-serif;
+  scroll-behavior: smooth;
+  background: #fafafa;
+=======
+  font-family: 'Inter', sans-serif;
+  background: #f9f9f9;
+>>>>>>> 40e06c3 (Update)
+  color: #333;
+  scroll-behavior: smooth;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+<<<<<<< HEAD
+  padding: 1rem 2rem;
+  background: rgba(255,255,255,0.95);
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.nav-right a {
+=======
+  background-color: #004080;
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+nav a {
+  color: #ffffff;
+>>>>>>> 40e06c3 (Update)
+  text-decoration: none;
+  color: #0073e6;
+  font-weight: bold;
+}
+
+.hero {
+  height: 90vh;
+<<<<<<< HEAD
+  background: #004080;
+  color: #fff;
+=======
+  background: linear-gradient(135deg, #004080, #0066cc);
+  color: white;
+>>>>>>> 40e06c3 (Update)
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+<<<<<<< HEAD
+  padding: 0 1rem;
+}
+
+.hero h1 {
+  font-size: 3rem;
+=======
+  padding: 0 2rem;
+  margin-top: 60px; /* to offset nav height */
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+>>>>>>> 40e06c3 (Update)
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.2rem;
+<<<<<<< HEAD
+  max-width: 600px;
+=======
+  max-width: 700px;
+>>>>>>> 40e06c3 (Update)
+}
+
+section {
+  padding: 4rem 2rem;
+  max-width: 800px;
+  margin: auto;
+<<<<<<< HEAD
+=======
+}
+
+section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #004080;
+}
+
+section p {
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+a {
+  color: #0073e6;
+>>>>>>> 40e06c3 (Update)
+}
+
+footer {
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.9rem;
+<<<<<<< HEAD
+  color: #666;
+=======
+  background-color: #f0f0f0;
+  color: #555;
+>>>>>>> 40e06c3 (Update)
+}
