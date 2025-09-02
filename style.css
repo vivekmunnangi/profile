@@ -1,122 +1,67 @@
-body {
+/* Basic Reset */
+* {
   margin: 0;
-<<<<<<< HEAD
-  font-family: Arial, sans-serif;
-  scroll-behavior: smooth;
-  background: #fafafa;
-=======
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
   font-family: 'Inter', sans-serif;
-  background: #f9f9f9;
->>>>>>> 40e06c3 (Update)
-  color: #333;
-  scroll-behavior: smooth;
-}
-
-nav {
-  position: fixed;
-  top: 0;
-  width: 100%;
-<<<<<<< HEAD
-  padding: 1rem 2rem;
-  background: rgba(255,255,255,0.95);
-  display: flex;
-  justify-content: space-between;
-  box-shadow: 0 1px 5px rgba(0,0,0,0.1);
-  z-index: 1000;
-}
-
-.nav-right a {
-=======
-  background-color: #004080;
-  color: white;
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-}
-
-nav a {
-  color: #ffffff;
->>>>>>> 40e06c3 (Update)
-  text-decoration: none;
-  color: #0073e6;
-  font-weight: bold;
-}
-
-.hero {
-  height: 90vh;
-<<<<<<< HEAD
-  background: #004080;
-  color: #fff;
-=======
-  background: linear-gradient(135deg, #004080, #0066cc);
-  color: white;
->>>>>>> 40e06c3 (Update)
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-<<<<<<< HEAD
-  padding: 0 1rem;
-}
-
-.hero h1 {
-  font-size: 3rem;
-=======
-  padding: 0 2rem;
-  margin-top: 60px; /* to offset nav height */
-}
-
-.hero h1 {
-  font-size: 2.5rem;
->>>>>>> 40e06c3 (Update)
-  margin-bottom: 1rem;
-}
-
-.hero p {
-  font-size: 1.2rem;
-<<<<<<< HEAD
-  max-width: 600px;
-=======
-  max-width: 700px;
->>>>>>> 40e06c3 (Update)
-}
-
-section {
-  padding: 4rem 2rem;
-  max-width: 800px;
-  margin: auto;
-<<<<<<< HEAD
-=======
-}
-
-section h2 {
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
-  color: #004080;
-}
-
-section p {
   line-height: 1.6;
+  color: #333;
+  background-color: #f8f9fa;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "header aside"
+    "main aside"
+    "footer footer";
+  min-height: 100vh;
+  gap: 2rem;
+}
+
+header {
+  grid-area: header;
+  border-bottom: 2px solid #0070f3;
+  padding-bottom: 1rem;
+}
+
+aside {
+  grid-area: aside;
+  background: #0070f3;
+  color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  position: sticky;
+  top: 2rem;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+aside h2 {
   margin-bottom: 1rem;
 }
 
-a {
-  color: #0073e6;
->>>>>>> 40e06c3 (Update)
+aside a {
+  color: #ffd700;
+  text-decoration: underline;
+}
+
+main {
+  grid-area: main;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+  font-size: 1.1rem;
 }
 
 footer {
+  grid-area: footer;
   text-align: center;
-  padding: 2rem;
-  font-size: 0.9rem;
-<<<<<<< HEAD
+  padding-top: 1rem;
+  font-size: 0.85rem;
   color: #666;
-=======
-  background-color: #f0f0f0;
-  color: #555;
->>>>>>> 40e06c3 (Update)
 }
