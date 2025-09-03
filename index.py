@@ -4,6 +4,11 @@ import os
 import re
 
 # ========== Step 1: Scrape KNAPP Logo & Description ==========
+import requests
+from bs4 import BeautifulSoup
+import re
+
+# Step 1: Scrape page for logo and CSS
 url = 'https://about.google/'
 response = requests.get(url)
 soup = BeautifulSoup(response.text, 'html.parser')
@@ -12,7 +17,36 @@ soup = BeautifulSoup(response.text, 'html.parser')
 logo_img = soup.find('img')
 logo_url = logo_img['src'] if logo_img else ''
 if logo_url and logo_url.startswith('/'):
-    logo_url = 'https://about.google/' + logo_url
+    logo_url = 'https://about.google/' + logo_url.lstrip('/')
+
+# CSS scraping
+css_links = soup.find_all('link', rel='stylesheet')
+css_url = None
+for link in css_links:
+    href = link.get('href')
+    if href and href.startswith('http'):  # absolute URL
+        css_url = href
+        break
+    elif href:  # relative URL
+        css_url = url.rstrip('/') + '/' + href.lstrip('/')
+        break
+
+if css_url:
+    css_response = requests.get(css_url)
+    css_text = css_response.text
+
+    # Example: extract primary color from CSS
+    primary_color_match = re.search(r'--primary-color:\s*(#[0-9a-fA-F]{6});', css_text)
+    if primary_color_match:
+        primary_color = primary_color_match.group(1)
+    else:
+        primary_color = '#0055a5'  # fallback
+else:
+    primary_color = '#0055a5'  # fallback
+
+print("Logo URL:", logo_url)
+print("Primary color:", primary_color)
+
 """
 # Scrape first substantial paragraph
 paragraphs = soup.find_all('p')
@@ -64,47 +98,33 @@ print(result["text_content"][:1000])  # Print preview
 print("Downloaded images:", result["images"])
 """
 # ========== Step 2: Static Content ==========
-# ========== Step 2: Static Content ==========
+
+"""
+company_description = what the company does, if you know about company asked you ca add information or else take infromation from above content or ask me?
+scope_content = ?
+culture_content = here work culture of company?
+motivation_content = why i got motivated to job this company?
+fit_reason = why i am a got fit, so here be genralized, like i have most of the skills, if i miss any i am capable to learn quick and have basic knowleg to undrstand new tech or concepts, good team player so on?
+"""
 
 company_description = (
-    "KNAPP is a global leader in warehouse automation and intelligent intralogistics systems, "
-    "founded in 1952 and now operating with 8,300 employees across 49 locations worldwide. "
-    "The company develops end-to-end solutions combining robotics, automation, logistics software, "
-    "and digitalization. KNAPP partners with industry leaders such as Walmart to deliver "
-    "Next Generation Fulfillment Centers, setting benchmarks for efficiency, scalability, "
-    "and sustainability in logistics."
+    "Google’s mission is to organize the world’s information and make it universally accessible and useful. Founded in 1998 by Larry Page and Sergey Brin, Google has grown from a dorm-room project into a global technology leader, creating products that serve billions of users daily, including Google Search, YouTube, Android, Gmail, and Google Cloud. At its core, Google leverages cutting-edge technology, artificial intelligence, and machine learning to solve complex problems, enhance user experiences, and enable meaningful connections worldwide. Beyond products, Google drives innovation through AI research, exploring applications in natural language processing, computer vision, generative AI, and large-scale data systems. The company prioritizes accessibility, fairness, and inclusivity in all its technological solutions, ensuring that its impact benefits communities globally while maintaining a culture of collaboration, creativity, and ethical innovation."
 )
 
 scope_content = (
-    "Scope of KNAPP's work includes designing and maintaining warehouse automation systems, "
-    "robotics integration, logistics software (WMS, WCS, SRC), and intelligent intralogistics solutions "
-    "for industries ranging from healthcare to e-commerce. "
-    "The McCordsville facility in particular focuses on high-performance distribution center operations, "
-    "software reliability, and continuous optimization of automated workflows."
+    "At Google, the scope of work is broad and impactful, spanning multiple domains including AI, ML, cloud computing, computer vision, natural language processing, and generative AI. Engineers contribute to projects that operate at massive scale, influencing billions of users globally. Whether implementing computer vision solutions for YouTube, developing LLM-based tools for Search, or creating multi-modal generative AI models for Google Cloud, the scope involves both deep technical challenges and strategic innovation. Projects require designing scalable infrastructure, optimizing model performance, processing vast datasets, and building systems that are reliable, efficient, and secure. The work scope is not limited to individual contributions—engineers collaborate across teams, bridging research and production, while maintaining a focus on solving real-world problems that enhance accessibility, usability, and fairness for end-users everywhere."
 )
 
 culture_content = (
-    "KNAPP fosters a culture of innovation, collaboration, and continuous learning. "
-    "As a family-owned company with global reach, it values diversity, teamwork, and creative problem-solving. "
-    "Employees are encouraged to embrace sustainability, adapt to emerging technologies, "
-    "and contribute to future-ready logistics solutions while thriving in a supportive, high-performance environment."
+    "Google fosters a unique, collaborative, and innovative work culture. Creativity, curiosity, and experimentation are highly encouraged, allowing teams to explore unconventional solutions while adhering to best practices. The company values diversity and inclusivity, emphasizing that teams should reflect the communities their products serve. Cross-functional collaboration is common, and employees are empowered to contribute ideas, challenge assumptions, and participate in decision-making processes. Google also prioritizes learning and professional growth, providing access to state-of-the-art technologies, mentorship programs, and opportunities to rotate across teams. Work-life balance, employee well-being, and a supportive environment contribute to a culture where innovation thrives and everyone can meaningfully impact technology for billions of users."
 )
 
 motivation_content = (
-    "I am drawn to KNAPP’s ability to combine innovation with real-world impact. "
-    "Their leadership in warehouse automation and partnerships with global companies like Walmart "
-    "align with my goal to solve complex logistics challenges using data, AI, and scalable automation. "
-    "The McCordsville facility represents a unique opportunity to contribute directly to cutting-edge software operations "
-    "that power next-generation distribution systems."
+    "I am motivated to work at Google because of its unparalleled commitment to leveraging technology to solve complex, real-world problems at scale. The opportunity to work on projects involving AI, ML, computer vision, and generative AI, while directly impacting billions of users, aligns perfectly with my passion for applying technical knowledge to meaningful challenges. Google’s focus on fairness, accessibility, and inclusivity resonates with my values, and the company’s culture of innovation, collaboration, and continuous learning inspires me to contribute my best. Being part of an organization that encourages experimentation, embraces emerging technologies, and pushes the boundaries of what’s possible motivates me to grow as an engineer while contributing to transformative solutions."
 )
 
 fit_reason = (
-    "With a strong background in autonomous systems, AI-driven analytics, and full-stack software development, "
-    "I bring both technical expertise and practical problem-solving experience. "
-    "Through my research and industry projects, I have developed skills in high-pressure troubleshooting, "
-    "data-driven optimization, and cross-functional collaboration. "
-    "I am adaptable, detail-oriented, and thrive in fast-paced environments — qualities that make me a strong fit "
-    "for KNAPP’s mission of delivering intelligent, reliable, and sustainable logistics solutions."
+    "I am a strong fit for this role because my academic and professional background aligns closely with Google’s technical and cultural requirements. I have experience in AI, ML, computer vision, deep learning, and large-scale data processing, with hands-on expertise in Python, C++, R, SQL, ROS2, TensorFlow, PyTorch, and relevant frameworks. My work on autonomous vehicles, medical image registration, and real-time API systems demonstrates my ability to design, optimize, and deploy complex software solutions. I am a fast learner, capable of adapting to new technologies and concepts, and I thrive in collaborative, cross-functional environments. My problem-solving skills, combined with strong teamwork, leadership experience, and a commitment to delivering high-quality results, make me well-prepared to contribute effectively to Google’s projects and culture."
 )
 
 # ========== Step 3: Experience Boxes with slideshow ==========
@@ -500,39 +520,59 @@ html = f"""<!DOCTYPE html>
 body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:0; background:#f0f4f8; color:#333; }}
 header {{ display:flex; align-items:center; padding:1rem 2rem; background:#fff; border-bottom:2px solid #ccc; }}
 header img {{ height:60px; margin-right:20px; }}
-main {{ max-width:1000px; margin:2rem auto; padding:0 2rem; }}
-h1,h2,h3 {{ color:#0055a5; }}
-h2 {{ border-bottom:2px solid #0055a5; padding-bottom:0.3rem; margin-bottom:1rem; }}
+h1,h2,h3 {{ color:{primary_color}; }}
+h2 {{ border-bottom:2px solid {primary_color}; padding-bottom:0.3rem; margin-bottom:1rem; }}
 section {{ margin-bottom:3rem; }}
 
+.container {{ display: flex; }}
+.sidebar {{
+  width: 220px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  padding: 2rem 1rem;
+  background: #f0f4f8;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}}
+.profile-pic {{
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}}
+.education {{
+  font-style: italic;
+  font-size: 0.9rem;
+  color: #333;
+  text-align: center;
+  margin: 0.2rem 0;
+}}
+.content {{
+  margin-left: 250px; /* space for sidebar */
+  padding: 2rem;
+  max-width: 1000px;
+  margin-right: auto;
+}}
+
+/* Experience Grid */
 .experience-grid {{
   display: grid;
   gap: 1.5rem;
 }}
-
-/* Mobile: 1 per row */
 @media (max-width: 600px) {{
-  .experience-grid {{
-    grid-template-columns: 1fr;
-  }}
+  .experience-grid {{ grid-template-columns: 1fr; }}
 }}
-
-/* Tablet: 2 per row */
 @media (min-width: 601px) and (max-width: 1000px) {{
-  .experience-grid {{
-    grid-template-columns: repeat(2, 1fr);
-  }}
+  .experience-grid {{ grid-template-columns: repeat(2, 1fr); }}
 }}
-
-/* Desktop: 3 per row */
 @media (min-width: 1001px) {{
-  .experience-grid {{
-    grid-template-columns: repeat(3, 1fr);
-  }}
+  .experience-grid {{ grid-template-columns: repeat(3, 1fr); }}
 }}
-
 .experience-box {{
-    background:#fff; padding:1rem; border-left:5px solid #0055a5; box-shadow:0 0 10px rgba(0,0,0,0.05);
+    background:#fff; padding:1rem; border-left:5px solid {primary_color}; box-shadow:0 0 10px rgba(0,0,0,0.05);
     cursor:pointer; display:flex; flex-direction:column; justify-content:space-between; aspect-ratio:1/1; position:relative;
 }}
 .experience-box h3 {{ margin-top:0; text-align:center; }}
@@ -543,40 +583,51 @@ section {{ margin-bottom:3rem; }}
     position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 1s;
 }}
 .slideshow-preview img.active {{ opacity:1; }}
-a {{ color:#0055a5; text-decoration:none; }}
+a {{ color:{primary_color}; text-decoration:none; }}
 a:hover {{ text-decoration:underline; }}
 .modal {{ display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index:1000; }}
 .modal-content {{ background:#fff; padding:2rem; max-width:800px; width:90%; max-height:90%; overflow-y:auto; position:relative; border-radius:8px; }}
-.modal-close {{ position:absolute; top:1rem; right:1rem; font-size:1.5rem; cursor:pointer; color:#0055a5; }}
+.modal-close {{ position:absolute; top:1rem; right:1rem; font-size:1.5rem; cursor:pointer; color:{primary_color}; }}
 .image-row {{ display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; margin-bottom:1rem; }}
 .image-row figure {{ flex:1 1 200px; text-align:center; margin:0; }}
 .image-row img {{ width:100%; height:auto; object-fit:contain; }}
-</style>
 
+/* Mobile: hide sidebar, full width content */
+@media (max-width: 768px) {{
+  .sidebar {{ display: none; }}
+  .content {{ margin-left: 0; padding: 1rem; }}
+}}
+</style>
 </head>
 <body>
 <header>
-    <img src="{logo_url}" alt="KNAPP Logo"/>
+    <img src="../images/my_picture.jpg" alt="KNAPP Logo"/>
     <h1>Career</h1>
 </header>
-<main>
-    <section><h2>Company Description</h2><p>{company_description}</p></section>
-    <section><h2>Scope</h2><p>{scope_content}</p></section>
-    <section><h2>Work Culture</h2><p>{culture_content}</p></section>
-    <section><h2>Motivation to Join KNAPP</h2><p>{motivation_content}</p></section>
-    <section><h2>Why I am a Great Fit</h2><p>{fit_reason}</p></section>
-    <section><h2>Work Experience</h2>
-        <div class="experience-grid">
-            {experience_boxes}
-        </div>
-    </section>
-    <section><h2>Impact Projects</h2>
-        <div class="experience-grid">
-            {impact_boxes}
-        </div>
-    </section>
 
-</main>
+<div class="container">
+    <!-- Fixed left sidebar -->
+    <aside class="sidebar">
+        <img src="../images/my_photo.jpg" alt="Vivek Reddy Munnangi" class="profile-pic">
+        <p class="education">Masters in Data Science, IU Luddy</p>
+        <p class="education">Bachelors in Mechanical Engineering</p>
+    </aside>
+
+    <!-- Main scrolling content -->
+    <main class="content">
+        <section><h2>Company Description</h2><p>{company_description}</p></section>
+        <section><h2>Scope</h2><p>{scope_content}</p></section>
+        <section><h2>Work Culture</h2><p>{culture_content}</p></section>
+        <section><h2>Motivation to Join KNAPP</h2><p>{motivation_content}</p></section>
+        <section><h2>Why I am a Great Fit</h2><p>{fit_reason}</p></section>
+        <section><h2>Work Experience</h2>
+            <div class="experience-grid">{experience_boxes}</div>
+        </section>
+        <section><h2>Impact Projects</h2>
+            <div class="experience-grid">{impact_boxes}</div>
+        </section>
+    </main>
+</div>
 
 <div class="modal" id="modal">
     <div class="modal-content" id="modal-content">
@@ -619,15 +670,17 @@ boxes.forEach(box => {{
 modalClose.addEventListener('click', () => {{ modal.style.display = 'none'; }});
 window.addEventListener('click', (e) => {{ if(e.target == modal) modal.style.display = 'none'; }});
 </script>
+
 <footer style="text-align:center; margin:2rem 0; font-style:italic; font-size:1rem; color:#333;">
     Vivek Reddy Munnangi | 
-    <a href="../resume.pdf" target="_blank" style="color:#0055a5; text-decoration:none;">
+    <a href="../resume.pdf" target="_blank" style="color:{primary_color}; text-decoration:none;">
         Resume
     </a>
 </footer>
 </body>
 </html>
 """
+
 
 # ========== Step 5: Write HTML ==========
 output_dir = "./google"
