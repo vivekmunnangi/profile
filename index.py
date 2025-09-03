@@ -82,9 +82,15 @@ html = f"""<!DOCTYPE html>
     h2 {{ border-bottom:2px solid #0055a5; padding-bottom:0.3rem; margin-bottom:1rem; }}
     section {{ margin-bottom:3rem; }}
     .experience-grid {{ display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1.5rem; }}
-    .experience-box {{ background:#fff; padding:1rem; border-left:5px solid #0055a5; box-shadow:0 0 10px rgba(0,0,0,0.05); cursor:pointer; overflow:hidden; display:flex; flex-direction:column; justify-content:space-between; }}
+    .experience-box {{
+        background:#fff; padding:1rem; border-left:5px solid #0055a5; box-shadow:0 0 10px rgba(0,0,0,0.05); 
+        cursor:pointer; overflow:hidden; display:flex; flex-direction:column; justify-content:space-between; 
+        aspect-ratio:1 / 1; /* maintain square shape */
+        position:relative;
+    }}
     .experience-box h3 {{ margin-top:0; }}
     .experience-box img {{ max-width:100%; height:auto; display:block; margin:0 auto; }}
+    .experience-box .full-content {{ display:none; }} /* hide full content before popup */
     .image-row {{ display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; }}
     .image-row figure {{ flex:1 1 200px; text-align:center; margin:0; }}
     .image-row img {{ width:100%; height:auto; object-fit:contain; }}
@@ -143,6 +149,7 @@ window.addEventListener('click', (e) => {{ if(e.target == modal) modal.style.dis
 </body>
 </html>
 """
+
 
 # ========== Step 5: Write HTML ==========
 output_dir = "./knapp"
