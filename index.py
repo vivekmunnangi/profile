@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import re
-"""
+
 # ========== Step 1: Scrape KNAPP Logo & Description ==========
 url = 'https://www.knapp.com/en/company/about-us/'
 response = requests.get(url)
@@ -13,7 +13,7 @@ logo_img = soup.find('img')
 logo_url = logo_img['src'] if logo_img else ''
 if logo_url and logo_url.startswith('/'):
     logo_url = 'https://www.knapp.com' + logo_url
-
+"""
 # Scrape first substantial paragraph
 paragraphs = soup.find_all('p')
 company_description = "Company description not found."
@@ -57,12 +57,12 @@ def scrape_about_page(url, save_images=True, img_folder="company_images"):
         "text_content": "\n".join(content),
         "images": images
     }
-"""
+
 # Example usage
 result = scrape_about_page("https://www.cyngn.com/about")
 print(result["text_content"][:1000])  # Print preview
 print("Downloaded images:", result["images"])
-
+"""
 # ========== Step 2: Static Content ==========
 # ========== Step 2: Static Content ==========
 
