@@ -22,9 +22,11 @@ fit_reason = "With hands-on experience in autonomous systems, AI, and full-stack
 
 # ========== Step 3: Experience Boxes ==========
 experience_boxes = f"""
-  <div class="experience-box expand">
-    <h3>Research Engineer</h3>
-    <p>Developed state estimation and autonomous control for race vehicles, improving average lap speed by 20mph.</p>
+  <div class="experience-box expandable">
+    <div class="summary">
+      <h3>Research Engineer</h3>
+      <p>Developed state estimation and autonomous control for race vehicles, improving average lap speed by 20mph.</p>
+    </div>
     <div class="expanded-content">
       <div class="image-row">
         <figure>
@@ -44,6 +46,7 @@ experience_boxes = f"""
       <p><a href="https://vail-robotics.net/pages/people#" target="_blank">My Research Profile</a></p>
     </div>
   </div>
+
 
   <div class="experience-box">
     <h3>AI Partner, dentalmatrix.ai</h3>
@@ -135,52 +138,55 @@ h2 {{
   margin-bottom: 1rem;
 }}
 
-.experience-grid {{
+experience-grid {{
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
 }}
 
-.experience-box {{
+experience-box {{
   background: white;
   padding: 1rem;
-  border-left: 5px solid {primary_color};
+  border-left: 5px solid #0055a5;
   box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  cursor: pointer;
   transition: transform 0.3s ease;
   position: relative;
-}}
-
-.experience-box.expand {{
   overflow: hidden;
 }}
 
-.experience-box:hover {{
-  transform: scale(1.03);
-}}
-
-.experience-box .expanded-content {{
+/* Small card view */
+experience-box .expanded-content {{
+  display: none;
   margin-top: 1rem;
 }}
 
-.image-row {{
-  display: flex;
-  gap: 1rem;
-  justify-content: space-between;
+/* Expanded popup effect */
+experience-box.active {{
+  grid-column: 1 / -1; /* span full row */
+  z-index: 10;
+  transform: scale(1.05);
+  background: #fff;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.2);
 }}
 
-.image-row img {{
-  width: 100%;
-  max-width: 100%;
-  height: auto;
+experience-box.active .expanded-content {{
   display: block;
 }}
 
-.image-row figure {{
+image-row {{
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}}
+
+image-row figure {{
   flex: 1;
   text-align: center;
 }}
 
-.experience-box figure {{
+
+experience-box figure {{
   margin: 1rem 0;
 }}
 
