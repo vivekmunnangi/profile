@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import re
-
+"""
 # ========== Step 1: Scrape KNAPP Logo & Description ==========
 url = 'https://www.knapp.com/en/company/about-us/'
 response = requests.get(url)
@@ -57,17 +57,55 @@ def scrape_about_page(url, save_images=True, img_folder="company_images"):
         "text_content": "\n".join(content),
         "images": images
     }
-
+"""
 # Example usage
 result = scrape_about_page("https://www.cyngn.com/about")
 print(result["text_content"][:1000])  # Print preview
 print("Downloaded images:", result["images"])
 
 # ========== Step 2: Static Content ==========
-scope_content = "Scope of KNAPP's work includes warehouse automation, robotics, logistics software, and intelligent intralogistics systems."
-culture_content = "KNAPP fosters innovation, teamwork, and continuous learning, focusing on sustainability and future-ready logistics solutions."
-motivation_content = "I'm drawn to KNAPP’s blend of innovation and purpose. Their leadership in automation aligns with my goal to solve impactful logistics challenges using data and AI."
-fit_reason = "With hands-on experience in autonomous systems, AI, and full-stack development, I bring both the technical depth and adaptability KNAPP values."
+# ========== Step 2: Static Content ==========
+
+company_description = (
+    "KNAPP is a global leader in warehouse automation and intelligent intralogistics systems, "
+    "founded in 1952 and now operating with 8,300 employees across 49 locations worldwide. "
+    "The company develops end-to-end solutions combining robotics, automation, logistics software, "
+    "and digitalization. KNAPP partners with industry leaders such as Walmart to deliver "
+    "Next Generation Fulfillment Centers, setting benchmarks for efficiency, scalability, "
+    "and sustainability in logistics."
+)
+
+scope_content = (
+    "Scope of KNAPP's work includes designing and maintaining warehouse automation systems, "
+    "robotics integration, logistics software (WMS, WCS, SRC), and intelligent intralogistics solutions "
+    "for industries ranging from healthcare to e-commerce. "
+    "The McCordsville facility in particular focuses on high-performance distribution center operations, "
+    "software reliability, and continuous optimization of automated workflows."
+)
+
+culture_content = (
+    "KNAPP fosters a culture of innovation, collaboration, and continuous learning. "
+    "As a family-owned company with global reach, it values diversity, teamwork, and creative problem-solving. "
+    "Employees are encouraged to embrace sustainability, adapt to emerging technologies, "
+    "and contribute to future-ready logistics solutions while thriving in a supportive, high-performance environment."
+)
+
+motivation_content = (
+    "I am drawn to KNAPP’s ability to combine innovation with real-world impact. "
+    "Their leadership in warehouse automation and partnerships with global companies like Walmart "
+    "align with my goal to solve complex logistics challenges using data, AI, and scalable automation. "
+    "The McCordsville facility represents a unique opportunity to contribute directly to cutting-edge software operations "
+    "that power next-generation distribution systems."
+)
+
+fit_reason = (
+    "With a strong background in autonomous systems, AI-driven analytics, and full-stack software development, "
+    "I bring both technical expertise and practical problem-solving experience. "
+    "Through my research and industry projects, I have developed skills in high-pressure troubleshooting, "
+    "data-driven optimization, and cross-functional collaboration. "
+    "I am adaptable, detail-oriented, and thrive in fast-paced environments — qualities that make me a strong fit "
+    "for KNAPP’s mission of delivering intelligent, reliable, and sustainable logistics solutions."
+)
 
 # ========== Step 3: Experience Boxes with slideshow ==========
 experience_boxes = f"""
@@ -352,7 +390,7 @@ html = f"""<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About Me & KNAPP</title>
+<title>Portfolio</title>
 <style>
 body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:0; background:#f0f4f8; color:#333; }}
 header {{ display:flex; align-items:center; padding:1rem 2rem; background:#fff; border-bottom:2px solid #ccc; }}
@@ -387,14 +425,14 @@ a:hover {{ text-decoration:underline; }}
 <body>
 <header>
     <img src="{logo_url}" alt="KNAPP Logo"/>
-    <h1>About KNAPP</h1>
+    <h1>Career</h1>
 </header>
 <main>
     <section><h2>Company Description</h2><p>{company_description}</p></section>
     <section><h2>Scope</h2><p>{scope_content}</p></section>
     <section><h2>Work Culture</h2><p>{culture_content}</p></section>
     <section><h2>Motivation to Join KNAPP</h2><p>{motivation_content}</p></section>
-    <section><h2>Why I'm a Great Fit</h2><p>{fit_reason}</p></section>
+    <section><h2>Why I am a Great Fit</h2><p>{fit_reason}</p></section>
     <section><h2>Work Experience</h2>
         <div class="experience-grid">
             {experience_boxes}
