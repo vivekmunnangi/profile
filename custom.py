@@ -2,17 +2,25 @@ import os
 import requests
 from bs4 import BeautifulSoup
 
-# ========== Step 1: Scrape KNAPP Logo & Description ==========
-url = 'https://www.knapp.com/en/'
+# ========== Step 1: Scrape KNAPP Logo & Better Description ==========
+url = 'https://www.knapp.com/en/company/about-us/'
 response = requests.get(url)
 soup = BeautifulSoup(response.text, 'html.parser')
 
+# Logo scraping (unchanged)
 logo_img = soup.find('img')
 logo_url = logo_img['src'] if logo_img else ''
 if logo_url and logo_url.startswith('/'):
     logo_url = 'https://www.knapp.com' + logo_url
 
-company_description = soup.find('p').get_text(strip=True) if soup.find('p') else "Company description not found."
+# Improved description scraping: look for the first substantial paragraph
+about_section = soup.find('section') or soup  # fallback to whole page if section isn't defined
+paragraphs = about_section.find_all('p')
+if paragraphs:
+    company_description = paragraphs[0].get_text(strip=True)
+else:
+    company_description = "Company description not found."
+
 
 # ========== Step 2: Static Content ==========
 scope_content = "Scope of KNAPP's work includes warehouse automation, robotics, logistics software, and intelligent intralogistics systems."
@@ -25,7 +33,7 @@ experience_boxes = f"""
   <div class="experience-box expandable">
     <div class="summary">
       <h3>Research Engineer</h3>
-      <p>Developed state estimation and autonomous control for race vehicles, improving average lap speed by 20mph.</p>
+      <p>Developed state estimation and autonomous control for race vehicles.</p>
     </div>
     <div class="expanded-content">
       <div class="image-row">
@@ -35,7 +43,7 @@ experience_boxes = f"""
         </figure>
         <figure>
           <img src="../images/group_withcar.jpg" alt="Trajectory Plot" />
-          <figcaption>IU Luddy Team at Laguna Sega Race weekend</figcaption>
+          <figcaption>IU Luddy Team at Laguna Seca Race weekend</figcaption>
         </figure>
       </div>
       <p>I worked on state estimation algorithms for autonomous racecars, using Kalman filtering and sensor fusion to refine vehicle positioning. The controller modules used MPC for high-speed path planning. The system improved lap times by dynamically adjusting for road friction.</p>
@@ -47,15 +55,24 @@ experience_boxes = f"""
     </div>
   </div>
 
-
-  <div class="experience-box">
-    <h3>AI Partner, dentalmatrix.ai</h3>
-    <p>Built real-time ETL pipelines and deployed LLM-powered analytics tools for dental practice intelligence.</p>
+  <div class="experience-box expandable">
+    <div class="summary">
+      <h3>AI Partner, dentalmatrix.ai</h3>
+      <p>Built real-time ETL pipelines and deployed LLM-powered analytics tools.</p>
+    </div>
+    <div class="expanded-content">
+      <p>I co-founded dentalmatrix.ai, building integrations between OpenDental and CRM platforms. Designed APIs and real-time sync systems for patient data while leveraging LLMs for predictive analytics.</p>
+    </div>
   </div>
 
-  <div class="experience-box">
-    <h3>Research Assistant, Imaging Lab</h3>
-    <p>Designed neural networks to register 3D eye scan volumes without reference points, achieving 97% accuracy.</p>
+  <div class="experience-box expandable">
+    <div class="summary">
+      <h3>Research Assistant, Imaging Lab</h3>
+      <p>Designed neural networks to register 3D eye scans with 97% accuracy.</p>
+    </div>
+    <div class="expanded-content">
+      <p>Created custom deep learning pipelines to align volumetric OCT data without reference points. Leveraged Fourier transforms and temporal correlation for robust motion correction.</p>
+    </div>
   </div>
 """
 
@@ -82,6 +99,18 @@ html = f"""
     <section><h2>Why I'm a Great Fit</h2><p>{fit_reason}</p></section>
     <section><h2>Work Experience</h2><div class="experience-grid">{experience_boxes}</div></section>
   </main>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {{
+      const boxes = document.querySelectorAll(".experience-box.expandable");
+      boxes.forEach(box => {{
+        const summary = box.querySelector(".summary");
+        summary.addEventListener("click", () => {{
+          boxes.forEach(b => b !== box && b.classList.remove("active"));
+          box.classList.toggle("active");
+        }});
+      }});
+    }});
+  </script>
 </body>
 </html>
 """
@@ -138,16 +167,16 @@ h2 {{
   margin-bottom: 1rem;
 }}
 
-experience-grid {{
+.experience-grid {{
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
 }}
 
-experience-box {{
+.experience-box {{
   background: white;
   padding: 1rem;
-  border-left: 5px solid #0055a5;
+  border-left: 5px solid {primary_color};
   box-shadow: 0 0 10px rgba(0,0,0,0.05);
   cursor: pointer;
   transition: transform 0.3s ease;
@@ -155,38 +184,41 @@ experience-box {{
   overflow: hidden;
 }}
 
-/* Small card view */
-experience-box .expanded-content {{
+.experience-box .summary p {{
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0.5rem 0 0;
+}}
+
+.experience-box .expanded-content {{
   display: none;
   margin-top: 1rem;
 }}
 
-/* Expanded popup effect */
-experience-box.active {{
-  grid-column: 1 / -1; /* span full row */
+.experience-box.active {{
+  grid-column: 1 / -1;
   z-index: 10;
   transform: scale(1.05);
   background: #fff;
   box-shadow: 0 5px 25px rgba(0,0,0,0.2);
 }}
 
-experience-box.active .expanded-content {{
+.experience-box.active .expanded-content {{
   display: block;
 }}
 
-image-row {{
+.image-row {{
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
 }}
 
-image-row figure {{
+.image-row figure {{
   flex: 1;
   text-align: center;
 }}
 
-
-experience-box figure {{
+.experience-box figure {{
   margin: 1rem 0;
 }}
 

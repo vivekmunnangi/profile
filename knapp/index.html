@@ -13,7 +13,7 @@
     <h1>About KNAPP</h1>
   </header>
   <main>
-    <section><h2>Company Description</h2><p>Looking to automate every step of your value chain?You’ve come to the right place – ready to meet our robotics and AI solutions?</p></section>
+    <section><h2>Company Description</h2><p>We are a colorful bunch</p></section>
     <section><h2>Scope</h2><p>Scope of KNAPP's work includes warehouse automation, robotics, logistics software, and intelligent intralogistics systems.</p></section>
     <section><h2>Work Culture</h2><p>KNAPP fosters innovation, teamwork, and continuous learning, focusing on sustainability and future-ready logistics solutions.</p></section>
     <section><h2>Motivation to Join KNAPP</h2><p>I'm drawn to KNAPP’s blend of innovation and purpose. Their leadership in automation aligns with my goal to solve impactful logistics challenges using data and AI.</p></section>
@@ -22,7 +22,7 @@
   <div class="experience-box expandable">
     <div class="summary">
       <h3>Research Engineer</h3>
-      <p>Developed state estimation and autonomous control for race vehicles, improving average lap speed by 20mph.</p>
+      <p>Developed state estimation and autonomous control for race vehicles.</p>
     </div>
     <div class="expanded-content">
       <div class="image-row">
@@ -32,7 +32,7 @@
         </figure>
         <figure>
           <img src="../images/group_withcar.jpg" alt="Trajectory Plot" />
-          <figcaption>IU Luddy Team at Laguna Sega Race weekend</figcaption>
+          <figcaption>IU Luddy Team at Laguna Seca Race weekend</figcaption>
         </figure>
       </div>
       <p>I worked on state estimation algorithms for autonomous racecars, using Kalman filtering and sensor fusion to refine vehicle positioning. The controller modules used MPC for high-speed path planning. The system improved lap times by dynamically adjusting for road friction.</p>
@@ -44,17 +44,38 @@
     </div>
   </div>
 
-
-  <div class="experience-box">
-    <h3>AI Partner, dentalmatrix.ai</h3>
-    <p>Built real-time ETL pipelines and deployed LLM-powered analytics tools for dental practice intelligence.</p>
+  <div class="experience-box expandable">
+    <div class="summary">
+      <h3>AI Partner, dentalmatrix.ai</h3>
+      <p>Built real-time ETL pipelines and deployed LLM-powered analytics tools.</p>
+    </div>
+    <div class="expanded-content">
+      <p>I co-founded dentalmatrix.ai, building integrations between OpenDental and CRM platforms. Designed APIs and real-time sync systems for patient data while leveraging LLMs for predictive analytics.</p>
+    </div>
   </div>
 
-  <div class="experience-box">
-    <h3>Research Assistant, Imaging Lab</h3>
-    <p>Designed neural networks to register 3D eye scan volumes without reference points, achieving 97% accuracy.</p>
+  <div class="experience-box expandable">
+    <div class="summary">
+      <h3>Research Assistant, Imaging Lab</h3>
+      <p>Designed neural networks to register 3D eye scans with 97% accuracy.</p>
+    </div>
+    <div class="expanded-content">
+      <p>Created custom deep learning pipelines to align volumetric OCT data without reference points. Leveraged Fourier transforms and temporal correlation for robust motion correction.</p>
+    </div>
   </div>
 </div></section>
   </main>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const boxes = document.querySelectorAll(".experience-box.expandable");
+      boxes.forEach(box => {
+        const summary = box.querySelector(".summary");
+        summary.addEventListener("click", () => {
+          boxes.forEach(b => b !== box && b.classList.remove("active"));
+          box.classList.toggle("active");
+        });
+      });
+    });
+  </script>
 </body>
 </html>
