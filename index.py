@@ -1,6 +1,7 @@
-import os
 import requests
 from bs4 import BeautifulSoup
+import os
+import re
 
 # ========== Step 1: Scrape KNAPP Logo & Description ==========
 url = 'https://www.knapp.com/en/company/about-us/'
@@ -22,6 +23,46 @@ for p in paragraphs:
         company_description = text
         break
 
+
+def scrape_about_page(url, save_images=True, img_folder="company_images"):
+    response = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
+    soup = BeautifulSoup(response.text, "html.parser")
+
+    # Extract all paragraphs and headings
+    content = []
+    for tag in soup.find_all(["h1", "h2", "h3", "p"]):
+        text = tag.get_text(strip=True)
+        if text:
+            content.append(text)
+
+    # Extract a few images
+    images = []
+    if save_images:
+        os.makedirs(img_folder, exist_ok=True)
+        for img_tag in soup.find_all("img"):
+            img_url = img_tag.get("src")
+            if img_url and ("logo" not in img_url.lower()):  # avoid logos/icons
+                if not img_url.startswith("http"):
+                    img_url = url.rstrip("/") + "/" + img_url.lstrip("/")
+                try:
+                    img_data = requests.get(img_url).content
+                    file_name = os.path.join(img_folder, os.path.basename(img_url.split("?")[0]))
+                    with open(file_name, "wb") as f:
+                        f.write(img_data)
+                    images.append(file_name)
+                except Exception as e:
+                    print(f"Failed to download {img_url}: {e}")
+
+    return {
+        "text_content": "\n".join(content),
+        "images": images
+    }
+
+# Example usage
+result = scrape_about_page("https://www.cyngn.com/about")
+print(result["text_content"][:1000])  # Print preview
+print("Downloaded images:", result["images"])
+
 # ========== Step 2: Static Content ==========
 scope_content = "Scope of KNAPP's work includes warehouse automation, robotics, logistics software, and intelligent intralogistics systems."
 culture_content = "KNAPP fosters innovation, teamwork, and continuous learning, focusing on sustainability and future-ready logistics solutions."
@@ -31,56 +72,199 @@ fit_reason = "With hands-on experience in autonomous systems, AI, and full-stack
 # ========== Step 3: Experience Boxes with slideshow ==========
 experience_boxes = f"""
 <div class="experience-box" data-title="Research Engineer, VAIL IU">
-    <h3>Research Engineer</h3>
+    <h3>Research Engineer, VAIL IU</h3>
     <div class="slideshow-preview">
         <img src="../images/s_withcar.jpg" alt="Vehicle Model"/>
         <img src="../images/group_withcar.jpg" alt="Team"/>
         <img src="../images/grip_analysis.png" alt="Dashboard"/>
     </div>
-    <p>Developed state estimation and autonomous control for race vehicles.</p>
+    <p>State estimation, vehicle dynamics, and control development for IU Luddy Racing’s autonomous Indy Autonomous Challenge car.</p>
     <div class="full-content">
+        <h3>Research Engineer, Vehicle Autonomy and Intelligence Lab – IU Luddy Racing</h3>
         <div class="image-row">
             <figure>
                 <img src="../images/s_withcar.jpg" alt="Vehicle Model"/>
-                <figcaption>Dallara AV24 IU Luddy Racecar</figcaption>
+                <figcaption>Dallara AV-24 – IU Luddy Racing Racecar</figcaption>
             </figure>
             <figure>
-                <img src="../images/group_withcar.jpg" alt="Trajectory Plot"/>
-                <figcaption>IU Luddy Team at Laguna Sega Race weekend</figcaption>
+                <img src="../images/group_withcar.jpg" alt="Team"/>
+                <figcaption>IU Luddy Racing Team – Laguna Seca Race Weekend</figcaption>
             </figure>
         </div>
-        <p>I worked on state estimation algorithms for autonomous racecars, using Kalman filtering and sensor fusion to refine vehicle positioning. The controller modules used MPC for high-speed path planning. The system improved lap times by dynamically adjusting for road friction.</p>
+
+        <p>
+            I joined the team in <strong>August 2024</strong>, about seven months into development, shortly after
+            IU Luddy Racing announced its participation in the <strong>Indy Autonomous Challenge (IAC)</strong>.
+            My focus was on <strong>state estimation and vehicle dynamics</strong>, working alongside the
+            controller and localization leads to solve state-related problems and refine the dynamics model.
+        </p>
+
+        <p>
+            After onboarding, I identified the need for a more advanced dynamics model and proposed a
+            <strong>grip prediction module</strong> to estimate traction limits. This allowed us to design
+            safer, more aggressive <strong>velocity profiles</strong> using offline planners. I also analyzed
+            <strong>engine performance data</strong>, building strategies for <strong>optimal gear shifting</strong>
+            based on ECU and dynamometer data to adapt power delivery to track demands.
+        </p>
+
+        <p>
+            Our first dynamic module control tests took place at <strong>Las Vegas Motor Speedway (LVMS) in January 2025</strong>,
+            showing promising results. Over the next months, we prepared for <strong>multi-car racing</strong>, updating the
+            stack for robustness and safety. In <strong>July 2025</strong>, we competed at <strong>Laguna Seca Raceway</strong>
+            against eight international teams. Despite a late practice crash that forced speed adjustments,
+            we achieved <strong>4th place overall</strong> – a strong showing for our first-ever road course race
+            and only our third competition as a new team.
+        </p>
+
         <div class="image-row">
             <figure>
                 <img src="../images/grip_analysis.png" alt="Dashboard"/>
-                <figcaption>Grip Analysis on Race data</figcaption>
+                <figcaption>Grip Prediction and Race Data Analysis</figcaption>
             </figure>
         </div>
+
+        <p>
+            These milestones gave us valuable data on vehicle dynamics, localization, and controller behavior.
+            Going forward, I continue developing new modules to push performance and safety, helping
+            IU Luddy Racing compete at the cutting edge of autonomous motorsport.
+        </p>
+
         <p><a href="https://vail-robotics.net/pages/people#" target="_blank">My Research Profile</a></p>
     </div>
 </div>
 
-<div class="experience-box" data-title="AI Head, dentalmatrix.ai">
-    <h3>Research Engineer</h3>
+
+<div class="experience-box" data-title="Partner & AI Head, DentalMatrix.ai">
+    <h3>Partner & AI Head, DentalMatrix.ai</h3>
     <div class="slideshow-preview">
         <img src="../images/writeoff_description.png" alt="Dashboard"/>
         <img src="../images/writeoff_distribution.png" alt="Distribution"/>
     </div>
-    <p>Built real-time ETL pipelines and deployed LLM-powered analytics tools for dental practice intelligence.</p>
+    <p>Co-founded and developed a unified dental platform with real-time ETL pipelines and a fine-tuned AI agent for actionable practice insights.</p>
+
     <div class="full-content">
-        <p>Created an API to integrate OpenDental with CRM platforms, building an ETL pipeline to extract and sync structured data into a centralized relational database. Utilized SQL for querying and transforming patient and billing data, enabled seamless CRUD operations and 100% real-time synchronization. Using unstructured text and relative fields in database, and with custom build agent (Qwen3 architecture) to answer questions and create workforce-analytics dashboards.</p>
+        <h3>Partner & AI Head, DentalMatrix.ai</h3>
+
+        <p>
+            At DentalMatrix.ai, we built a platform to help dental clinics unify their patient and lead data. 
+            Clinics often manage patient records in OpenDental and track new inquiries in GoHighLevel CRM. 
+            Our solution integrates these systems into a single database, allowing clinics to track existing patients 
+            and potential leads in one place. This unified data enables clinics to target marketing campaigns, convert 
+            potential patients into real appointments, and improve overall operational efficiency. So with this I started working on sync operations using API on <strong>September 2024</strong>
+        </p>
+
+        <p>
+            We also developed a domain-specific <strong>AI Agent</strong> to interact with clinic staff. Unlike generic 
+            chatbots, this agent is fine-tuned on dental terminology, CRM data structures, and official dental abbreviations. 
+            It provides answers to natural-language questions with either <strong>textual explanations or data visualizations</strong>. 
+            Examples of queries include: 
+            <em>"Which procedures have the highest write-offs?"</em> or 
+            <em>"Show conversion rates for new patient inquiries this month."</em>
+        </p>
+
+        <p>
+            The AI Agent uses a <strong>Qwen-3 base model</strong> for its multilingual capabilities, 
+            allowing clinics to translate campaigns and communications into languages like Spanish automatically. 
+            Fine-tuning was performed on <strong>2× H100 GPUs</strong> using <strong>DeepSpeed, Fully Sharded Data Parallel (FSDP), and parallel computing</strong> 
+            to accelerate training and optimize performance.
+        </p>
+
+        <p>
+            The backend includes a robust <strong>ETL pipeline</strong> that extracts and synchronizes structured data 
+            from OpenDental and the CRM into a centralized relational database. This enables real-time CRUD operations 
+            and ensures all patient and lead information is immediately up-to-date.
+        </p>
+        <p> When asked about <em>"Which procedures have the highest write-offs?"</em>, the agent reaponse as text was <em> "The WriteOff is calculated as: (Sum of all fees on procedures - Sum of all insurance estimates and insurance payments received) + WriteoffsAlreadySent.  It's not just a simple sum of all writeoffs.  The user can never directly edit this field, but it is possible to set it blank.  If the WriteOff value is higher than the WriteOffEst, then we show the WriteOff value in color red.  This means that it has been manually altered from the estimate. We don't currently track who changed it."</em>, and the visual response as shown below </p>
         <div class="image-row">
             <figure>
                 <img src="../images/writeoff_description.png" alt="Dashboard"/>
-                <figcaption>Visualization output from Agent</figcaption>
+                <figcaption>AI Agent visualization: Patient write-off insights</figcaption>
             </figure>
             <figure>
-                <img src="../images/writeoff_distribution.png" alt="Dashboard"/>
-                <figcaption>Visualization output from Agent</figcaption>
+                <img src="../images/writeoff_distribution.png" alt="Distribution"/>
+                <figcaption>AI Agent visualization: Distribution of write-offs across procedures</figcaption>
             </figure>
         </div>
+
+        <p>
+            This platform provides dental clinics with a unified view of all contacts, actionable insights for resource planning, 
+            marketing, and patient management, and an intelligent assistant designed specifically for dental operations. 
+            With this foundation, clinics can better understand patient needs, optimize marketing efforts, 
+            and deliver higher quality care efficiently.
+        </p>
     </div>
 </div>
+
+
+<div class="experience-box" data-title="Research Assistant">
+    <h3>Research Assistant, Frontiers of Optical Imaging and Biology Lab</h3>
+    
+    <div class="slideshow-preview">
+        <img src="../images/lab_logo.png" alt="Lab Logo"/>
+        <img src="../images/Mice_Eye_3D.png" alt="3D Eye Scan"/>
+        <img src="../images/is_after.png" alt="Registered Eye Scan"/>
+    </div>
+    
+    <p>Developed a dynamic 3D image registration pipeline to correct cellular-level motion in high-resolution eye scans across multiple subjects.</p>
+    
+    <div class="full-content">
+        <p>
+            In this research, I worked on aligning 3D eye scan datasets from humans, mice, and bovine subjects. 
+            Each scan captures **cellular structures at 2-micrometer resolution**, where even small biological motions 
+            or scanner delays cause misalignment. The goal was to dynamically correct drift while preserving the natural movement of cells.
+        </p>
+        
+        <p>
+            The workflow included:
+            <ul>
+                <li><strong>Pixel classification:</strong> Identified cell bodies, nuclei, and background pixels using intensity distribution and pooling. Noise pixels were removed.</li>
+                <li><strong>Dynamic registration:</strong> Sequentially aligned frames by tracking drift and adjusting each frame relative to the first, while allowing live cells to move naturally.</li>
+                <li><strong>Subject-agnostic design:</strong> The code works across different species and datasets without manual tuning.</li>
+            </ul>
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="../images/sv_before_drift.png" alt="Side view before"/>
+                <figcaption>Side view before registration</figcaption>
+            </figure>
+            <figure>
+                <img src="../images/sv_after_drift.png" alt="Side view after"/>
+                <figcaption>Side view after registration</figcaption>
+            </figure>
+        </div>
+
+        <div class="image-row">
+            <figure>
+                <img src="../images/sv_before.png" alt="Front view before"/>
+                <figcaption>Front view before registration</figcaption>
+            </figure>
+            <figure>
+                <img src="../images/sv_after.png" alt="Front view after"/>
+                <figcaption>Front view after registration</figcaption>
+            </figure>
+        </div>
+        
+        <p>
+            The registration consistently produced **highly accurate alignment**, making cellular structures clearly visible 
+            in top, front, and side views, and enabling downstream analysis of cell motion and behavior.
+        </p>
+        
+
+        <div class="image-row">
+            <figure>
+                <img src="../images/sv_top_before.png" alt="Top view before"/>
+                <figcaption>Top view before registration (3D stack)</figcaption>
+            </figure>
+            <figure>
+                <img src="../images/sv_top_after.png" alt="Top view after"/>
+                <figcaption>Top view after registration (3D stack)</figcaption>
+            </figure>
+        </div>
+
+        <p><a href="#" target="_blank">My Research Profile</a></p>
+    </div>
+</div>
+
 """
 
 # ========== Step 4: Full HTML ==========
