@@ -266,6 +266,7 @@ experience_boxes = f"""
                 <img src="../images/Mice_Eye_3D.png" alt="Top view before"/>
                 <figcaption>Mice Eye constructed as 3D image from scan</figcaption>
             </figure>
+        </div>
         <p><a href="https://blogs.iu.edu/tankamlab/people/" target="_blank">My Research Profile</a></p>
     </div>
 </div>
@@ -338,7 +339,7 @@ experience_boxes = f"""
             </figure>
 
 
-        <p><a href="#" target="_blank">Project Summary / Reference</a></p>
+        </div>
     </div>
 </div>
 
@@ -360,7 +361,7 @@ main {{ max-width:1000px; margin:2rem auto; padding:0 2rem; }}
 h1,h2,h3 {{ color:#0055a5; }}
 h2 {{ border-bottom:2px solid #0055a5; padding-bottom:0.3rem; margin-bottom:1rem; }}
 section {{ margin-bottom:3rem; }}
-.experience-grid {{ display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1.5rem; }}
+.experience-grid {{ display:grid; grid-template-columns: repeat(3, 1fr); gap:1.5rem; }}
 .experience-box {{
     background:#fff; padding:1rem; border-left:5px solid #0055a5; box-shadow:0 0 10px rgba(0,0,0,0.05);
     cursor:pointer; display:flex; flex-direction:column; justify-content:space-between; aspect-ratio:1/1; position:relative;
