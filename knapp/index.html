@@ -2,80 +2,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About Me & KNAPP</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Me & KNAPP</title>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0; padding: 0; background: #f0f4f8; color: #333;
+    }
+    header {
+        display: flex; align-items: center; padding: 1rem 2rem; background: #fff; border-bottom: 2px solid #ccc;
+    }
+    header img { height: 60px; margin-right: 20px; }
+    main { max-width: 1000px; margin: 2rem auto; padding: 0 2rem; }
+    h1, h2, h3 { color: #0055a5; }
+    h2 { border-bottom: 2px solid #0055a5; padding-bottom: 0.3rem; margin-bottom: 1rem; }
+    section { margin-bottom: 3rem; }
+    .experience-grid {
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;
+    }
+    .experience-box {
+        background: #fff; padding: 1rem; border-left: 5px solid #0055a5;
+        box-shadow: 0 0 10px rgba(0,0,0,0.05); cursor: pointer; overflow: hidden;
+        display: flex; flex-direction: column; justify-content: space-between; aspect-ratio: 1 / 1;
+    }
+    .experience-box h3 { margin-top: 0; }
+    .experience-box img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+    .image-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .image-row figure { flex: 1; text-align: center; margin: 0; }
+    a { color: #0055a5; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    /* Modal overlay */
+    .modal {
+        display: none; position: fixed; top:0; left:0; width:100%; height:100%;
+        background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 1000;
+    }
+    .modal-content {
+        background: #fff; padding: 2rem; max-width: 800px; width: 90%; max-height: 90%; overflow-y: auto; position: relative;
+    }
+    .modal-close {
+        position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; cursor: pointer; color: #0055a5;
+    }
+</style>
 </head>
 <body>
-  <header>
-    <img src="https://www.knapp.com/wp-content/themes/knapp/assets/img/knapp_logo.svg" alt="KNAPP Logo" />
+<header>
+    <img src="https://www.knapp.com/wp-content/themes/knapp/assets/img/knapp_logo.svg" alt="KNAPP Logo"/>
     <h1>About KNAPP</h1>
-  </header>
-  <main>
-    <section><h2>Company Description</h2><p>We are a colorful bunch</p></section>
+</header>
+<main>
+    <section><h2>Company Description</h2><p>We develop and manufacture intelligent warehouse systems using the latest solutions in digitalization, software, automation and robotics. Our company founder Günter Knapp was a visionary inventor, and this remains part of our corporate culture today. His ideas, which solved many of the problems faced by businesses in the fifties, are also still with us. Günter Knapp started the business in Graz in 1952, with just two employees. Since then, the company has grown to become an international group of 8,300 employees with 49 locations all over the world.</p></section>
     <section><h2>Scope</h2><p>Scope of KNAPP's work includes warehouse automation, robotics, logistics software, and intelligent intralogistics systems.</p></section>
     <section><h2>Work Culture</h2><p>KNAPP fosters innovation, teamwork, and continuous learning, focusing on sustainability and future-ready logistics solutions.</p></section>
     <section><h2>Motivation to Join KNAPP</h2><p>I'm drawn to KNAPP’s blend of innovation and purpose. Their leadership in automation aligns with my goal to solve impactful logistics challenges using data and AI.</p></section>
     <section><h2>Why I'm a Great Fit</h2><p>With hands-on experience in autonomous systems, AI, and full-stack development, I bring both the technical depth and adaptability KNAPP values.</p></section>
-    <section><h2>Work Experience</h2><div class="experience-grid">
-  <div class="experience-box expandable">
-    <div class="summary">
-      <h3>Research Engineer</h3>
-      <p>Developed state estimation and autonomous control for race vehicles.</p>
-    </div>
-    <div class="expanded-content">
-      <div class="image-row">
+    <section><h2>Work Experience</h2>
+        <div class="experience-grid">
+            
+<div class="experience-box" data-title="Research Engineer">
+    <h3>Research Engineer</h3>
+    <p>Developed state estimation and autonomous control for race vehicles.</p>
+    <div class="full-content">
+        <div class="image-row">
+            <figure>
+                <img src="../images/s_withcar.jpg" alt="Vehicle Model"/>
+                <figcaption>Dallara AV24 IU Luddy Racecar</figcaption>
+            </figure>
+            <figure>
+                <img src="../images/group_withcar.jpg" alt="Trajectory Plot"/>
+                <figcaption>IU Luddy Team at Laguna Sega Race weekend</figcaption>
+            </figure>
+        </div>
+        <p>I worked on state estimation algorithms for autonomous racecars, using Kalman filtering and sensor fusion to refine vehicle positioning. The controller modules used MPC for high-speed path planning. The system improved lap times by dynamically adjusting for road friction.</p>
         <figure>
-          <img src="../images/s_withcar.jpg" alt="Vehicle Model" />
-          <figcaption>Dallara AV24 IU Luddy Racecar</figcaption>
+            <img src="../images/grip_analysis.png" alt="Dashboard"/>
+            <figcaption>Grip Analysis on Race data</figcaption>
         </figure>
-        <figure>
-          <img src="../images/group_withcar.jpg" alt="Trajectory Plot" />
-          <figcaption>IU Luddy Team at Laguna Seca Race weekend</figcaption>
-        </figure>
-      </div>
-      <p>I worked on state estimation algorithms for autonomous racecars, using Kalman filtering and sensor fusion to refine vehicle positioning. The controller modules used MPC for high-speed path planning. The system improved lap times by dynamically adjusting for road friction.</p>
-      <figure>
-        <img src="../images/grip_analysis.png" alt="Dashboard" />
-        <figcaption>Grip Analysis on Race data</figcaption>
-      </figure>
-      <p><a href="https://vail-robotics.net/pages/people#" target="_blank">My Research Profile</a></p>
+        <p><a href="https://vail-robotics.net/pages/people#" target="_blank">My Research Profile</a></p>
     </div>
-  </div>
+</div>
 
-  <div class="experience-box expandable">
-    <div class="summary">
-      <h3>AI Partner, dentalmatrix.ai</h3>
-      <p>Built real-time ETL pipelines and deployed LLM-powered analytics tools.</p>
-    </div>
-    <div class="expanded-content">
-      <p>I co-founded dentalmatrix.ai, building integrations between OpenDental and CRM platforms. Designed APIs and real-time sync systems for patient data while leveraging LLMs for predictive analytics.</p>
-    </div>
-  </div>
+<div class="experience-box" data-title="AI Partner, dentalmatrix.ai">
+    <h3>AI Partner, dentalmatrix.ai</h3>
+    <p>Built real-time ETL pipelines and deployed LLM-powered analytics tools for dental practice intelligence.</p>
+</div>
 
-  <div class="experience-box expandable">
-    <div class="summary">
-      <h3>Research Assistant, Imaging Lab</h3>
-      <p>Designed neural networks to register 3D eye scans with 97% accuracy.</p>
+<div class="experience-box" data-title="Research Assistant, Imaging Lab">
+    <h3>Research Assistant, Imaging Lab</h3>
+    <p>Designed neural networks to register 3D eye scan volumes without reference points, achieving 97% accuracy.</p>
+</div>
+
+        </div>
+    </section>
+</main>
+
+<!-- Modal -->
+<div class="modal" id="modal">
+    <div class="modal-content" id="modal-content">
+        <span class="modal-close" id="modal-close">&times;</span>
+        <div id="modal-inner"></div>
     </div>
-    <div class="expanded-content">
-      <p>Created custom deep learning pipelines to align volumetric OCT data without reference points. Leveraged Fourier transforms and temporal correlation for robust motion correction.</p>
-    </div>
-  </div>
-</div></section>
-  </main>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const boxes = document.querySelectorAll(".experience-box.expandable");
-      boxes.forEach(box => {
-        const summary = box.querySelector(".summary");
-        summary.addEventListener("click", () => {
-          boxes.forEach(b => b !== box && b.classList.remove("active"));
-          box.classList.toggle("active");
-        });
-      });
+</div>
+
+<script>
+const boxes = document.querySelectorAll('.experience-box');
+const modal = document.getElementById('modal');
+const modalInner = document.getElementById('modal-inner');
+const modalClose = document.getElementById('modal-close');
+
+boxes.forEach(box => {
+    box.addEventListener('click', () => {
+        const content = box.querySelector('.full-content');
+        if(content) {
+            modalInner.innerHTML = content.innerHTML;
+            modal.style.display = 'flex';
+        }
     });
-  </script>
+});
+
+modalClose.addEventListener('click', () => {
+    modal.style.display = 'none';
+});
+
+window.addEventListener('click', (e) => {
+    if(e.target == modal) modal.style.display = 'none';
+});
+</script>
 </body>
 </html>
