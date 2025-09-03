@@ -113,7 +113,7 @@ a:hover { text-decoration:underline; }
 
 
 <div class="experience-box" data-title="Partner & AI Head, DentalMatrix.ai">
-    <h3>Partner & AI Head, DentalMatrix.ai</h3>
+    <h3>AI Head, DentalMatrix.ai</h3>
     <div class="slideshow-preview">
         <img src="../images/writeoff_description.png" alt="Dashboard"/>
         <img src="../images/writeoff_distribution.png" alt="Distribution"/>
@@ -121,7 +121,7 @@ a:hover { text-decoration:underline; }
     <p>Co-founded and developed a unified dental platform with real-time ETL pipelines and a fine-tuned AI agent for actionable practice insights.</p>
 
     <div class="full-content">
-        <h3>Partner & AI Head, DentalMatrix.ai</h3>
+        <h3>AI Head, DentalMatrix.ai</h3>
 
         <p>
             At DentalMatrix.ai, we built a platform to help dental clinics unify their patient and lead data. 
@@ -160,7 +160,7 @@ a:hover { text-decoration:underline; }
             </figure>
             <figure>
                 <img src="../images/writeoff_distribution.png" alt="Distribution"/>
-                <figcaption>AI Agent visualization: Distribution of write-offs across procedures</figcaption>
+                <figcaption>AI Agent visualization: Distribution of total write-offs amount</figcaption>
             </figure>
         </div>
 
@@ -186,9 +186,10 @@ a:hover { text-decoration:underline; }
     <p>Developed a dynamic 3D image registration pipeline to correct cellular-level motion in high-resolution eye scans across multiple subjects.</p>
     
     <div class="full-content">
+        <h3>Research Assistant, Frontiers of Optical Imaging and Biology Lab</h3>
         <p>
             In this research, I worked on aligning 3D eye scan datasets from humans, mice, and bovine subjects. 
-            Each scan captures **cellular structures at 2-micrometer resolution**, where even small biological motions 
+            Each scan captures cellular structures at <strong>2 µm focus</strong>, where even small biological motions 
             or scanner delays cause misalignment. The goal was to dynamically correct drift while preserving the natural movement of cells.
         </p>
         
@@ -221,27 +222,104 @@ a:hover { text-decoration:underline; }
                 <figcaption>Front view after registration</figcaption>
             </figure>
         </div>
-        
+
         <p>
-            The registration consistently produced **highly accurate alignment**, making cellular structures clearly visible 
+            The registration consistently produced highly quality alignment with 97% and at  6.5 MB/s processing speed, making cellular structures clearly visible 
             in top, front, and side views, and enabling downstream analysis of cell motion and behavior.
         </p>
         
 
         <div class="image-row">
             <figure>
-                <img src="../images/sv_top_before.png" alt="Top view before"/>
+                <img src="../images/is_before.png" alt="Top view before"/>
                 <figcaption>Top view before registration (3D stack)</figcaption>
             </figure>
             <figure>
-                <img src="../images/sv_top_after.png" alt="Top view after"/>
+                <img src="../images/is_after.png" alt="Top view after"/>
                 <figcaption>Top view after registration (3D stack)</figcaption>
             </figure>
         </div>
-
-        <p><a href="#" target="_blank">My Research Profile</a></p>
+        <div class="image-row">
+            <figure>
+                <img src="../images/Mice_Eye_3D.png" alt="Top view before"/>
+                <figcaption>Mice Eye constructed as 3D image from scan</figcaption>
+            </figure>
+        <p><a href="https://blogs.iu.edu/tankamlab/people/" target="_blank">My Research Profile</a></p>
     </div>
 </div>
+
+<div class="experience-box" data-title="Consultant, EDD chat assistant">
+    <h3>Consultant, EDD chat assistant</h3>
+
+    <div class="slideshow-preview">
+        <img src="../images/edd_logo.png" alt="CEDS Dashboard"/>
+        <img src="../images/ceds_template.png" alt="AI Integration"/>
+        <img src="../images/edd_region.png" alt="AI Integration"/>
+    </div>
+
+    <p>Developed an AI-driven tool to assist Economic Development Districts (EDDs) in creating Comprehensive Economic Development Strategies (CEDS).</p>
+
+    <div class="full-content">
+        <h3>Consultant, EDD chat assistant</h3>
+
+        <p>
+            From August 2024 to January 2025, I worked on integrating AI into the **CEDS creation process** for under-resourced Economic Development Districts (EDDs). 
+            The CEDS is a strategic plan used to drive regional economic growth and is critical for securing federal funding through the Economic Development Administration (EDA). 
+            Many EDDs face challenges in creating strong CEDS documents due to limited resources, expertise, and access to data.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="../images/edd_region.png" alt="Top view before"/>
+                <figcaption>Interactive map of Economic Development District - EDD Zones</figcaption>
+            </figure>
+
+        <p>
+            <strong>Problem:</strong> Creating a robust CEDS is time-intensive and requires data analysis, stakeholder engagement, and alignment with EDA guidelines. Smaller districts often struggle to meet these requirements, delaying funding and limiting economic development opportunities.
+        </p>
+
+        <p>
+            <strong>Solution:</strong> The project aimed to develop an AI-driven CEDS generator that leverages generative AI and transformer-based models to automate key parts of the process. Key features include:
+            <ul>
+                <li><strong>Structured Input Interface:</strong> Predefined fields for entering regional data to ensure alignment with EDA guidelines.</li>
+                <li><strong>LLM Integration:</strong> Large language models process inputs and generate region-specific strategies using historical CEDS data.</li>
+                <li><strong>SWOT Automation:</strong> AI-assisted SWOT analyses and strategic recommendations based on regional data.</li>
+                <li><strong>Evaluation Framework Alignment:</strong> Automated feedback to ensure generated CEDS meets EDA evaluation criteria.</li>
+                <li><strong>Scalability:</strong> Modular design allowing use across multiple EDDs with regional customization.</li>
+            </ul>
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="../images/ceds_template.png" alt="Top view before"/>
+                <figcaption>Basic CEDS Template</figcaption>
+            </figure>
+            <figure>
+                <img src="../images/inital_proposal.png" alt="Top view after"/>
+                <figcaption>Initial Proposal</figcaption>
+            </figure>
+        <p>
+            <strong>Implementation Strategy:</strong> 
+            - Built a prototype integrating AI( used VLLM mistral architecture with mutiple Lora adaptors targeting different layers of base model) with SWOT analysis and draft CEDS generation.  
+            - Used cosine similarity to compare generated content against approved CEDS documents, focusing on areas like climate resilience and equity.  
+            - Incorporated feedback loops for planners to iteratively refine inputs and outputs.  
+            - Designed front-end mockups and modular agent frameworks for user-friendly interaction.
+        </p>
+
+        <p>
+            <strong>Impact:</strong> This project demonstrated the potential for AI to streamline CEDS creation, automate labor-intensive tasks, and improve document quality and compliance. The prototype empowered planners to create data-backed, EDA-compliant strategies more efficiently.  
+            While I paused working on this project after January 2025 due to time constraints, the foundation provides a scalable framework for future AI-assisted economic development tools.
+        </p>
+
+        <div class="image-row">
+            <figure>
+                <img src="../images/pn_analysis.png" alt="CEDS Dashboard"/>
+                <figcaption>Positive and negative statment analysis per topics</figcaption>
+            </figure>
+
+
+        <p><a href="#" target="_blank">Project Summary / Reference</a></p>
+    </div>
+</div>
+
 
 
         </div>
