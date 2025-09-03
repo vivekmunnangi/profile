@@ -508,7 +508,6 @@ impact_boxes = f"""
 
 
 """
-
 # ========== Step 4: Full HTML ==========
 html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -518,19 +517,22 @@ html = f"""<!DOCTYPE html>
 <title>Portfolio</title>
 <style>
 body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:0; background:#f0f4f8; color:#333; }}
-header {{ display:flex; align-items:center; padding:1rem 2rem; background:#fff; border-bottom:2px solid #ccc; }}
+header {{
+  display:flex; align-items:center; padding:1rem 2rem; background:#fff; border-bottom:2px solid #ccc;
+  position: fixed; top:0; left:0; width:100%; z-index:1100;
+}}
 header img {{ height:60px; margin-right:20px; }}
 h1,h2,h3 {{ color:{primary_color}; }}
 h2 {{ border-bottom:2px solid {primary_color}; padding-bottom:0.3rem; margin-bottom:1rem; }}
 section {{ margin-bottom:3rem; }}
 
-.container {{ display: flex; }}
+.container {{ display: flex; margin-top:80px; }} /* leave space for fixed header */
 .sidebar {{
   width: 220px;
   position: fixed;
-  top: 0;
+  top: 80px; /* below header */
   left: 0;
-  height: 100vh;
+  height: calc(100vh - 80px);
   padding: 2rem 1rem;
   background: #f0f4f8;
   box-shadow: 2px 0 5px rgba(0,0,0,0.1);
@@ -592,10 +594,20 @@ a:hover {{ text-decoration:underline; }}
 .image-row figure {{ flex:1 1 200px; text-align:center; margin:0; }}
 .image-row img {{ width:100%; height:auto; object-fit:contain; }}
 
-/* Mobile: hide sidebar, full width content */
+/* Mobile behavior */
 @media (max-width: 768px) {{
-  .sidebar {{ display: none; }}
-  .content {{ margin-left: 0; padding: 1rem; }}
+  .sidebar {{
+    position: relative;
+    top: 0;
+    width: 100%;
+    height: auto;
+    box-shadow: none;
+    margin-bottom: 1rem;
+  }}
+  .content {{
+    margin-left: 0;
+    padding: 1rem;
+  }}
 }}
 </style>
 </head>
@@ -608,7 +620,7 @@ a:hover {{ text-decoration:underline; }}
 <div class="container">
     <!-- Fixed left sidebar -->
     <aside class="sidebar">
-        <img src="../images/my_photo.jpg" alt="Vivek Reddy Munnangi" class="profile-pic">
+        <img src="../images/my_picture.jpg" alt="Vivek Reddy Munnangi" class="profile-pic">
         <p class="education">Masters in Data Science, IU Luddy</p>
         <p class="education">Bachelors in Mechanical Engineering</p>
     </aside>
@@ -680,6 +692,7 @@ window.addEventListener('click', (e) => {{ if(e.target == modal) modal.style.dis
 </body>
 </html>
 """
+
 
 
 # ========== Step 5: Write HTML ==========
