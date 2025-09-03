@@ -45,10 +45,12 @@ experience_boxes = f"""
             </figure>
         </div>
         <p>I worked on state estimation algorithms for autonomous racecars, using Kalman filtering and sensor fusion to refine vehicle positioning. The controller modules used MPC for high-speed path planning. The system improved lap times by dynamically adjusting for road friction.</p>
-        <figure>
-            <img src="../images/grip_analysis.png" alt="Dashboard"/>
-            <figcaption>Grip Analysis on Race data</figcaption>
-        </figure>
+        <div class="image-row">
+            <figure>
+                <img src="../images/grip_analysis.png" alt="Dashboard"/>
+                <figcaption>Grip Analysis on Race data</figcaption>
+            </figure>
+        </div>
         <p><a href="https://vail-robotics.net/pages/people#" target="_blank">My Research Profile</a></p>
     </div>
 </div>
@@ -64,52 +66,34 @@ experience_boxes = f"""
 </div>
 """
 
-# ========== Step 4: Final HTML ==========
-html = f"""
-<!DOCTYPE html>
+# ========== Step 4: Full HTML ==========
+html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>About Me & KNAPP</title>
 <style>
-    body {{
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        margin: 0; padding: 0; background: #f0f4f8; color: #333;
-    }}
-    header {{
-        display: flex; align-items: center; padding: 1rem 2rem; background: #fff; border-bottom: 2px solid #ccc;
-    }}
-    header img {{ height: 60px; margin-right: 20px; }}
-    main {{ max-width: 1000px; margin: 2rem auto; padding: 0 2rem; }}
-    h1, h2, h3 {{ color: #0055a5; }}
-    h2 {{ border-bottom: 2px solid #0055a5; padding-bottom: 0.3rem; margin-bottom: 1rem; }}
-    section {{ margin-bottom: 3rem; }}
-    .experience-grid {{
-        display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;
-    }}
-    .experience-box {{
-        background: #fff; padding: 1rem; border-left: 5px solid #0055a5;
-        box-shadow: 0 0 10px rgba(0,0,0,0.05); cursor: pointer; overflow: hidden;
-        display: flex; flex-direction: column; justify-content: space-between; aspect-ratio: 1 / 1;
-    }}
-    .experience-box h3 {{ margin-top: 0; }}
-    .experience-box img {{ max-width: 100%; height: auto; display: block; margin: 0 auto; }}
-    .image-row {{ display: flex; gap: 1rem; flex-wrap: wrap; }}
-    .image-row figure {{ flex: 1; text-align: center; margin: 0; }}
-    a {{ color: #0055a5; text-decoration: none; }}
-    a:hover {{ text-decoration: underline; }}
-    /* Modal overlay */
-    .modal {{
-        display: none; position: fixed; top:0; left:0; width:100%; height:100%;
-        background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 1000;
-    }}
-    .modal-content {{
-        background: #fff; padding: 2rem; max-width: 800px; width: 90%; max-height: 90%; overflow-y: auto; position: relative;
-    }}
-    .modal-close {{
-        position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; cursor: pointer; color: #0055a5;
-    }}
+    body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:0; background:#f0f4f8; color:#333; }}
+    header {{ display:flex; align-items:center; padding:1rem 2rem; background:#fff; border-bottom:2px solid #ccc; }}
+    header img {{ height:60px; margin-right:20px; }}
+    main {{ max-width:1000px; margin:2rem auto; padding:0 2rem; }}
+    h1,h2,h3 {{ color:#0055a5; }}
+    h2 {{ border-bottom:2px solid #0055a5; padding-bottom:0.3rem; margin-bottom:1rem; }}
+    section {{ margin-bottom:3rem; }}
+    .experience-grid {{ display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1.5rem; }}
+    .experience-box {{ background:#fff; padding:1rem; border-left:5px solid #0055a5; box-shadow:0 0 10px rgba(0,0,0,0.05); cursor:pointer; overflow:hidden; display:flex; flex-direction:column; justify-content:space-between; }}
+    .experience-box h3 {{ margin-top:0; }}
+    .experience-box img {{ max-width:100%; height:auto; display:block; margin:0 auto; }}
+    .image-row {{ display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; }}
+    .image-row figure {{ flex:1 1 200px; text-align:center; margin:0; }}
+    .image-row img {{ width:100%; height:auto; object-fit:contain; }}
+    a {{ color:#0055a5; text-decoration:none; }}
+    a:hover {{ text-decoration:underline; }}
+    .modal {{ display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index:1000; }}
+    .modal-content {{ background:#fff; padding:2rem; max-width:800px; width:90%; max-height:90%; overflow-y:auto; position:relative; border-radius:8px; }}
+    .modal-close {{ position:absolute; top:1rem; right:1rem; font-size:1.5rem; cursor:pointer; color:#0055a5; }}
+    .modal .image-row {{ margin-bottom:1rem; }}
 </style>
 </head>
 <body>
@@ -130,7 +114,6 @@ html = f"""
     </section>
 </main>
 
-<!-- Modal -->
 <div class="modal" id="modal">
     <div class="modal-content" id="modal-content">
         <span class="modal-close" id="modal-close">&times;</span>
@@ -154,13 +137,8 @@ boxes.forEach(box => {{
     }});
 }});
 
-modalClose.addEventListener('click', () => {{
-    modal.style.display = 'none';
-}});
-
-window.addEventListener('click', (e) => {{
-    if(e.target == modal) modal.style.display = 'none';
-}});
+modalClose.addEventListener('click', () => {{ modal.style.display = 'none'; }});
+window.addEventListener('click', (e) => {{ if(e.target == modal) modal.style.display = 'none'; }});
 </script>
 </body>
 </html>
@@ -172,4 +150,5 @@ os.makedirs(output_dir, exist_ok=True)
 
 with open(os.path.join(output_dir, "index.html"), "w", encoding="utf-8") as f:
     f.write(html)
+
 print("✅ index.html generated.")
