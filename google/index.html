@@ -1,114 +1,81 @@
-import requests
-from bs4 import BeautifulSoup
-import os
-import re
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio</title>
+<style>
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:0; background:#f0f4f8; color:#333; }
+header { display:flex; align-items:center; padding:1rem 2rem; background:#fff; border-bottom:2px solid #ccc; }
+header img { height:60px; margin-right:20px; }
+main { max-width:1000px; margin:2rem auto; padding:0 2rem; }
+h1,h2,h3 { color:#0055a5; }
+h2 { border-bottom:2px solid #0055a5; padding-bottom:0.3rem; margin-bottom:1rem; }
+section { margin-bottom:3rem; }
 
-# ========== Step 1: Scrape KNAPP Logo & Description ==========
-url = 'https://about.google/'
-response = requests.get(url)
-soup = BeautifulSoup(response.text, 'html.parser')
+.experience-grid {
+  display: grid;
+  gap: 1.5rem;
+}
 
-# Logo scraping
-logo_img = soup.find('img')
-logo_url = logo_img['src'] if logo_img else ''
-if logo_url and logo_url.startswith('/'):
-    logo_url = 'https://about.google/' + logo_url
-"""
-# Scrape first substantial paragraph
-paragraphs = soup.find_all('p')
-company_description = "Company description not found."
-for p in paragraphs:
-    text = p.get_text(strip=True)
-    if len(text) > 50:  # first substantial paragraph
-        company_description = text
-        break
+/* Mobile: 1 per row */
+@media (max-width: 600px) {
+  .experience-grid {
+    grid-template-columns: 1fr;
+  }
+}
 
+/* Tablet: 2 per row */
+@media (min-width: 601px) and (max-width: 1000px) {
+  .experience-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 
-def scrape_about_page(url, save_images=True, img_folder="company_images"):
-    response = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
-    soup = BeautifulSoup(response.text, "html.parser")
+/* Desktop: 3 per row */
+@media (min-width: 1001px) {
+  .experience-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
 
-    # Extract all paragraphs and headings
-    content = []
-    for tag in soup.find_all(["h1", "h2", "h3", "p"]):
-        text = tag.get_text(strip=True)
-        if text:
-            content.append(text)
+.experience-box {
+    background:#fff; padding:1rem; border-left:5px solid #0055a5; box-shadow:0 0 10px rgba(0,0,0,0.05);
+    cursor:pointer; display:flex; flex-direction:column; justify-content:space-between; aspect-ratio:1/1; position:relative;
+}
+.experience-box h3 { margin-top:0; text-align:center; }
+.experience-box p { text-align:center; margin-top:0.5rem; }
+.experience-box .full-content { display:none; }
+.slideshow-preview { position:relative; width:100%; flex:1; margin:0.5rem 0; overflow:hidden; }
+.slideshow-preview img {
+    position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 1s;
+}
+.slideshow-preview img.active { opacity:1; }
+a { color:#0055a5; text-decoration:none; }
+a:hover { text-decoration:underline; }
+.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index:1000; }
+.modal-content { background:#fff; padding:2rem; max-width:800px; width:90%; max-height:90%; overflow-y:auto; position:relative; border-radius:8px; }
+.modal-close { position:absolute; top:1rem; right:1rem; font-size:1.5rem; cursor:pointer; color:#0055a5; }
+.image-row { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; margin-bottom:1rem; }
+.image-row figure { flex:1 1 200px; text-align:center; margin:0; }
+.image-row img { width:100%; height:auto; object-fit:contain; }
+</style>
 
-    # Extract a few images
-    images = []
-    if save_images:
-        os.makedirs(img_folder, exist_ok=True)
-        for img_tag in soup.find_all("img"):
-            img_url = img_tag.get("src")
-            if img_url and ("logo" not in img_url.lower()):  # avoid logos/icons
-                if not img_url.startswith("http"):
-                    img_url = url.rstrip("/") + "/" + img_url.lstrip("/")
-                try:
-                    img_data = requests.get(img_url).content
-                    file_name = os.path.join(img_folder, os.path.basename(img_url.split("?")[0]))
-                    with open(file_name, "wb") as f:
-                        f.write(img_data)
-                    images.append(file_name)
-                except Exception as e:
-                    print(f"Failed to download {img_url}: {e}")
-
-    return {
-        "text_content": "\n".join(content),
-        "images": images
-    }
-
-# Example usage
-result = scrape_about_page("https://www.cyngn.com/about")
-print(result["text_content"][:1000])  # Print preview
-print("Downloaded images:", result["images"])
-"""
-# ========== Step 2: Static Content ==========
-# ========== Step 2: Static Content ==========
-
-company_description = (
-    "KNAPP is a global leader in warehouse automation and intelligent intralogistics systems, "
-    "founded in 1952 and now operating with 8,300 employees across 49 locations worldwide. "
-    "The company develops end-to-end solutions combining robotics, automation, logistics software, "
-    "and digitalization. KNAPP partners with industry leaders such as Walmart to deliver "
-    "Next Generation Fulfillment Centers, setting benchmarks for efficiency, scalability, "
-    "and sustainability in logistics."
-)
-
-scope_content = (
-    "Scope of KNAPP's work includes designing and maintaining warehouse automation systems, "
-    "robotics integration, logistics software (WMS, WCS, SRC), and intelligent intralogistics solutions "
-    "for industries ranging from healthcare to e-commerce. "
-    "The McCordsville facility in particular focuses on high-performance distribution center operations, "
-    "software reliability, and continuous optimization of automated workflows."
-)
-
-culture_content = (
-    "KNAPP fosters a culture of innovation, collaboration, and continuous learning. "
-    "As a family-owned company with global reach, it values diversity, teamwork, and creative problem-solving. "
-    "Employees are encouraged to embrace sustainability, adapt to emerging technologies, "
-    "and contribute to future-ready logistics solutions while thriving in a supportive, high-performance environment."
-)
-
-motivation_content = (
-    "I am drawn to KNAPP’s ability to combine innovation with real-world impact. "
-    "Their leadership in warehouse automation and partnerships with global companies like Walmart "
-    "align with my goal to solve complex logistics challenges using data, AI, and scalable automation. "
-    "The McCordsville facility represents a unique opportunity to contribute directly to cutting-edge software operations "
-    "that power next-generation distribution systems."
-)
-
-fit_reason = (
-    "With a strong background in autonomous systems, AI-driven analytics, and full-stack software development, "
-    "I bring both technical expertise and practical problem-solving experience. "
-    "Through my research and industry projects, I have developed skills in high-pressure troubleshooting, "
-    "data-driven optimization, and cross-functional collaboration. "
-    "I am adaptable, detail-oriented, and thrive in fast-paced environments — qualities that make me a strong fit "
-    "for KNAPP’s mission of delivering intelligent, reliable, and sustainable logistics solutions."
-)
-
-# ========== Step 3: Experience Boxes with slideshow ==========
-experience_boxes = f"""
+</head>
+<body>
+<header>
+    <img src="https://www.gstatic.com/marketing-cms/assets/images/f5/d3/a7f9db7045429cb6dc6be56bdcbe/google-logo-about.svg" alt="KNAPP Logo"/>
+    <h1>Career</h1>
+</header>
+<main>
+    <section><h2>Company Description</h2><p>KNAPP is a global leader in warehouse automation and intelligent intralogistics systems, founded in 1952 and now operating with 8,300 employees across 49 locations worldwide. The company develops end-to-end solutions combining robotics, automation, logistics software, and digitalization. KNAPP partners with industry leaders such as Walmart to deliver Next Generation Fulfillment Centers, setting benchmarks for efficiency, scalability, and sustainability in logistics.</p></section>
+    <section><h2>Scope</h2><p>Scope of KNAPP's work includes designing and maintaining warehouse automation systems, robotics integration, logistics software (WMS, WCS, SRC), and intelligent intralogistics solutions for industries ranging from healthcare to e-commerce. The McCordsville facility in particular focuses on high-performance distribution center operations, software reliability, and continuous optimization of automated workflows.</p></section>
+    <section><h2>Work Culture</h2><p>KNAPP fosters a culture of innovation, collaboration, and continuous learning. As a family-owned company with global reach, it values diversity, teamwork, and creative problem-solving. Employees are encouraged to embrace sustainability, adapt to emerging technologies, and contribute to future-ready logistics solutions while thriving in a supportive, high-performance environment.</p></section>
+    <section><h2>Motivation to Join KNAPP</h2><p>I am drawn to KNAPP’s ability to combine innovation with real-world impact. Their leadership in warehouse automation and partnerships with global companies like Walmart align with my goal to solve complex logistics challenges using data, AI, and scalable automation. The McCordsville facility represents a unique opportunity to contribute directly to cutting-edge software operations that power next-generation distribution systems.</p></section>
+    <section><h2>Why I am a Great Fit</h2><p>With a strong background in autonomous systems, AI-driven analytics, and full-stack software development, I bring both technical expertise and practical problem-solving experience. Through my research and industry projects, I have developed skills in high-pressure troubleshooting, data-driven optimization, and cross-functional collaboration. I am adaptable, detail-oriented, and thrive in fast-paced environments — qualities that make me a strong fit for KNAPP’s mission of delivering intelligent, reliable, and sustainable logistics solutions.</p></section>
+    <section><h2>Work Experience</h2>
+        <div class="experience-grid">
+            
 <div class="experience-box" data-title="Research Engineer, VAIL IU">
     <h3>Research Engineer, VAIL IU</h3>
     <div class="slideshow-preview">
@@ -384,8 +351,12 @@ experience_boxes = f"""
 </div>
 
 
-"""
-impact_boxes = f"""
+
+        </div>
+    </section>
+    <section><h2>Impact Projects</h2>
+        <div class="experience-grid">
+            
 <div class="experience-box" data-title="Full-Stack Web Application for Restaurants">
     <h3>Full-Stack Web Application</h3>
     <div class="slideshow-preview">
@@ -487,92 +458,7 @@ impact_boxes = f"""
 </div>
 
 
-"""
 
-# ========== Step 4: Full HTML ==========
-html = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portfolio</title>
-<style>
-body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:0; background:#f0f4f8; color:#333; }}
-header {{ display:flex; align-items:center; padding:1rem 2rem; background:#fff; border-bottom:2px solid #ccc; }}
-header img {{ height:60px; margin-right:20px; }}
-main {{ max-width:1000px; margin:2rem auto; padding:0 2rem; }}
-h1,h2,h3 {{ color:#0055a5; }}
-h2 {{ border-bottom:2px solid #0055a5; padding-bottom:0.3rem; margin-bottom:1rem; }}
-section {{ margin-bottom:3rem; }}
-
-.experience-grid {{
-  display: grid;
-  gap: 1.5rem;
-}}
-
-/* Mobile: 1 per row */
-@media (max-width: 600px) {{
-  .experience-grid {{
-    grid-template-columns: 1fr;
-  }}
-}}
-
-/* Tablet: 2 per row */
-@media (min-width: 601px) and (max-width: 1000px) {{
-  .experience-grid {{
-    grid-template-columns: repeat(2, 1fr);
-  }}
-}}
-
-/* Desktop: 3 per row */
-@media (min-width: 1001px) {{
-  .experience-grid {{
-    grid-template-columns: repeat(3, 1fr);
-  }}
-}}
-
-.experience-box {{
-    background:#fff; padding:1rem; border-left:5px solid #0055a5; box-shadow:0 0 10px rgba(0,0,0,0.05);
-    cursor:pointer; display:flex; flex-direction:column; justify-content:space-between; aspect-ratio:1/1; position:relative;
-}}
-.experience-box h3 {{ margin-top:0; text-align:center; }}
-.experience-box p {{ text-align:center; margin-top:0.5rem; }}
-.experience-box .full-content {{ display:none; }}
-.slideshow-preview {{ position:relative; width:100%; flex:1; margin:0.5rem 0; overflow:hidden; }}
-.slideshow-preview img {{
-    position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 1s;
-}}
-.slideshow-preview img.active {{ opacity:1; }}
-a {{ color:#0055a5; text-decoration:none; }}
-a:hover {{ text-decoration:underline; }}
-.modal {{ display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index:1000; }}
-.modal-content {{ background:#fff; padding:2rem; max-width:800px; width:90%; max-height:90%; overflow-y:auto; position:relative; border-radius:8px; }}
-.modal-close {{ position:absolute; top:1rem; right:1rem; font-size:1.5rem; cursor:pointer; color:#0055a5; }}
-.image-row {{ display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; margin-bottom:1rem; }}
-.image-row figure {{ flex:1 1 200px; text-align:center; margin:0; }}
-.image-row img {{ width:100%; height:auto; object-fit:contain; }}
-</style>
-
-</head>
-<body>
-<header>
-    <img src="{logo_url}" alt="KNAPP Logo"/>
-    <h1>Career</h1>
-</header>
-<main>
-    <section><h2>Company Description</h2><p>{company_description}</p></section>
-    <section><h2>Scope</h2><p>{scope_content}</p></section>
-    <section><h2>Work Culture</h2><p>{culture_content}</p></section>
-    <section><h2>Motivation to Join KNAPP</h2><p>{motivation_content}</p></section>
-    <section><h2>Why I am a Great Fit</h2><p>{fit_reason}</p></section>
-    <section><h2>Work Experience</h2>
-        <div class="experience-grid">
-            {experience_boxes}
-        </div>
-    </section>
-    <section><h2>Impact Projects</h2>
-        <div class="experience-grid">
-            {impact_boxes}
         </div>
     </section>
 
@@ -592,32 +478,32 @@ const modalInner = document.getElementById('modal-inner');
 const modalClose = document.getElementById('modal-close');
 
 // Small preview slideshow
-boxes.forEach(box => {{
+boxes.forEach(box => {
     const previewImgs = box.querySelectorAll('.slideshow-preview img');
-    if(previewImgs.length > 0){{
+    if(previewImgs.length > 0){
         let current = 0;
         previewImgs[current].classList.add('active');
-        setInterval(()=>{{
+        setInterval(()=>{
             previewImgs[current].classList.remove('active');
             current = (current+1) % previewImgs.length;
             previewImgs[current].classList.add('active');
-        }},3000);
-    }}
-}});
+        },3000);
+    }
+});
 
 // Modal logic
-boxes.forEach(box => {{
-    box.addEventListener('click', () => {{
+boxes.forEach(box => {
+    box.addEventListener('click', () => {
         const content = box.querySelector('.full-content');
-        if(content) {{
+        if(content) {
             modalInner.innerHTML = content.innerHTML;
             modal.style.display = 'flex';
-        }}
-    }});
-}});
+        }
+    });
+});
 
-modalClose.addEventListener('click', () => {{ modal.style.display = 'none'; }});
-window.addEventListener('click', (e) => {{ if(e.target == modal) modal.style.display = 'none'; }});
+modalClose.addEventListener('click', () => { modal.style.display = 'none'; });
+window.addEventListener('click', (e) => { if(e.target == modal) modal.style.display = 'none'; });
 </script>
 <footer style="text-align:center; margin:2rem 0; font-style:italic; font-size:1rem; color:#333;">
     Vivek Reddy Munnangi | 
@@ -627,13 +513,3 @@ window.addEventListener('click', (e) => {{ if(e.target == modal) modal.style.dis
 </footer>
 </body>
 </html>
-"""
-
-# ========== Step 5: Write HTML ==========
-output_dir = "./google"
-os.makedirs(output_dir, exist_ok=True)
-
-with open(os.path.join(output_dir, "index.html"), "w", encoding="utf-8") as f:
-    f.write(html)
-
-print("✅ index.html generated.")
