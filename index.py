@@ -230,6 +230,7 @@ experience_boxes = f"""
             With this foundation, clinics can better understand patient needs, optimize marketing efforts, 
             and deliver higher quality care efficiently.
         </p>
+        <p><a href="https://dentalmetrics.ai/" target="_blank">Link to site(Under development)</a></p>
     </div>
 </div>
 
@@ -508,6 +509,12 @@ boxes.forEach(box => {{
 modalClose.addEventListener('click', () => {{ modal.style.display = 'none'; }});
 window.addEventListener('click', (e) => {{ if(e.target == modal) modal.style.display = 'none'; }});
 </script>
+<footer style="text-align:center; margin:2rem 0; font-style:italic; font-size:1rem; color:#333;">
+    Vivek Reddy Munnangi | 
+    <a href="../resume.pdf" target="_blank" style="color:#0055a5; text-decoration:none;">
+        Resume
+    </a>
+</footer>
 </body>
 </html>
 """
