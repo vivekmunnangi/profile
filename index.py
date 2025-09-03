@@ -358,6 +358,7 @@ experience_boxes = f"""
                 <img src="../images/inital_proposal.png" alt="Top view after"/>
                 <figcaption>Initial Proposal</figcaption>
             </figure>
+        </div>
         <p>
             <strong>Implementation Strategy:</strong> 
             - Built a prototype integrating AI( used VLLM mistral architecture with mutiple Lora adaptors targeting different layers of base model) with SWOT analysis and draft CEDS generation.  
@@ -382,6 +383,108 @@ experience_boxes = f"""
     </div>
 </div>
 
+
+"""
+impact_boxes = f"""
+<div class="experience-box" data-title="Full-Stack Web Application for Restaurants">
+    <h3>Full-Stack Web Application for Restaurants | MERN Stack, Render</h3>
+    <div class="slideshow-preview">
+        <img src="../images/adt_logo1.png" alt="Restaurant Web App Dashboard"/>
+        <img src="../images/adt_logo2.png" alt="Customer Data Interface"/>
+    </div>
+    <p>Developed a full-stack web application using the MERN stack to manage customer preferences, allergies, and reservations efficiently.</p>
+    <div class="full-content">
+        <h3>Full-Stack Web Application for Restaurants</h3>
+        <p>
+            The goal was to create a comprehensive web application for restaurant owners and staff to store, retrieve, and manage customer details effectively.
+        </p>
+        <p>
+            This system centralizes key customer information, including food preferences, allergies, and special preparation instructions, ensuring both safety and personalized service. 
+            By integrating a user friendly interface, restaurant staff can efficiently handle reservations, walk-ins, and customer updates with minimal errors.
+        </p>
+        <p>
+            Technically, the application leverages the MERN stack (MongoDB, Express, React, Node.js) for full stack functionality, combined with Render for hosting. 
+            For advanced data processing and scalability, Databricks was used to enable large-scale machine learning workflows and optimized database queries.
+        </p>
+        <p>
+            <strong>Impact:</strong> This solution enhances restaurant operations by providing a reliable, intuitive system for managing customer data. 
+            It improves the overall dining experience by allowing staff to cater to individual preferences, manage allergies safely, and streamline food preparation workflows. 
+            Compared to existing systems, our application offers better integration, usability, and customization for the hospitality industry.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="../images/adt_loginpage.png" alt="Top view before"/>
+                <figcaption>Login page of the App</figcaption>
+            </figure>
+            <figure>
+                <img src="../images/retreival_page.png" alt="Top view after"/>
+                <figcaption>Retrieving customer info from database using mobile number</figcaption>
+            </figure>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="experience-box" data-title="Analyzing and Visualizing Usage for Common Coordinate Framework UIs">
+    <h3>Analyzing and Visualizing Usage for Common Coordinate Framework User Interfaces | Google Analytics</h3>
+    <div class="slideshow-preview">
+        <img src="../images/cns_logo.png" alt="CCF UI Analytics Overview"/>
+        
+    </div>
+    <p>Analyzed and visualized user interaction data for the CCF's Registration and Exploration User Interfaces using Google Analytics to enhance user experience and interface design.</p>
+    <div class="full-content">
+        <h3>Analyzing and Visualizing Usage for Common Coordinate Framework User Interfaces | Google Analytics</h3>
+        <p>
+            This project focused on understanding how users interact with the Registration User Interface (RUI) and Exploration User Interface (EUI) of the Common Coordinate Framework (CCF), developed by Indiana University's Cyberinfrastructure for Network Science Center. 
+            By leveraging Google Analytics data, we examined user behavior patterns, element usage frequency, and engagement with spatial search and opacity features.
+        </p>
+        <p>
+            The project involved cleaning and preprocessing a dataset of <strong>192,271 user events</strong>, including event timestamps, page locations, and user identifiers. Critical steps included converting Unix epoch timestamps to human-readable formats, handling missing data, and ensuring data consistency for accurate analysis.
+        </p>
+        <p>
+            Our objectives were to:
+            <ul>
+                <li>Analyze frequency distributions of user events, such as clicks, mouse movements, and interactions with UI elements.</li>
+                <li>Identify the most and least used interface components to understand user engagement.</li>
+                <li>Quantify the frequency of opacity changes in the RUI and assess spatial search usage in the EUI.</li>
+                <li>Provide insights to guide interface improvements and feature prioritization.</li>
+            </ul>
+        </p>
+        <p>
+            Visualization techniques included time series analysis to capture engagement trends, bar and pie charts to illustrate UI element usage, and histograms for opacity and spatial search events. Key insights revealed:
+            <ul>
+                <li>Fluctuating engagement over time, highlighting peak usage periods and optimal times for feature rollouts.</li>
+                <li>High interaction with central UI elements, with underutilized features identified for refinement.</li>
+                <li>Specific adoption patterns of spatial search, suggesting areas for personalized feature enhancements.</li>
+                <li>Opacity adjustments in the RUI indicating user interest in visual customization, guiding future UI enhancements.</li>
+            </ul>
+        </p>
+        <p>
+            During validation, we addressed challenges such as data complexity, event identification, missing values, and visualization clarity by:
+            <ul>
+                <li>Implementing sophisticated data filtering and segmentation.</li>
+                <li>Standardizing timestamps and handling missing values through imputation or exclusion.</li>
+                <li>Creating focused, user-centric visualizations for each analytical question.</li>
+                <li>Categorizing user events with refined approaches to highlight meaningful interactions.</li>
+            </ul>
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="../images/fq_uielement.png" alt="Top view before"/>
+                <figcaption>Frequency of UI Elements</figcaption>
+            </figure>
+            <figure>
+                <img src="../images/dashboard_vis.png" alt="Top view after"/>
+                <figcaption>Dashboard to Visualize Google Analytics Data</figcaption>
+            </figure>
+        </div>
+        <p>
+            This work emphasizes the importance of continuous monitoring and data-driven design for improving UI usability. Insights from this analysis can inform longitudinal studies, user segmentation, interface personalization, and potential automated feedback loops, contributing to more responsive and user-friendly CCF interfaces.
+        </p>
+        <p><strong>Acknowledgments:</strong> Special thanks to Andreas Bueckle and Michael Patrick Ginda for guidance, and to all Indiana University Bloomington Visual Analytics course staff for their support.</p>
+    </div>
+</div>
 
 """
 
@@ -466,6 +569,12 @@ a:hover {{ text-decoration:underline; }}
             {experience_boxes}
         </div>
     </section>
+    <section><h2>Impact Projects</h2>
+        <div class="experience-grid">
+            {impact_boxes}
+        </div>
+    </section>
+
 </main>
 
 <div class="modal" id="modal">
