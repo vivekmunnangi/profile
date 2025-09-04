@@ -757,7 +757,7 @@ chatSend.addEventListener('click', async () => {
 
     try {
         // Ask LLM backend
-        const response = await fetch('https://your-backend.onrender.com/ask', {
+        const response = await fetch('https://profile-az1i.onrender.com/ask', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: userMessage })
@@ -767,7 +767,7 @@ chatSend.addEventListener('click', async () => {
         chatBody.scrollTop = chatBody.scrollHeight;
 
         // Send to save conversation endpoint
-        await fetch('https://your-backend.onrender.com/save_conversation', {
+        await fetch('https://profile-az1i.onrender.com/save_conversation', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ user: userMessage, bot: data.response })
