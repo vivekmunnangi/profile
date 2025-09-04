@@ -698,21 +698,26 @@ a:hover {{ text-decoration:underline; }}
 /* Mobile behavior */
 @media (max-width: 768px) {{
   .sidebar {{
-    position: fixed;top: 82px;width: 120px;height: auto;box-shadow: none;padding: 0.5rem;z-index: 1000;overflow-y: auto;
+    position: fixed;
+    top: 80px; /* below header */
+    width: 120px;
+    height: auto;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    padding: 0.5rem;
+    z-index: 1000;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }}
-  .profile {{
-    width: 100%;border-radius: 6px;
+  .profile-pic {{width: 100%;height: auto;border-radius: 50%; object-fit: cover;
   }}
-  .education {{
-    font-size: 0.7rem;text-align: center;
+  .education {{font-size: 0.7rem;text-align: center;
   }}
-  .content {{
-    margin-left: 130px;padding: 1rem;
+  .content {{margin-left: 130px;padding: 1rem;
   }}
-  footer {{
-    margin-left: 0;width: 100%;display: flex;justify-content: center;align-items: center;
-    flex-wrap: wrap;
-    text-align: center;
+  footer {{width: 100%;display: flex;justify-content: center;align-items: center;text-align: center;flex-wrap: wrap;margin: 2rem 0;font-style: italic;font-size: 1rem;
+    color: #333;
   }}
   footer a {{
     margin-left: 0.3rem;
