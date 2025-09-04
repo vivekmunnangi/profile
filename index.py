@@ -698,7 +698,7 @@ a:hover {{ text-decoration:underline; }}
 /* Mobile behavior */
 @media (max-width: 768px) {{
   .sidebar {{
-    position: fixed;top: 82px;width: 120px;height: auto;box-shadow: 2px 0 5px rgba(0,0,0,0.1);padding: 0.5rem;z-index: 1000;overflow-y: auto;
+    position: fixed;top: 82px;width: 120px;height: auto;box-shadow: none;padding: 0.5rem;z-index: 1000;overflow-y: auto;
   }}
   .profile {{
     width: 100%;border-radius: 6px;
@@ -798,9 +798,9 @@ modalClose.addEventListener('click', () => {{ modal.style.display = 'none'; }});
 window.addEventListener('click', (e) => {{ if(e.target == modal) modal.style.display = 'none'; }});
 </script>
 
-<footer style="text-align:center; margin:2rem 0; font-style:italic; font-size:1rem; color:#333;">
+<footer style="text-align:center; margin:2rem 0; font-style:italic; font-size:1rem; color:#333; width: 100%">
     Vivek Reddy Munnangi | 
-    <a href="../resume.pdf" target="_blank" style="color:{primary_color}; text-decoration:none;">
+    <a href="../resume.pdf" target="_blank" style="color:{primary_color}; text-decoration:none;margin-left:0.3rem;">
         Resume
     </a>
 </footer>
