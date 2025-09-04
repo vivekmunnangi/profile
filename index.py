@@ -695,6 +695,70 @@ a:hover {{ text-decoration:underline; }}
 .image-row figure {{ flex:1 1 200px; text-align:center; margin:0; }}
 .image-row img {{ width:100%; height:auto; object-fit:contain; }}
 
+/* Chat Icon */
+.chat-icon {{
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: {primary_color};
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 1200;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}}
+.chat-box {{
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 300px;
+  max-height: 400px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  display: none;
+  flex-direction: column;
+  z-index: 1200;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}}
+.chat-header {{
+  background: {primary_color};
+  color: #fff;
+  padding: 0.5rem;
+  text-align: center;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}}
+.chat-body {{
+  flex: 1;
+  padding: 0.5rem;
+  overflow-y: auto;
+  font-size: 0.9rem;
+}}
+.chat-input {{
+  display: flex;
+  border-top: 1px solid #ccc;
+}}
+.chat-input input {{
+  flex: 1;
+  border: none;
+  padding: 0.5rem;
+  outline: none;
+}}
+.chat-input button {{
+  background: {primary_color};
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}}
+
 /* Mobile behavior */
 @media (max-width: 768px) {{
   .sidebar {{
@@ -718,7 +782,6 @@ a:hover {{ text-decoration:underline; }}
     margin-left: 0.3rem;
   }}
 }}
-
 </style>
 </head>
 <body>
@@ -760,6 +823,17 @@ a:hover {{ text-decoration:underline; }}
     </div>
 </div>
 
+<!-- Chat Icon and Box -->
+<div class="chat-icon" id="chat-icon">💬</div>
+<div class="chat-box" id="chat-box">
+  <div class="chat-header">Ask Me</div>
+  <div class="chat-body" id="chat-body">Hi! How can I help you?</div>
+  <div class="chat-input">
+    <input type="text" id="chat-input" placeholder="Type a message...">
+    <button id="chat-send">Send</button>
+  </div>
+</div>
+
 <script>
 const boxes = document.querySelectorAll('.experience-box');
 const modal = document.getElementById('modal');
@@ -769,14 +843,14 @@ const modalClose = document.getElementById('modal-close');
 // Small preview slideshow
 boxes.forEach(box => {{
     const previewImgs = box.querySelectorAll('.slideshow-preview img');
-    if(previewImgs.length > 0){{
+    if (previewImgs.length > 0) {{
         let current = 0;
         previewImgs[current].classList.add('active');
-        setInterval(()=>{{
+        setInterval(() => {{
             previewImgs[current].classList.remove('active');
-            current = (current+1) % previewImgs.length;
+            current = (current + 1) % previewImgs.length;
             previewImgs[current].classList.add('active');
-        }},3000);
+        }}, 3000);
     }}
 }});
 
@@ -787,7 +861,6 @@ boxes.forEach(box => {{
         if(content) {{
             modalInner.innerHTML = content.innerHTML;
             modal.style.display = 'flex';
-            // Dynamically adjust modal top so it is below header
             const headerHeight = document.querySelector('header').offsetHeight;
             document.getElementById('modal-content').style.marginTop = headerHeight + 'px';
         }}
@@ -796,6 +869,13 @@ boxes.forEach(box => {{
 
 modalClose.addEventListener('click', () => {{ modal.style.display = 'none'; }});
 window.addEventListener('click', (e) => {{ if(e.target == modal) modal.style.display = 'none'; }});
+
+// Chat toggle
+const chatIcon = document.getElementById('chat-icon');
+const chatBox = document.getElementById('chat-box');
+chatIcon.addEventListener('click', () => {{
+  chatBox.style.display = chatBox.style.display === 'flex' ? 'none' : 'flex';
+}});
 </script>
 
 <footer style="text-align:center; margin:2rem 0; font-style:italic; font-size:1rem; color:#333; width: 100%">
@@ -807,6 +887,7 @@ window.addEventListener('click', (e) => {{ if(e.target == modal) modal.style.dis
 </body>
 </html>
 """
+
 
 
 
