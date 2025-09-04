@@ -697,10 +697,11 @@ a:hover {{ text-decoration:underline; }}
 
 /* Mobile behavior */
 @media (max-width: 768px) {{
-  .sidebar {{ position: fixed; top: 80px; width: 120px; height: auto; box-shadow: 2px 0 5px rgba(0,0,0,0.1); padding: 0.5rem; z-index: 1000; overflow-y: auto; }}
+  .sidebar {{ position: fixed; top: 82px; width: 120px; height: auto; box-shadow: 2px 0 5px rgba(0,0,0,0.1); padding: 0.5rem; z-index: 1000; overflow-y: auto; }}
   .profile {{width: 100%; border-radius: 8px;}}
   .education {{font-size: 0.7rem;text-align: center;}}
   .content {{ margin-left: 130px; padding: 1rem; }}
+  footer{{margin-left: 0; text-align: center; width: 100%;}}
 }}
 </style>
 </head>
