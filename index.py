@@ -613,7 +613,7 @@ a:hover {{ text-decoration:underline; }}
 </head>
 <body>
 <header>
-    <img src="logo_url" alt="KNAPP Logo"/>
+    <img src="{{ logo_url }}" alt="Company Logo"/>
     <h1>Career</h1>
 </header>
 
