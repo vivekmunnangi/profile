@@ -508,6 +508,7 @@ impact_boxes = f"""
 
 
 """
+
 # ========== Step 4: Full HTML ==========
 html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -540,39 +541,15 @@ section {{ margin-bottom:3rem; }}
   flex-direction: column;
   align-items: center;
 }}
-.profile-pic {{
-  width: 100%;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-}}
-.education {{
-  font-style: italic;
-  font-size: 0.9rem;
-  color: #333;
-  text-align: center;
-  margin: 0.2rem 0;
-}}
-.content {{
-  margin-left: 250px; /* space for sidebar */
-  padding: 2rem;
-  max-width: 1000px;
-  margin-right: auto;
-}}
+.profile-pic {{ width: 100%; border-radius: 8px; margin-bottom: 1rem; }}
+.education {{ font-style: italic; font-size: 0.9rem; color: #333; text-align: center; margin: 0.2rem 0; }}
+.content {{ margin-left: 250px; padding: 2rem; max-width: 1000px; margin-right: auto; }}
 
 /* Experience Grid */
-.experience-grid {{
-  display: grid;
-  gap: 1.5rem;
-}}
-@media (max-width: 600px) {{
-  .experience-grid {{ grid-template-columns: 1fr; }}
-}}
-@media (min-width: 601px) and (max-width: 1000px) {{
-  .experience-grid {{ grid-template-columns: repeat(2, 1fr); }}
-}}
-@media (min-width: 1001px) {{
-  .experience-grid {{ grid-template-columns: repeat(3, 1fr); }}
-}}
+.experience-grid {{ display: grid; gap: 1.5rem; }}
+@media (max-width: 600px) {{ .experience-grid {{ grid-template-columns: 1fr; }} }}
+@media (min-width: 601px) and (max-width: 1000px) {{ .experience-grid {{ grid-template-columns: repeat(2, 1fr); }} }}
+@media (min-width: 1001px) {{ .experience-grid {{ grid-template-columns: repeat(3, 1fr); }} }}
 .experience-box {{
     background:#fff; padding:1rem; border-left:5px solid {primary_color}; box-shadow:0 0 10px rgba(0,0,0,0.05);
     cursor:pointer; display:flex; flex-direction:column; justify-content:space-between; aspect-ratio:1/1; position:relative;
@@ -587,8 +564,9 @@ section {{ margin-bottom:3rem; }}
 .slideshow-preview img.active {{ opacity:1; }}
 a {{ color:{primary_color}; text-decoration:none; }}
 a:hover {{ text-decoration:underline; }}
-.modal {{ display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index:1000; }}
-.modal-content {{ background:#fff; padding:2rem; max-width:800px; width:90%; max-height:90%; overflow-y:auto; position:relative; border-radius:8px; }}
+
+.modal {{ display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); justify-content:center; align-items:flex-start; z-index:1000; overflow-y:auto; }}
+.modal-content {{ background:#fff; padding:2rem; max-width:800px; width:90%; max-height:90%; overflow-y:auto; position:relative; border-radius:8px; margin-top:80px; }}
 .modal-close {{ position:absolute; top:1rem; right:1rem; font-size:1.5rem; cursor:pointer; color:{primary_color}; }}
 .image-row {{ display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; margin-bottom:1rem; }}
 .image-row figure {{ flex:1 1 200px; text-align:center; margin:0; }}
@@ -596,18 +574,8 @@ a:hover {{ text-decoration:underline; }}
 
 /* Mobile behavior */
 @media (max-width: 768px) {{
-  .sidebar {{
-    position: relative;
-    top: 0;
-    width: 100%;
-    height: auto;
-    box-shadow: none;
-    margin-bottom: 1rem;
-  }}
-  .content {{
-    margin-left: 0;
-    padding: 1rem;
-  }}
+  .sidebar {{ position: relative; top: 0; width: 100%; height: auto; box-shadow: none; margin-bottom: 1rem; }}
+  .content {{ margin-left: 0; padding: 1rem; }}
 }}
 </style>
 </head>
@@ -618,14 +586,12 @@ a:hover {{ text-decoration:underline; }}
 </header>
 
 <div class="container">
-    <!-- Fixed left sidebar -->
     <aside class="sidebar">
         <img src="../images/my_picture.jpg" alt="Vivek Reddy Munnangi" class="profile-pic">
         <p class="education">Masters in Data Science, IU Luddy</p>
         <p class="education">Bachelors in Mechanical Engineering</p>
     </aside>
 
-    <!-- Main scrolling content -->
     <main class="content">
         <section><h2>Company Description</h2><p>{company_description}</p></section>
         <section><h2>Scope</h2><p>{scope_content}</p></section>
@@ -675,6 +641,9 @@ boxes.forEach(box => {{
         if(content) {{
             modalInner.innerHTML = content.innerHTML;
             modal.style.display = 'flex';
+            // Dynamically adjust modal top so it is below header
+            const headerHeight = document.querySelector('header').offsetHeight;
+            document.getElementById('modal-content').style.marginTop = headerHeight + 'px';
         }}
     }});
 }});
@@ -692,6 +661,7 @@ window.addEventListener('click', (e) => {{ if(e.target == modal) modal.style.dis
 </body>
 </html>
 """
+
 
 
 
