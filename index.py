@@ -572,7 +572,7 @@ patent = f"""<div class="experience-box" data-title="3-Phase BLDC Wheel Hub Moto
         <img src="../images/design_motor.jpg" alt="3-Phase BLDC Wheel Hub Motor Design"/>
         <img src="../images/temp_motor.png" alt="Inner Rotor and Outer Stator Assembly"/>
     </div>
-    <p>Developed a compact, lightweight, and high-efficiency 3-phase BLDC wheel hub motor with inner rotor and outer stator configuration, designed for integration into small electric vehicles and hybrid applications.</p>
+    <p>Developed a high-efficiency 3-phase BLDC wheel hub motor for small electric vehicles and hybrid applications.</p>
     <div class="full-content">
         <h3>3-Phase BLDC Wheel Hub Motor - Patent</h3>
         <p>
@@ -724,7 +724,7 @@ a:hover {{ text-decoration:underline; }}
         <section><h2>Work Experience</h2>
             <div class="experience-grid">{experience_boxes}</div>
         </section>
-        <section><h2>Impact Projects</h2>
+        <section><h2>Invension</h2>
             <div class="experience-grid">{patent}</div>
         </section>
         <section><h2>Impact Projects</h2>
