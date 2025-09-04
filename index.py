@@ -524,6 +524,7 @@ impact_boxes = f"""
                 <img src="../images/44_1.jpg" alt="Top view before"/>
                 <figcaption>Picture of SAE Baja ATV Car</figcaption>
             </figure>
+        </div>
         <p>
             As the Head of Powertrain, I was responsible for the **complete design and manufacturing of the ATV’s transmission system** from scratch. This included the gearbox, CVT, drive shafts, gearbox mounting, and rear hub assembly. Key tasks involved defining tolerances, calculating loads on each structural component, designing angles, and ensuring efficient integration with the vehicle chassis. 
         </p>
@@ -540,13 +541,14 @@ impact_boxes = f"""
                 <li>Placed top 5 in maneuverability out of 85 teams from leading Indian universities.</li>
                 <li>Successfully built the university’s first functional Baja vehicle, demonstrating practical engineering, cost optimization, and innovative design solutions.</li>
             </ul>
+        </p>
         <div class="image-row">
             <figure>
                 <img src="../images/44_win1.jpg" alt="Top view before"/>
                 <figcaption>Top Step in Acceleration test</figcaption>
             </figure>
         </div>
-        </p>
+        
         <p>
             This experience not only strengthened my mechanical design, manufacturing, and project management skills, but also honed my ability to make high-impact decisions under budget and time constraints while leading a team to execute complex engineering projects.
         </p>
@@ -558,6 +560,72 @@ impact_boxes = f"""
                 <img src="../images/cons_fema.jpg" alt="Top view before"/>
                 <figcaption>SAE Supra car</figcaption>
             </figure>
+    </div>
+</div>
+
+
+"""
+
+patent = f"""<div class="experience-box" data-title="3-Phase BLDC Wheel Hub Motor Patent">
+    <h3>3-Phase BLDC Wheel Hub Motor | Patent</h3>
+    <div class="slideshow-preview">
+        <img src="../images/design_motor.jpg" alt="3-Phase BLDC Wheel Hub Motor Design"/>
+        <img src="../images/temp_motor.png" alt="Inner Rotor and Outer Stator Assembly"/>
+    </div>
+    <p>Developed a compact, lightweight, and high-efficiency 3-phase BLDC wheel hub motor with inner rotor and outer stator configuration, designed for integration into small electric vehicles and hybrid applications.</p>
+    <div class="full-content">
+        <h3>3-Phase BLDC Wheel Hub Motor - Patent</h3>
+        <p>
+            This invention focuses on the design, development, and optimization of a 3-phase BLDC wheel hub motor with an inner rotor and outer stator. The motor is designed to reduce wheel size while maintaining high torque and efficiency. Key components include the stator, rotor, and Hall sensors for precise rotor position detection.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="../images/design_motor.jpg" alt="Top view before"/>
+                <figcaption>Design of motor</figcaption>
+            </figure>
+            <figure>
+                <img src="../images/temp_motor.png" alt="Top view before"/>
+                <figcaption>Thermal simulation of motor</figcaption>
+            </figure>
+        </div>
+        <p>
+            The stator is constructed using laminated material to minimize eddy current losses and contains 18 slots arranged in a star winding pattern for copper coils. The **rotor** uses six high-flux Neodymium permanent magnets, chosen to maximize torque output in a compact form factor. Hall sensors are employed to synchronize stator excitation, enabling smooth rotation and efficient electronic commutation.
+        </p>
+        <p>
+            Each design parameter—pole count, slot number, coil turns, and rotor geometry—was evaluated through multiple iterative simulations, generating large datasets for performance, torque, thermal, and magnetic efficiency. I applied machine learning models to analyze these outputs, identify patterns, and predict optimal configurations for the next iteration, effectively connecting the dots between simulations and achieving highly efficient motor designs.
+        </p>
+        <p>
+            The design allows for direct integration into the wheel, eliminating the need for conventional drivetrains, gearboxes, axles, or differentials. This results in weight reduction, lower maintenance, improved vehicle dynamics, and greater interior design flexibility.
+        </p>
+        <p>
+            Design considerations included:
+            <ul>
+                <li>Inner rotor and outer stator configuration to reduce motor diameter and improve torque-to-size ratio.</li>
+                <li>Iterative optimization of pole count, slot number, and coil turns for desired performance using ML-assisted analysis.</li>
+                <li>Evaluation of multiple rotor core designs (curved, rectangular, perpendicular magnets) for optimal surface fit and torque efficiency.</li>
+                <li>Use of cost-effective materials while ensuring high thermal performance and reliability.</li>
+                <li>Minimized cogging torque and high dynamic response for fast acceleration and precise control.</li>
+            </ul>
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="../images/cd_motor.png" alt="Top view before"/>
+                <figcaption>Current Density simulation</figcaption>
+            </figure>
+            <figure>
+                <img src="../images/ct_motor.png" alt="Top view before"/>
+                <figcaption>Cogging Torque simulation</figcaption>
+            </figure>
+        </div>
+        <p>
+            Advantages of this motor include smaller wheel size, improved torque-to-size ratio, higher efficiency, reduced weight, and simplified drivetrain design. The motor can be used in hybrid or fully electric vehicles with small wheel rims (5.9–10 inches).
+        </p>
+        <p>
+            Working on this project sparked my interest in data-driven engineering and ML applications in mechatronics, inspiring me to pursue a Master’s in Data Science at Indiana University. This allowed me to deepen my expertise in data analysis, predictive modeling, and optimization, and eventually join the IU Autonomous Racing Team to apply these skills to real-world autonomous vehicle systems.
+        </p>
+        <p>
+            Overall, this patent project strengthened my skills in electromechanical design, motor optimization, iterative analysis, and innovation for electric vehicle systems, while also bridging my interest in data science and autonomous technologies.
+        </p>
     </div>
 </div>
 
@@ -657,8 +725,12 @@ a:hover {{ text-decoration:underline; }}
             <div class="experience-grid">{experience_boxes}</div>
         </section>
         <section><h2>Impact Projects</h2>
+            <div class="experience-grid">{patent}</div>
+        </section>
+        <section><h2>Impact Projects</h2>
             <div class="experience-grid">{impact_boxes}</div>
         </section>
+        
     </main>
 </div>
 
