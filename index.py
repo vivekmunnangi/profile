@@ -630,7 +630,7 @@ a:hover {{ text-decoration:underline; }}
         <section><h2>Company Description</h2><p>{company_description}</p></section>
         <section><h2>Scope</h2><p>{scope_content}</p></section>
         <section><h2>Work Culture</h2><p>{culture_content}</p></section>
-        <section><h2>Motivation to Join KNAPP</h2><p>{motivation_content}</p></section>
+        <section><h2>Motivation to Join google</h2><p>{motivation_content}</p></section>
         <section><h2>Why I am a Great Fit</h2><p>{fit_reason}</p></section>
         <section><h2>Work Experience</h2>
             <div class="experience-grid">{experience_boxes}</div>
