@@ -632,7 +632,7 @@ patent = f"""<div class="experience-box" data-title="3-Phase BLDC Wheel Hub Moto
 
 """
 
-# ========== Step 4: Full HTML ==========
+# ========== Step 4: Full HTML with Chat + Save Conversation ==========
 html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -702,8 +702,8 @@ a:hover {{ text-decoration:underline; }}
   right: 20px;
   background: {primary_color};
   color: white;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -717,8 +717,8 @@ a:hover {{ text-decoration:underline; }}
   position: fixed;
   bottom: 80px;
   right: 20px;
-  width: 300px;
-  max-height: 400px;
+  width: 350px;
+  max-height: 450px;
   background: #fff;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -741,6 +741,8 @@ a:hover {{ text-decoration:underline; }}
   overflow-y: auto;
   font-size: 0.9rem;
 }}
+.chat-message-user {{ text-align: right; margin: 0.3rem 0; }}
+.chat-message-bot {{ text-align: left; margin: 0.3rem 0; }}
 .chat-input {{
   display: flex;
   border-top: 1px solid #ccc;
@@ -812,7 +814,6 @@ a:hover {{ text-decoration:underline; }}
         <section><h2>Impact Projects</h2>
             <div class="experience-grid">{impact_boxes}</div>
         </section>
-        
     </main>
 </div>
 
@@ -827,7 +828,7 @@ a:hover {{ text-decoration:underline; }}
 <div class="chat-icon" id="chat-icon">💬</div>
 <div class="chat-box" id="chat-box">
   <div class="chat-header">Ask Me</div>
-  <div class="chat-body" id="chat-body">Hi! How can I help you?</div>
+  <div class="chat-body" id="chat-body"><div class="chat-message-bot">Hi! How can I help you?</div></div>
   <div class="chat-input">
     <input type="text" id="chat-input" placeholder="Type a message...">
     <button id="chat-send">Send</button>
@@ -875,6 +876,41 @@ const chatIcon = document.getElementById('chat-icon');
 const chatBox = document.getElementById('chat-box');
 chatIcon.addEventListener('click', () => {{
   chatBox.style.display = chatBox.style.display === 'flex' ? 'none' : 'flex';
+}});
+
+// Chat send logic
+const chatSend = document.getElementById('chat-send');
+const chatInput = document.getElementById('chat-input');
+const chatBody = document.getElementById('chat-body');
+
+chatSend.addEventListener('click', async () => {{
+    const userMessage = chatInput.value.trim();
+    if (!userMessage) return;
+
+    // Display user message
+    chatBody.innerHTML += `<div class="chat-message-user">${{userMessage}}</div>`;
+    chatInput.value = '';
+
+    try {{
+        // Ask LLM backend
+        const response = await fetch('https://your-backend.onrender.com/ask', {{
+            method: 'POST',
+            headers: {{ 'Content-Type': 'application/json' }},
+            body: JSON.stringify({{ message: userMessage }})
+        }});
+        const data = await response.json();
+        chatBody.innerHTML += `<div class="chat-message-bot">${{data.response}}</div>`;
+        chatBody.scrollTop = chatBody.scrollHeight;
+
+        // Send to save conversation endpoint
+        await fetch('https://your-backend.onrender.com/save_conversation', {{
+            method: 'POST',
+            headers: {{ 'Content-Type': 'application/json' }},
+            body: JSON.stringify({{ user: userMessage, bot: data.response }})
+        }});
+    }} catch (err) {{
+        chatBody.innerHTML += `<div class="chat-message-bot">Error: Could not fetch response.</div>`;
+    }}
 }});
 </script>
 
