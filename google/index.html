@@ -62,8 +62,10 @@ a:hover { text-decoration:underline; }
 
 /* Mobile behavior */
 @media (max-width: 768px) {
-  .sidebar { position: fixed; top: 0; width: 100%; height: auto; margin-bottom: 1rem; }
-  .content { margin-left: 0; padding: 1rem; }
+  .sidebar { position: fixed; top: 80px; width: 120px; height: auto; box-shadow: 2px 0 5px rgba(0,0,0,0.1); padding: 0.5rem; z-index: 1000; overflow-y: auto; }
+  .profile {width: 100%; border-radius: 8px;}
+  .education {font-size: 0.7rem;text-align: center;}
+  .content { margin-left: 130px; padding: 1rem; }
 }
 </style>
 </head>
