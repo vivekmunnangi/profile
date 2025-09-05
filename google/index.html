@@ -55,8 +55,8 @@ section { margin-bottom:3rem; scroll-margin-top:90px; }
 
 .experience-box {
   scroll-snap-align: center;
-  width: 320px;
-  height: 350px;
+  width: 300px;
+  height: 325px;
   flex: 0 0 auto;
   background: rgba(255,255,255,0.85);
   backdrop-filter: blur(8px);
@@ -103,17 +103,17 @@ a:hover { text-decoration:underline; }
 /* Chat */
 .chat-icon {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 30px;
+  right: 30px;
   background: #0055a5;
   color: white;
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 24px;
+  font-size: 36px;
   cursor: pointer;
   z-index: 1200;
   box-shadow: 0 2px 6px rgba(0,0,0,0.3);
@@ -122,8 +122,8 @@ a:hover { text-decoration:underline; }
   position: fixed;
   bottom: 80px;
   right: 20px;
-  width: 350px;
-  max-height: 450px;
+  width: 400px;
+  max-height: 550px;
   background: #fff;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -133,7 +133,7 @@ a:hover { text-decoration:underline; }
   box-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 .chat-header { background: #0055a5; color: #fff; padding: 0.5rem; text-align: center; border-top-left-radius: 8px; border-top-right-radius: 8px; }
-.chat-body { flex: 1; padding: 0.5rem; overflow-y: auto; font-size: 0.9rem; }
+.chat-body { flex: 1; padding: 0.5rem; overflow-y: auto; font-size: 1.2rem; }
 .chat-message-user { text-align: right; margin: 0.3rem 0; }
 .chat-message-bot { text-align: left; margin: 0.3rem 0; }
 .chat-input { display: flex; border-top: 1px solid #ccc; }
@@ -750,28 +750,25 @@ function initSlider(sliderId) {
         const clickedCard = e.target.closest('.experience-box');
         if(!clickedCard) return;
 
-        // Decide if clicked card is already centered (use threshold)
-        const sliderCenter = slider.scrollLeft + slider.offsetWidth / 2;
-        const cardCenter = clickedCard.offsetLeft + clickedCard.offsetWidth / 2;
-        const distance = Math.abs(sliderCenter - cardCenter);
-        const threshold = clickedCard.offsetWidth * 0.15; // 15% width tolerance
+        const centerCardEl = slider.querySelector('.experience-box.center');
 
-        if(distance <= threshold) {
-            // already centered -> open modal with full-content
+        if(centerCardEl === clickedCard) {
+            // Already centered → OPEN MODAL
             const content = clickedCard.querySelector('.full-content');
-            if(content) {
+            if(content){
                 document.getElementById('modal-inner').innerHTML = content.innerHTML;
                 document.getElementById('modal').style.display='flex';
                 const headerHeight = document.querySelector('header').offsetHeight;
                 document.getElementById('modal-content').style.marginTop = headerHeight + 'px';
             }
         } else {
-            // center the clicked card
+            // Not centered → MOVE it to center
             centerCard(clickedCard);
-            // (updateCenterCard will run on scroll and add 'center' class)
         }
     });
-}
+
+    });
+
 
 // Initialize sliders
 initSlider('work-slider');
