@@ -15,11 +15,11 @@ h1,h2,h3 { color:#0055a5; }
 h2 { border-bottom:2px solid #0055a5; padding-bottom:0.3rem; margin-bottom:1rem; }
 section { margin-bottom:3rem; }
 
-.container { display: flex; margin-top:80px; } /* leave space for fixed header */
+.container { display: flex; margin-top:80px; }
 .sidebar {
   width: 220px;
   position: fixed;
-  top: 80px; /* below header */
+  top: 80px;
   left: 0;
   height: calc(100vh - 80px);
   padding: 2rem 1rem;
@@ -33,46 +33,52 @@ section { margin-bottom:3rem; }
 .education { font-style: italic; font-size: 0.9rem; color: #333; text-align: center; margin: 0.2rem 0; }
 .content { margin-left: 250px; padding: 2rem; max-width: 1000px; margin-right: auto; }
 
-/* Horizontal slider for experience & projects */
+/* Horizontal slider for experience */
 .experience-slider-container {
-  display:flex;
-  overflow-x:auto;
-  overflow-y:hidden;
-  gap:2rem;
-  padding-bottom:2rem;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  gap: 2rem;
+  padding-bottom: 2rem;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
+  padding-left: 50%;
+  box-sizing: content-box;
 }
 .experience-slider-container::-webkit-scrollbar { height:8px; }
 .experience-slider-container::-webkit-scrollbar-thumb { background: #0055a5; border-radius:4px; }
 
 .experience-box {
-  min-width:260px;
-  max-width:280px;
-  flex:0 0 auto;
+  scroll-snap-align: center;
+  min-width: 260px;
+  max-width: 280px;
+  flex: 0 0 auto;
   background: rgba(255,255,255,0.85);
   backdrop-filter: blur(8px);
-  padding:1rem;
-  border-left:5px solid #0055a5;
-  box-shadow:0 6px 18px rgba(0,0,0,0.06);
-  cursor:pointer;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  position:relative;
-  border-radius:12px;
-  scroll-snap-align: center;
-  transition: transform 0.3s;
+  padding: 1rem;
+  border-left: 5px solid #0055a5;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  border-radius: 12px;
+  transition: transform 0.4s, box-shadow 0.4s;
+  cursor: pointer;
+  transform: scale(0.9);
+}
+.experience-box.center {
+  transform: scale(1.3);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  z-index: 10;
 }
 .experience-box h3 { margin-top:0; text-align:center; }
 .experience-box p { text-align:center; margin-top:0.5rem; }
 .experience-box .full-content { display:none; }
-.slideshow-preview { position:relative; width:100%; flex:1; margin:0.5rem 0; overflow:hidden; }
+
+.slideshow-preview {
+  position:relative; width:100%; flex:1; margin:0.5rem 0; overflow:hidden;
+}
 .slideshow-preview img {
   position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 1s;
 }
 .slideshow-preview img.active { opacity:1; }
-.experience-box.center { transform: scale(1.3); z-index:10; }
 
 a { color:#0055a5; text-decoration:none; }
 a:hover { text-decoration:underline; }
@@ -173,11 +179,12 @@ a:hover { text-decoration:underline; }
         <section><h2>Company Description</h2><p>Google’s mission is to organize the world’s information and make it universally accessible and useful. Founded in 1998 by Larry Page and Sergey Brin, Google has grown from a dorm-room project into a global technology leader, creating products that serve billions of users daily, including Google Search, YouTube, Android, Gmail, and Google Cloud. At its core, Google leverages cutting-edge technology, artificial intelligence, and machine learning to solve complex problems, enhance user experiences, and enable meaningful connections worldwide. Beyond products, Google drives innovation through AI research, exploring applications in natural language processing, computer vision, generative AI, and large-scale data systems. The company prioritizes accessibility, fairness, and inclusivity in all its technological solutions, ensuring that its impact benefits communities globally while maintaining a culture of collaboration, creativity, and ethical innovation.</p></section>
         <section><h2>Scope</h2><p>At Google, the scope of work is broad and impactful, spanning multiple domains including AI, ML, cloud computing, computer vision, natural language processing, and generative AI. Engineers contribute to projects that operate at massive scale, influencing billions of users globally. Whether implementing computer vision solutions for YouTube, developing LLM-based tools for Search, or creating multi-modal generative AI models for Google Cloud, the scope involves both deep technical challenges and strategic innovation. Projects require designing scalable infrastructure, optimizing model performance, processing vast datasets, and building systems that are reliable, efficient, and secure. The work scope is not limited to individual contributions—engineers collaborate across teams, bridging research and production, while maintaining a focus on solving real-world problems that enhance accessibility, usability, and fairness for end-users everywhere.</p></section>
         <section><h2>Work Culture</h2><p>Google fosters a unique, collaborative, and innovative work culture. Creativity, curiosity, and experimentation are highly encouraged, allowing teams to explore unconventional solutions while adhering to best practices. The company values diversity and inclusivity, emphasizing that teams should reflect the communities their products serve. Cross-functional collaboration is common, and employees are empowered to contribute ideas, challenge assumptions, and participate in decision-making processes. Google also prioritizes learning and professional growth, providing access to state-of-the-art technologies, mentorship programs, and opportunities to rotate across teams. Work-life balance, employee well-being, and a supportive environment contribute to a culture where innovation thrives and everyone can meaningfully impact technology for billions of users.</p></section>
-        <section><h2>Motivation to Join google</h2><p>I am motivated to work at Google because of its unparalleled commitment to leveraging technology to solve complex, real-world problems at scale. The opportunity to work on projects involving AI, ML, computer vision, and generative AI, while directly impacting billions of users, aligns perfectly with my passion for applying technical knowledge to meaningful challenges. Google’s focus on fairness, accessibility, and inclusivity resonates with my values, and the company’s culture of innovation, collaboration, and continuous learning inspires me to contribute my best. Being part of an organization that encourages experimentation, embraces emerging technologies, and pushes the boundaries of what’s possible motivates me to grow as an engineer while contributing to transformative solutions.</p></section>
+        <section><h2>Motivation to Join Google</h2><p>I am motivated to work at Google because of its unparalleled commitment to leveraging technology to solve complex, real-world problems at scale. The opportunity to work on projects involving AI, ML, computer vision, and generative AI, while directly impacting billions of users, aligns perfectly with my passion for applying technical knowledge to meaningful challenges. Google’s focus on fairness, accessibility, and inclusivity resonates with my values, and the company’s culture of innovation, collaboration, and continuous learning inspires me to contribute my best. Being part of an organization that encourages experimentation, embraces emerging technologies, and pushes the boundaries of what’s possible motivates me to grow as an engineer while contributing to transformative solutions.</p></section>
         <section><h2>Why I am a Great Fit</h2><p>I am a strong fit for this role because my academic and professional background aligns closely with Google’s technical and cultural requirements. I have experience in AI, ML, computer vision, deep learning, and large-scale data processing, with hands-on expertise in Python, C++, R, SQL, ROS2, TensorFlow, PyTorch, and relevant frameworks. My work on autonomous vehicles, medical image registration, and real-time API systems demonstrates my ability to design, optimize, and deploy complex software solutions. I am a fast learner, capable of adapting to new technologies and concepts, and I thrive in collaborative, cross-functional environments. My problem-solving skills, combined with strong teamwork, leadership experience, and a commitment to delivering high-quality results, make me well-prepared to contribute effectively to Google’s projects and culture.</p></section>
         
         <section><h2>Work Experience</h2>
             <div class="experience-slider-container">
+                
 <div class="experience-box" data-title="Research Engineer, VAIL IU">
     <h3>Research Engineer, VAIL IU</h3>
     <div class="slideshow-preview">
@@ -612,7 +619,8 @@ a:hover { text-decoration:underline; }
 </div>
 
 
-</div>
+
+            </div>
         </section>
 
         <section><h2>Invention</h2>
@@ -709,113 +717,65 @@ const modal = document.getElementById('modal');
 const modalInner = document.getElementById('modal-inner');
 const modalClose = document.getElementById('modal-close');
 
-// Slideshow
 boxes.forEach(box => {
-    const previewImgs = box.querySelectorAll('.slideshow-preview img');
-    if(previewImgs.length > 0) {
-        let current = 0;
-        previewImgs[current].classList.add('active');
-        setInterval(() => {
-            previewImgs[current].classList.remove('active');
-            current = (current+1) % previewImgs.length;
-            previewImgs[current].classList.add('active');
-        },3000);
-    }
-});
-
-// Modal
-boxes.forEach(box => {
-    box.addEventListener('click', () => {
-        const content = box.querySelector('.full-content');
-        if(content) {
-            modalInner.innerHTML = content.innerHTML;
-            modal.style.display='flex';
-            const headerHeight = document.querySelector('header').offsetHeight;
-            document.getElementById('modal-content').style.marginTop = headerHeight+'px';
-        }
-    });
-});
-modalClose.addEventListener('click',()=>{ modal.style.display='none'; });
-window.addEventListener('click',(e)=>{ if(e.target==modal) modal.style.display='none'; });
-
-// Chat toggle
-const chatIcon = document.getElementById('chat-icon');
-const chatBox = document.getElementById('chat-box');
-chatIcon.addEventListener('click', ()=>{ chatBox.style.display = chatBox.style.display==='flex'?'none':'flex'; });
-
-// Send chat
-const chatSend = document.getElementById('chat-send');
-const chatInput = document.getElementById('chat-input');
-const chatBody = document.getElementById('chat-body');
-
-async function sendChat(){
-  const userMessage = chatInput.value.trim();
-  if(!userMessage) return;
-  chatBody.innerHTML += `<div class="chat-message-user">${userMessage}</div>`;
-  chatInput.value='';
-  try{
-      const response = await fetch('https://profile-az1i.onrender.com/ask', {
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({message:userMessage})
-      });
-      const data = await response.json();
-      chatBody.innerHTML += `<div class="chat-message-bot">${data.response}</div>`;
-      chatBody.scrollTop = chatBody.scrollHeight;
-      await fetch('https://profile-az1i.onrender.com/save_conversation', {
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({user:userMessage, bot:data.response})
-      });
-  }catch(err){
-      chatBody.innerHTML += `<div class="chat-message-bot">Error: Could not fetch response.</div>`;
+  const previewImgs = box.querySelectorAll('.slideshow-preview img');
+  if (previewImgs.length > 0) {
+    let current = 0;
+    previewImgs[current].classList.add('active');
+    setInterval(() => {
+      previewImgs[current].classList.remove('active');
+      current = (current + 1) % previewImgs.length;
+      previewImgs[current].classList.add('active');
+    }, 3000);
   }
-}
-chatSend.addEventListener('click',sendChat);
-chatInput.addEventListener('keypress',(e)=>{ if(e.key==='Enter'){ e.preventDefault(); sendChat(); } });
+});
 
-// Voice input
-const voiceBtn = document.getElementById('chat-voice');
-if('webkitSpeechRecognition' in window){
-    const recognition = new webkitSpeechRecognition();
-    recognition.continuous=false;
-    recognition.interimResults=false;
-    recognition.lang="en-US";
-    voiceBtn.addEventListener('click',()=>{ recognition.start(); });
-    recognition.onresult=function(event){
-        const transcript = event.results[0][0].transcript;
-        chatInput.value=transcript;
-        sendChat();
-    };
-}
-
-// Center-focused carousel effect
-function updateCenterCard(slider){
+function updateCenterCard(slider) {
   const cards = slider.querySelectorAll('.experience-box');
   const sliderRect = slider.getBoundingClientRect();
-  let closestCard=null;
-  let closestDistance=Infinity;
-  cards.forEach(card=>{
-      const cardRect = card.getBoundingClientRect();
-      const cardCenter = cardRect.left+cardRect.width/2;
-      const sliderCenter = sliderRect.left+sliderRect.width/2;
-      const distance = Math.abs(cardCenter-sliderCenter);
-      if(distance<closestDistance){
-          closestDistance = distance;
-          closestCard=card;
-      }
+  let closestCard = null;
+  let closestDistance = Infinity;
+
+  cards.forEach(card => {
+    const cardRect = card.getBoundingClientRect();
+    const cardCenter = cardRect.left + cardRect.width / 2;
+    const sliderCenter = sliderRect.left + sliderRect.width / 2;
+    const distance = Math.abs(cardCenter - sliderCenter);
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      closestCard = card;
+    }
   });
-  cards.forEach(card=>card.classList.remove('center'));
-  if(closestCard) closestCard.classList.add('center');
+
+  cards.forEach(card => card.classList.remove('center'));
+  if (closestCard) closestCard.classList.add('center');
 }
-document.querySelectorAll('.experience-slider-container').forEach(slider=>{
-    slider.addEventListener('scroll',()=>updateCenterCard(slider));
-    updateCenterCard(slider);
+
+document.querySelectorAll('.experience-slider-container').forEach(slider => {
+  slider.addEventListener('scroll', () => updateCenterCard(slider));
+  updateCenterCard(slider);
+
+  slider.addEventListener('click', e => {
+    const centerCard = slider.querySelector('.experience-box.center');
+    if (!centerCard) return;
+    if (centerCard.contains(e.target)) {
+      const content = centerCard.querySelector('.full-content');
+      if (content) {
+        modalInner.innerHTML = content.innerHTML;
+        modal.style.display = 'flex';
+        const headerHeight = document.querySelector('header').offsetHeight;
+        document.getElementById('modal-content').style.marginTop = headerHeight + 'px';
+      }
+    }
+  });
 });
+
+modalClose.addEventListener('click', () => modal.style.display = 'none');
+window.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none'; });
 </script>
 
 <footer style="text-align:center; margin:2rem 0; font-style:italic; font-size:1rem; color:#333; width:100%">
-    Vivek Reddy Munnangi | 
+    Vivek Reddy Munnangi |
     <a href="../resume.pdf" target="_blank" style="color:#0055a5; text-decoration:none;margin-left:0.3rem;">
         Resume
     </a>
