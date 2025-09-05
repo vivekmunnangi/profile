@@ -5,12 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Portfolio</title>
 <style>
-body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:0; background:#f0f4f8; color:#333; }
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:0; background:#f0f4f8; color:#333; scroll-behavior:smooth; }
 header {
-  display:flex; align-items:center; padding:1rem 2rem; background:#fff; border-bottom:2px solid #ccc;
+  display:flex; align-items:center; justify-content:space-between; padding:1rem 2rem; background:#fff; border-bottom:2px solid #ccc;
   position: fixed; top:0; left:0; width:100%; z-index:1100;
 }
+.header-left { display:flex; align-items:center; }
 header img { height:60px; margin-right:20px; }
+header nav { display:flex; gap:1rem; }
+header nav a { color:#0055a5; font-weight:bold; cursor:pointer; text-decoration:none; }
+header nav a:hover { text-decoration:underline; }
+
 h1,h2,h3 { color:#0055a5; }
 h2 { border-bottom:2px solid #0055a5; padding-bottom:0.3rem; margin-bottom:1rem; }
 section { margin-bottom:3rem; }
@@ -42,11 +47,12 @@ section { margin-bottom:3rem; }
   padding: 2rem 0;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
-  padding-left: 50vw; /* extra padding to allow first card centering */
-  padding-right: 50vw; /* extra padding to allow last card centering */
+  padding-left: 50vw;
+  padding-right: 50vw;
 }
-.experience-slider-container::-webkit-scrollbar { height:8px; }
-.experience-slider-container::-webkit-scrollbar-thumb { background: #0055a5; border-radius:4px; }
+/* Hide scrollbar but keep scrollable */
+.experience-slider-container::-webkit-scrollbar { display:none; }
+.experience-slider-container { -ms-overflow-style:none; scrollbar-width:none; }
 
 .experience-box {
   scroll-snap-align: center;
@@ -125,14 +131,7 @@ a:hover { text-decoration:underline; }
   z-index: 1200;
   box-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
-.chat-header {
-  background: #0055a5;
-  color: #fff;
-  padding: 0.5rem;
-  text-align: center;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-}
+.chat-header { background: #0055a5; color: #fff; padding: 0.5rem; text-align: center; border-top-left-radius: 8px; border-top-right-radius: 8px; }
 .chat-body { flex: 1; padding: 0.5rem; overflow-y: auto; font-size: 0.9rem; }
 .chat-message-user { text-align: right; margin: 0.3rem 0; }
 .chat-message-bot { text-align: left; margin: 0.3rem 0; }
@@ -143,38 +142,40 @@ a:hover { text-decoration:underline; }
 
 /* Mobile modal popup effect */
 @media (max-width: 768px) {
-    .modal-content {
-        width: calc(100% - 40px);
-        max-width: calc(100% - 40px);
-        max-height: calc(90% - 40px);
-        margin: 20px auto;
-        border-radius: 12px;
-    }
+    .modal-content { width: calc(100% - 40px); max-width: calc(100% - 40px); max-height: calc(90% - 40px); margin: 20px auto; border-radius: 12px; }
 }
 </style>
 </head>
 <body>
 <header>
+  <div class="header-left">
     <img src="https://www.gstatic.com/marketing-cms/assets/images/f5/d3/a7f9db7045429cb6dc6be56bdcbe/google-logo-about.svg" alt="Company Logo"/>
     <h1>Career</h1>
+  </div>
+  <nav>
+    <a href="#fit-section">Why I am Good Fit</a>
+    <a href="#work-section">Work Experience</a>
+    <a href="#impact-section">Impact Projects</a>
+    <a href="#invention-section">Invention</a>
+  </nav>
 </header>
 
 <div class="container">
-    <aside class="sidebar">
-        <img src="../images/my_picture.jpg" alt="Vivek Reddy Munnangi" class="profile-pic">
-        <p class="education">Masters in Data Science, IU Luddy</p>
-        <p class="education">Bachelors in Mechanical Engineering</p>
-    </aside>
+  <aside class="sidebar">
+      <img src="../images/my_picture.jpg" alt="Vivek Reddy Munnangi" class="profile-pic">
+      <p class="education">Masters in Data Science, IU Luddy</p>
+      <p class="education">Bachelors in Mechanical Engineering</p>
+  </aside>
 
-    <main class="content">
-        <section><h2>Company Description</h2><p>Google’s mission is to organize the world’s information and make it universally accessible and useful. Founded in 1998 by Larry Page and Sergey Brin, Google has grown from a dorm-room project into a global technology leader, creating products that serve billions of users daily, including Google Search, YouTube, Android, Gmail, and Google Cloud. At its core, Google leverages cutting-edge technology, artificial intelligence, and machine learning to solve complex problems, enhance user experiences, and enable meaningful connections worldwide. Beyond products, Google drives innovation through AI research, exploring applications in natural language processing, computer vision, generative AI, and large-scale data systems. The company prioritizes accessibility, fairness, and inclusivity in all its technological solutions, ensuring that its impact benefits communities globally while maintaining a culture of collaboration, creativity, and ethical innovation.</p></section>
-        <section><h2>Scope</h2><p>At Google, the scope of work is broad and impactful, spanning multiple domains including AI, ML, cloud computing, computer vision, natural language processing, and generative AI. Engineers contribute to projects that operate at massive scale, influencing billions of users globally. Whether implementing computer vision solutions for YouTube, developing LLM-based tools for Search, or creating multi-modal generative AI models for Google Cloud, the scope involves both deep technical challenges and strategic innovation. Projects require designing scalable infrastructure, optimizing model performance, processing vast datasets, and building systems that are reliable, efficient, and secure. The work scope is not limited to individual contributions—engineers collaborate across teams, bridging research and production, while maintaining a focus on solving real-world problems that enhance accessibility, usability, and fairness for end-users everywhere.</p></section>
-        <section><h2>Work Culture</h2><p>Google fosters a unique, collaborative, and innovative work culture. Creativity, curiosity, and experimentation are highly encouraged, allowing teams to explore unconventional solutions while adhering to best practices. The company values diversity and inclusivity, emphasizing that teams should reflect the communities their products serve. Cross-functional collaboration is common, and employees are empowered to contribute ideas, challenge assumptions, and participate in decision-making processes. Google also prioritizes learning and professional growth, providing access to state-of-the-art technologies, mentorship programs, and opportunities to rotate across teams. Work-life balance, employee well-being, and a supportive environment contribute to a culture where innovation thrives and everyone can meaningfully impact technology for billions of users.</p></section>
-        <section><h2>Motivation to Join Google</h2><p>I am motivated to work at Google because of its unparalleled commitment to leveraging technology to solve complex, real-world problems at scale. The opportunity to work on projects involving AI, ML, computer vision, and generative AI, while directly impacting billions of users, aligns perfectly with my passion for applying technical knowledge to meaningful challenges. Google’s focus on fairness, accessibility, and inclusivity resonates with my values, and the company’s culture of innovation, collaboration, and continuous learning inspires me to contribute my best. Being part of an organization that encourages experimentation, embraces emerging technologies, and pushes the boundaries of what’s possible motivates me to grow as an engineer while contributing to transformative solutions.</p></section>
-        <section><h2>Why I am a Great Fit</h2><p>I am a strong fit for this role because my academic and professional background aligns closely with Google’s technical and cultural requirements. I have experience in AI, ML, computer vision, deep learning, and large-scale data processing, with hands-on expertise in Python, C++, R, SQL, ROS2, TensorFlow, PyTorch, and relevant frameworks. My work on autonomous vehicles, medical image registration, and real-time API systems demonstrates my ability to design, optimize, and deploy complex software solutions. I am a fast learner, capable of adapting to new technologies and concepts, and I thrive in collaborative, cross-functional environments. My problem-solving skills, combined with strong teamwork, leadership experience, and a commitment to delivering high-quality results, make me well-prepared to contribute effectively to Google’s projects and culture.</p></section>
+  <main class="content">
+      <section id="company-section"><h2>Company Description</h2><p>Google’s mission is to organize the world’s information and make it universally accessible and useful. Founded in 1998 by Larry Page and Sergey Brin, Google has grown from a dorm-room project into a global technology leader, creating products that serve billions of users daily, including Google Search, YouTube, Android, Gmail, and Google Cloud. At its core, Google leverages cutting-edge technology, artificial intelligence, and machine learning to solve complex problems, enhance user experiences, and enable meaningful connections worldwide. Beyond products, Google drives innovation through AI research, exploring applications in natural language processing, computer vision, generative AI, and large-scale data systems. The company prioritizes accessibility, fairness, and inclusivity in all its technological solutions, ensuring that its impact benefits communities globally while maintaining a culture of collaboration, creativity, and ethical innovation.</p></section>
+      <section id="scope-section"><h2>Scope</h2><p>At Google, the scope of work is broad and impactful, spanning multiple domains including AI, ML, cloud computing, computer vision, natural language processing, and generative AI. Engineers contribute to projects that operate at massive scale, influencing billions of users globally. Whether implementing computer vision solutions for YouTube, developing LLM-based tools for Search, or creating multi-modal generative AI models for Google Cloud, the scope involves both deep technical challenges and strategic innovation. Projects require designing scalable infrastructure, optimizing model performance, processing vast datasets, and building systems that are reliable, efficient, and secure. The work scope is not limited to individual contributions—engineers collaborate across teams, bridging research and production, while maintaining a focus on solving real-world problems that enhance accessibility, usability, and fairness for end-users everywhere.</p></section>
+      <section id="culture-section"><h2>Work Culture</h2><p>Google fosters a unique, collaborative, and innovative work culture. Creativity, curiosity, and experimentation are highly encouraged, allowing teams to explore unconventional solutions while adhering to best practices. The company values diversity and inclusivity, emphasizing that teams should reflect the communities their products serve. Cross-functional collaboration is common, and employees are empowered to contribute ideas, challenge assumptions, and participate in decision-making processes. Google also prioritizes learning and professional growth, providing access to state-of-the-art technologies, mentorship programs, and opportunities to rotate across teams. Work-life balance, employee well-being, and a supportive environment contribute to a culture where innovation thrives and everyone can meaningfully impact technology for billions of users.</p></section>
+      <section id="fit-section"><h2>Motivation to Join Google</h2><p>I am motivated to work at Google because of its unparalleled commitment to leveraging technology to solve complex, real-world problems at scale. The opportunity to work on projects involving AI, ML, computer vision, and generative AI, while directly impacting billions of users, aligns perfectly with my passion for applying technical knowledge to meaningful challenges. Google’s focus on fairness, accessibility, and inclusivity resonates with my values, and the company’s culture of innovation, collaboration, and continuous learning inspires me to contribute my best. Being part of an organization that encourages experimentation, embraces emerging technologies, and pushes the boundaries of what’s possible motivates me to grow as an engineer while contributing to transformative solutions.</p></section>
+      <section><h2>Why I am a Great Fit</h2><p>I am a strong fit for this role because my academic and professional background aligns closely with Google’s technical and cultural requirements. I have experience in AI, ML, computer vision, deep learning, and large-scale data processing, with hands-on expertise in Python, C++, R, SQL, ROS2, TensorFlow, PyTorch, and relevant frameworks. My work on autonomous vehicles, medical image registration, and real-time API systems demonstrates my ability to design, optimize, and deploy complex software solutions. I am a fast learner, capable of adapting to new technologies and concepts, and I thrive in collaborative, cross-functional environments. My problem-solving skills, combined with strong teamwork, leadership experience, and a commitment to delivering high-quality results, make me well-prepared to contribute effectively to Google’s projects and culture.</p></section>
 
-        <section><h2>Work Experience</h2>
-            <div class="experience-slider-container" id="work-slider">
+      <section id="work-section"><h2>Work Experience</h2>
+          <div class="experience-slider-container" id="work-slider">
 <div class="experience-box" data-title="Research Engineer, VAIL IU">
     <h3>Research Engineer, VAIL IU</h3>
     <div class="slideshow-preview">
@@ -451,10 +452,10 @@ a:hover { text-decoration:underline; }
 
 
 </div>
-        </section>
+      </section>
 
-        <section><h2>Impact Projects</h2>
-            <div class="experience-slider-container" id="impact-slider">
+      <section id="impact-section"><h2>Impact Projects</h2>
+          <div class="experience-slider-container" id="impact-slider">
 <div class="experience-box" data-title="Full-Stack Web Application for Restaurants">
     <h3>Full-Stack Web Application</h3>
     <div class="slideshow-preview">
@@ -614,10 +615,10 @@ a:hover { text-decoration:underline; }
 
 
 </div>
-        </section>
+      </section>
 
-        <section><h2>Invention</h2>
-            <div class="experience-box" style="margin:0 auto;"><div class="experience-box" data-title="3-Phase BLDC Wheel Hub Motor Patent">
+      <section id="invention-section"><h2>Invention</h2>
+          <div class="experience-box" style="margin-left:0;"><div class="experience-box" data-title="3-Phase BLDC Wheel Hub Motor Patent">
     <h3>3-Phase BLDC Wheel Hub Motor | Patent</h3>
     <div class="slideshow-preview">
         <img src="../images/design_motor.jpg" alt="3-Phase BLDC Wheel Hub Motor Design"/>
@@ -682,8 +683,8 @@ a:hover { text-decoration:underline; }
 
 
 </div>
-        </section>
-    </main>
+      </section>
+  </main>
 </div>
 
 <div class="modal" id="modal">
@@ -733,7 +734,6 @@ function initSlider(sliderId) {
         return closestCard;
     }
 
-    // Scroll first card to center on load
     if(cards.length>0) centerCard(cards[0]);
 
     slider.addEventListener('scroll', ()=> updateCenterCard());
@@ -742,8 +742,8 @@ function initSlider(sliderId) {
     slider.addEventListener('click', e => {
         const clickedCard = e.target.closest('.experience-box');
         if(!clickedCard) return;
-        const centerCard = slider.querySelector('.experience-box.center');
-        if(centerCard === clickedCard) {
+        const centerCardEl = slider.querySelector('.experience-box.center');
+        if(centerCardEl === clickedCard) {
             const content = clickedCard.querySelector('.full-content');
             if(content){
                 document.getElementById('modal-inner').innerHTML = content.innerHTML;
@@ -757,7 +757,6 @@ function initSlider(sliderId) {
     });
 }
 
-// Initialize sliders
 initSlider('work-slider');
 initSlider('impact-slider');
 
@@ -803,7 +802,6 @@ async function sendChat(){
     }
 }
 
-// Send button & Enter
 chatSend.addEventListener('click', sendChat);
 chatInput.addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
@@ -812,7 +810,6 @@ chatInput.addEventListener('keypress', function(e) {
     }
 });
 
-// Voice input
 const voiceBtn = document.getElementById('chat-voice');
 if ('webkitSpeechRecognition' in window) {
     const recognition = new webkitSpeechRecognition();
@@ -828,6 +825,7 @@ if ('webkitSpeechRecognition' in window) {
     }
 }
 </script>
+
 <footer style="text-align:center; margin:2rem 0; font-style:italic; font-size:1rem; color:#333; width:100%">
 Vivek Reddy Munnangi |
 <a href="../resume.pdf" target="_blank" style="color:#0055a5; text-decoration:none;margin-left:0.3rem;">Resume</a>
