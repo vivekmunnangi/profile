@@ -33,7 +33,7 @@ section { margin-bottom:3rem; }
 .education { font-style: italic; font-size: 0.9rem; color: #333; text-align: center; margin: 0.2rem 0; }
 .content { margin-left: 250px; padding: 2rem; max-width: 1000px; margin-right: auto; }
 
-/* Horizontal slider for experience */
+/* Horizontal slider */
 .experience-slider-container {
   display: flex;
   overflow-x: auto;
@@ -91,7 +91,7 @@ a:hover { text-decoration:underline; }
 .image-row figure { flex:1 1 200px; text-align:center; margin:0; }
 .image-row img { width:100%; height:auto; object-fit:contain; }
 
-/* Chat Icon */
+/* Chat */
 .chat-icon {
   position: fixed;
   bottom: 20px;
@@ -131,36 +131,13 @@ a:hover { text-decoration:underline; }
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 }
-.chat-body {
-  flex: 1;
-  padding: 0.5rem;
-  overflow-y: auto;
-  font-size: 0.9rem;
-}
+.chat-body { flex: 1; padding: 0.5rem; overflow-y: auto; font-size: 0.9rem; }
 .chat-message-user { text-align: right; margin: 0.3rem 0; }
 .chat-message-bot { text-align: left; margin: 0.3rem 0; }
-.chat-input {
-  display: flex;
-  border-top: 1px solid #ccc;
-}
-.chat-input input {
-  flex: 1;
-  border: none;
-  padding: 0.5rem;
-  outline: none;
-}
-.chat-input button {
-  background: #0055a5;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-}
-#chat-voice {
-  background: #ff4081;
-  border-radius: 4px;
-  margin-left: 4px;
-}
+.chat-input { display: flex; border-top: 1px solid #ccc; }
+.chat-input input { flex: 1; border: none; padding: 0.5rem; outline: none; }
+.chat-input button { background: #0055a5; color: white; border: none; padding: 0.5rem 1rem; cursor: pointer; }
+#chat-voice { background: #ff4081; border-radius: 4px; margin-left: 4px; }
 </style>
 </head>
 <body>
@@ -184,8 +161,7 @@ a:hover { text-decoration:underline; }
         <section><h2>Why I am a Great Fit</h2><p>I am a strong fit for this role because my academic and professional background aligns closely with Google’s technical and cultural requirements. I have experience in AI, ML, computer vision, deep learning, and large-scale data processing, with hands-on expertise in Python, C++, R, SQL, ROS2, TensorFlow, PyTorch, and relevant frameworks. My work on autonomous vehicles, medical image registration, and real-time API systems demonstrates my ability to design, optimize, and deploy complex software solutions. I am a fast learner, capable of adapting to new technologies and concepts, and I thrive in collaborative, cross-functional environments. My problem-solving skills, combined with strong teamwork, leadership experience, and a commitment to delivering high-quality results, make me well-prepared to contribute effectively to Google’s projects and culture.</p></section>
 
         <section><h2>Work Experience</h2>
-            <div class="experience-slider-container">
-                
+            <div class="experience-slider-container" id="work-slider">
 <div class="experience-box" data-title="Research Engineer, VAIL IU">
     <h3>Research Engineer, VAIL IU</h3>
     <div class="slideshow-preview">
@@ -461,13 +437,11 @@ a:hover { text-decoration:underline; }
 </div>
 
 
-
-            </div>
+</div>
         </section>
 
         <section><h2>Impact Projects</h2>
-            <div class="experience-slider-container">
-                
+            <div class="experience-slider-container" id="impact-slider">
 <div class="experience-box" data-title="Full-Stack Web Application for Restaurants">
     <h3>Full-Stack Web Application</h3>
     <div class="slideshow-preview">
@@ -626,8 +600,7 @@ a:hover { text-decoration:underline; }
 </div>
 
 
-
-            </div>
+</div>
         </section>
 
         <section><h2>Invention</h2>
@@ -719,74 +692,126 @@ a:hover { text-decoration:underline; }
 </div>
 
 <script>
-// Carousel logic
-const boxes = document.querySelectorAll('.experience-box');
-const modal = document.getElementById('modal');
-const modalInner = document.getElementById('modal-inner');
-const modalClose = document.getElementById('modal-close');
-
-boxes.forEach(box => {
-  const previewImgs = box.querySelectorAll('.slideshow-preview img');
-  if (previewImgs.length > 0) {
-    let current = 0;
-    previewImgs[current].classList.add('active');
-    setInterval(() => {
-      previewImgs[current].classList.remove('active');
-      current = (current + 1) % previewImgs.length;
-      previewImgs[current].classList.add('active');
-    }, 3000);
-  }
-});
-
-function updateCenterCard(slider) {
+// Carousel & modal
+function initSlider(sliderId){
+  const slider = document.getElementById(sliderId);
   const cards = slider.querySelectorAll('.experience-box');
-  const sliderRect = slider.getBoundingClientRect();
-  let closestCard = null;
-  let closestDistance = Infinity;
 
-  cards.forEach(card => {
-    const cardRect = card.getBoundingClientRect();
-    const cardCenter = cardRect.left + cardRect.width / 2;
-    const sliderCenter = sliderRect.left + sliderRect.width / 2;
-    const distance = Math.abs(cardCenter - sliderCenter);
-    if (distance < closestDistance) {
-      closestDistance = distance;
-      closestCard = card;
-    }
-  });
+  // Scroll to first card
+  if(cards.length>0) slider.scrollLeft = cards[0].offsetLeft - slider.offsetWidth/2 + cards[0].offsetWidth/2;
 
-  cards.forEach(card => card.classList.remove('center'));
-  if (closestCard) closestCard.classList.add('center');
-}
+  function updateCenterCard() {
+    const sliderRect = slider.getBoundingClientRect();
+    let closestCard = null;
+    let closestDistance = Infinity;
+    cards.forEach(card => {
+      const cardRect = card.getBoundingClientRect();
+      const cardCenter = cardRect.left + cardRect.width/2;
+      const sliderCenter = sliderRect.left + sliderRect.width/2;
+      const distance = Math.abs(cardCenter - sliderCenter);
+      if(distance < closestDistance){
+        closestDistance = distance;
+        closestCard = card;
+      }
+    });
+    cards.forEach(card => card.classList.remove('center'));
+    if(closestCard) closestCard.classList.add('center');
+  }
 
-document.querySelectorAll('.experience-slider-container').forEach(slider => {
-  slider.addEventListener('scroll', () => updateCenterCard(slider));
-  updateCenterCard(slider);
+  slider.addEventListener('scroll', updateCenterCard);
+  updateCenterCard();
 
   slider.addEventListener('click', e => {
     const centerCard = slider.querySelector('.experience-box.center');
-    if (!centerCard) return;
-    if (centerCard.contains(e.target)) {
+    if(centerCard && centerCard.contains(e.target)){
       const content = centerCard.querySelector('.full-content');
-      if (content) {
-        modalInner.innerHTML = content.innerHTML;
-        modal.style.display = 'flex';
+      if(content){
+        document.getElementById('modal-inner').innerHTML = content.innerHTML;
+        document.getElementById('modal').style.display='flex';
         const headerHeight = document.querySelector('header').offsetHeight;
         document.getElementById('modal-content').style.marginTop = headerHeight + 'px';
       }
     }
   });
+}
+
+initSlider('work-slider');
+initSlider('impact-slider');
+
+// Slideshow
+document.querySelectorAll('.experience-box').forEach(box => {
+  const imgs = box.querySelectorAll('.slideshow-preview img');
+  if(imgs.length>0){
+    let cur=0; imgs[cur].classList.add('active');
+    setInterval(()=>{ imgs[cur].classList.remove('active'); cur=(cur+1)%imgs.length; imgs[cur].classList.add('active'); },3000);
+  }
 });
 
-modalClose.addEventListener('click', () => modal.style.display = 'none');
-window.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none'; });
+// Modal
+document.getElementById('modal-close').addEventListener('click', ()=> document.getElementById('modal').style.display='none');
+window.addEventListener('click', e=> { if(e.target===document.getElementById('modal')) document.getElementById('modal').style.display='none'; });
+
+// Chat
+const chatIcon = document.getElementById('chat-icon');
+const chatBox = document.getElementById('chat-box');
+chatIcon.addEventListener('click', ()=>{ chatBox.style.display = (chatBox.style.display==='flex'?'none':'flex'); });
+
+const chatSend = document.getElementById('chat-send');
+const chatInput = document.getElementById('chat-input');
+const chatBody = document.getElementById('chat-body');
+
+async function sendChat(){
+  const msg = chatInput.value.trim();
+  if(!msg) return;
+  chatBody.innerHTML += `<div class="chat-message-user">${msg}</div>`;
+  chatInput.value='';
+  try{
+    const res = await fetch('https://profile-az1i.onrender.com/ask', {
+      method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({message: msg})
+    });
+    const data = await res.json();
+    chatBody.innerHTML += `<div class="chat-message-bot">${data.response}</div>`;
+    chatBody.scrollTop = chatBody.scrollHeight;
+    await fetch('https://profile-az1i.onrender.com/save_conversation', {
+      method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({user:msg,bot:data.response})
+    });
+  }catch(e){
+    chatBody.innerHTML += `<div class="chat-message-bot">Error: Could not fetch response.</div>`;
+  }
+}
+
+// Chat send button and Enter key
+chatSend.addEventListener('click', sendChat);
+chatInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        sendChat();
+    }
+});
+
+// Voice input
+const voiceBtn = document.getElementById('chat-voice');
+if ('webkitSpeechRecognition' in window) {
+    const recognition = new webkitSpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = "en-US";
+
+    voiceBtn.addEventListener('click', function() {
+        recognition.start();
+    });
+
+    recognition.onresult = function(event) {
+        chatInput.value = event.results[0][0].transcript;
+        sendChat();
+    }
+}
+
 </script>
 
 <footer style="text-align:center; margin:2rem 0; font-style:italic; font-size:1rem; color:#333; width:100%">
-    Vivek Reddy Munnangi |
-    <a href="../resume.pdf" target="_blank" style="color:#0055a5; text-decoration:none;margin-left:0.3rem;">
-        Resume
-    </a>
+Vivek Reddy Munnangi |
+<a href="../resume.pdf" target="_blank" style="color:#0055a5; text-decoration:none;margin-left:0.3rem;">Resume</a>
 </footer>
 </body>
 </html>
