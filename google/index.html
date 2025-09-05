@@ -39,19 +39,17 @@ section { margin-bottom:3rem; }
   overflow-x: auto;
   overflow-y: hidden;
   gap: 2rem;
-  padding-bottom: 2rem;
+  padding: 2rem 0;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
-  padding-left: 50%;
-  box-sizing: content-box;
 }
 .experience-slider-container::-webkit-scrollbar { height:8px; }
 .experience-slider-container::-webkit-scrollbar-thumb { background: #0055a5; border-radius:4px; }
 
 .experience-box {
   scroll-snap-align: center;
-  min-width: 260px;
-  max-width: 280px;
+  width: 260px;
+  height: 300px;
   flex: 0 0 auto;
   background: rgba(255,255,255,0.85);
   backdrop-filter: blur(8px);
@@ -62,9 +60,12 @@ section { margin-bottom:3rem; }
   transition: transform 0.4s, box-shadow 0.4s;
   cursor: pointer;
   transform: scale(0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .experience-box.center {
-  transform: scale(1.3);
+  transform: scale(1.2);
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
   z-index: 10;
 }
@@ -73,7 +74,7 @@ section { margin-bottom:3rem; }
 .experience-box .full-content { display:none; }
 
 .slideshow-preview {
-  position:relative; width:100%; flex:1; margin:0.5rem 0; overflow:hidden;
+  position:relative; width:100%; height: 150px; margin:0.5rem 0; overflow:hidden;
 }
 .slideshow-preview img {
   position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 1s;
@@ -181,7 +182,7 @@ a:hover { text-decoration:underline; }
         <section><h2>Work Culture</h2><p>Google fosters a unique, collaborative, and innovative work culture. Creativity, curiosity, and experimentation are highly encouraged, allowing teams to explore unconventional solutions while adhering to best practices. The company values diversity and inclusivity, emphasizing that teams should reflect the communities their products serve. Cross-functional collaboration is common, and employees are empowered to contribute ideas, challenge assumptions, and participate in decision-making processes. Google also prioritizes learning and professional growth, providing access to state-of-the-art technologies, mentorship programs, and opportunities to rotate across teams. Work-life balance, employee well-being, and a supportive environment contribute to a culture where innovation thrives and everyone can meaningfully impact technology for billions of users.</p></section>
         <section><h2>Motivation to Join Google</h2><p>I am motivated to work at Google because of its unparalleled commitment to leveraging technology to solve complex, real-world problems at scale. The opportunity to work on projects involving AI, ML, computer vision, and generative AI, while directly impacting billions of users, aligns perfectly with my passion for applying technical knowledge to meaningful challenges. Google’s focus on fairness, accessibility, and inclusivity resonates with my values, and the company’s culture of innovation, collaboration, and continuous learning inspires me to contribute my best. Being part of an organization that encourages experimentation, embraces emerging technologies, and pushes the boundaries of what’s possible motivates me to grow as an engineer while contributing to transformative solutions.</p></section>
         <section><h2>Why I am a Great Fit</h2><p>I am a strong fit for this role because my academic and professional background aligns closely with Google’s technical and cultural requirements. I have experience in AI, ML, computer vision, deep learning, and large-scale data processing, with hands-on expertise in Python, C++, R, SQL, ROS2, TensorFlow, PyTorch, and relevant frameworks. My work on autonomous vehicles, medical image registration, and real-time API systems demonstrates my ability to design, optimize, and deploy complex software solutions. I am a fast learner, capable of adapting to new technologies and concepts, and I thrive in collaborative, cross-functional environments. My problem-solving skills, combined with strong teamwork, leadership experience, and a commitment to delivering high-quality results, make me well-prepared to contribute effectively to Google’s projects and culture.</p></section>
-        
+
         <section><h2>Work Experience</h2>
             <div class="experience-slider-container">
                 
@@ -461,6 +462,12 @@ a:hover { text-decoration:underline; }
 
 
 
+            </div>
+        </section>
+
+        <section><h2>Impact Projects</h2>
+            <div class="experience-slider-container">
+                
 <div class="experience-box" data-title="Full-Stack Web Application for Restaurants">
     <h3>Full-Stack Web Application</h3>
     <div class="slideshow-preview">
@@ -712,6 +719,7 @@ a:hover { text-decoration:underline; }
 </div>
 
 <script>
+// Carousel logic
 const boxes = document.querySelectorAll('.experience-box');
 const modal = document.getElementById('modal');
 const modalInner = document.getElementById('modal-inner');
