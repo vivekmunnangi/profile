@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Portfolio</title>
 <style>
-body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:0; background:#f0f4f8; color:#333; scroll-behavior:smooth; }
+/* base */
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:0; background:#f0f4f8; color:#333; scroll-behavior:smooth; overflow-x:hidden; }
 header {
   display:flex; align-items:center; justify-content:space-between; padding:1rem 2rem; background:#fff; border-bottom:2px solid #ccc;
   position: fixed; top:0; left:0; width:100%; z-index:1100;
@@ -18,7 +19,7 @@ header nav a:hover { text-decoration:underline; }
 
 h1,h2,h3 { color:#0055a5; }
 h2 { border-bottom:2px solid #0055a5; padding-bottom:0.3rem; margin-bottom:1rem; }
-section { margin-bottom:3rem; }
+section { margin-bottom:3rem; scroll-margin-top:90px; }
 
 .container { display: flex; margin-top:80px; }
 .sidebar {
@@ -36,9 +37,9 @@ section { margin-bottom:3rem; }
 }
 .profile-pic { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
 .education { font-style: italic; font-size: 0.9rem; color: #333; text-align: center; margin: 0.2rem 0; }
-.content { margin-left: 250px; padding: 2rem; max-width: 1000px; margin-right: auto; }
+.content { margin-left: 250px; padding: 2rem; max-width: calc(100% - 250px); margin-right: auto; box-sizing:border-box; }
 
-/* Horizontal slider */
+/* Horizontal slider (removed 50vw padding to avoid page overflow) */
 .experience-slider-container {
   display: flex;
   overflow-x: auto;
@@ -47,8 +48,6 @@ section { margin-bottom:3rem; }
   padding: 2rem 0;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
-  padding-left: 50vw;
-  padding-right: 50vw;
 }
 /* Hide scrollbar but keep scrollable */
 .experience-slider-container::-webkit-scrollbar { display:none; }
@@ -89,9 +88,11 @@ section { margin-bottom:3rem; }
 }
 .slideshow-preview img.active { opacity:1; }
 
+/* Links */
 a { color:#0055a5; text-decoration:none; }
 a:hover { text-decoration:underline; }
 
+/* Modal */
 .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:flex-start; z-index:1000; overflow-y:auto; }
 .modal-content { background:#fff; padding:2rem; max-width:800px; width:90%; max-height:80%; overflow-y:auto; position:relative; border-radius:12px; margin-top:80px; box-shadow:0 8px 25px rgba(0,0,0,0.3); }
 .modal-close { position:absolute; top:1rem; right:1rem; font-size:1.5rem; cursor:pointer; color:#0055a5; }
@@ -172,7 +173,7 @@ a:hover { text-decoration:underline; }
       <section id="scope-section"><h2>Scope</h2><p>At Google, the scope of work is broad and impactful, spanning multiple domains including AI, ML, cloud computing, computer vision, natural language processing, and generative AI. Engineers contribute to projects that operate at massive scale, influencing billions of users globally. Whether implementing computer vision solutions for YouTube, developing LLM-based tools for Search, or creating multi-modal generative AI models for Google Cloud, the scope involves both deep technical challenges and strategic innovation. Projects require designing scalable infrastructure, optimizing model performance, processing vast datasets, and building systems that are reliable, efficient, and secure. The work scope is not limited to individual contributions—engineers collaborate across teams, bridging research and production, while maintaining a focus on solving real-world problems that enhance accessibility, usability, and fairness for end-users everywhere.</p></section>
       <section id="culture-section"><h2>Work Culture</h2><p>Google fosters a unique, collaborative, and innovative work culture. Creativity, curiosity, and experimentation are highly encouraged, allowing teams to explore unconventional solutions while adhering to best practices. The company values diversity and inclusivity, emphasizing that teams should reflect the communities their products serve. Cross-functional collaboration is common, and employees are empowered to contribute ideas, challenge assumptions, and participate in decision-making processes. Google also prioritizes learning and professional growth, providing access to state-of-the-art technologies, mentorship programs, and opportunities to rotate across teams. Work-life balance, employee well-being, and a supportive environment contribute to a culture where innovation thrives and everyone can meaningfully impact technology for billions of users.</p></section>
       <section id="fit-section"><h2>Motivation to Join Google</h2><p>I am motivated to work at Google because of its unparalleled commitment to leveraging technology to solve complex, real-world problems at scale. The opportunity to work on projects involving AI, ML, computer vision, and generative AI, while directly impacting billions of users, aligns perfectly with my passion for applying technical knowledge to meaningful challenges. Google’s focus on fairness, accessibility, and inclusivity resonates with my values, and the company’s culture of innovation, collaboration, and continuous learning inspires me to contribute my best. Being part of an organization that encourages experimentation, embraces emerging technologies, and pushes the boundaries of what’s possible motivates me to grow as an engineer while contributing to transformative solutions.</p></section>
-      <section><h2>Why I am a Great Fit</h2><p>I am a strong fit for this role because my academic and professional background aligns closely with Google’s technical and cultural requirements. I have experience in AI, ML, computer vision, deep learning, and large-scale data processing, with hands-on expertise in Python, C++, R, SQL, ROS2, TensorFlow, PyTorch, and relevant frameworks. My work on autonomous vehicles, medical image registration, and real-time API systems demonstrates my ability to design, optimize, and deploy complex software solutions. I am a fast learner, capable of adapting to new technologies and concepts, and I thrive in collaborative, cross-functional environments. My problem-solving skills, combined with strong teamwork, leadership experience, and a commitment to delivering high-quality results, make me well-prepared to contribute effectively to Google’s projects and culture.</p></section>
+      <section id="fit-reason-section"><h2>Why I am a Great Fit</h2><p>I am a strong fit for this role because my academic and professional background aligns closely with Google’s technical and cultural requirements. I have experience in AI, ML, computer vision, deep learning, and large-scale data processing, with hands-on expertise in Python, C++, R, SQL, ROS2, TensorFlow, PyTorch, and relevant frameworks. My work on autonomous vehicles, medical image registration, and real-time API systems demonstrates my ability to design, optimize, and deploy complex software solutions. I am a fast learner, capable of adapting to new technologies and concepts, and I thrive in collaborative, cross-functional environments. My problem-solving skills, combined with strong teamwork, leadership experience, and a commitment to delivering high-quality results, make me well-prepared to contribute effectively to Google’s projects and culture.</p></section>
 
       <section id="work-section"><h2>Work Experience</h2>
           <div class="experience-slider-container" id="work-slider">
@@ -618,6 +619,7 @@ a:hover { text-decoration:underline; }
       </section>
 
       <section id="invention-section"><h2>Invention</h2>
+          <!-- single card, left aligned, no slider -->
           <div class="experience-box" style="margin-left:0;"><div class="experience-box" data-title="3-Phase BLDC Wheel Hub Motor Patent">
     <h3>3-Phase BLDC Wheel Hub Motor | Patent</h3>
     <div class="slideshow-preview">
@@ -706,25 +708,26 @@ a:hover { text-decoration:underline; }
 </div>
 
 <script>
-// Slider initialization with first/last card centering + click-to-open
+// Slider initialization with correct centering (uses slider.scrollLeft + offsetLeft)
 function initSlider(sliderId) {
     const slider = document.getElementById(sliderId);
+    if(!slider) return;
     const cards = slider.querySelectorAll('.experience-box');
 
     function centerCard(card) {
-        slider.scrollTo({ left: card.offsetLeft - slider.offsetWidth/2 + card.offsetWidth/2, behavior:'smooth' });
+        // compute scrollLeft target relative to slider content
+        const offset = card.offsetLeft - (slider.clientWidth / 2 - card.clientWidth / 2);
+        slider.scrollTo({ left: offset, behavior:'smooth' });
     }
 
     function updateCenterCard() {
-        const sliderRect = slider.getBoundingClientRect();
+        const sliderCenter = slider.scrollLeft + slider.offsetWidth / 2;
         let closestCard = null;
         let closestDistance = Infinity;
         cards.forEach(card => {
-            const cardRect = card.getBoundingClientRect();
-            const cardCenter = cardRect.left + cardRect.width/2;
-            const sliderCenter = sliderRect.left + slider.offsetWidth/2;
-            const distance = Math.abs(cardCenter - sliderCenter);
-            if(distance < closestDistance){
+            const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+            const distance = Math.abs(sliderCenter - cardCenter);
+            if(distance < closestDistance) {
                 closestDistance = distance;
                 closestCard = card;
             }
@@ -734,60 +737,80 @@ function initSlider(sliderId) {
         return closestCard;
     }
 
-    if(cards.length>0) centerCard(cards[0]);
+    // small delay to ensure layout computed before centering first card
+    if(cards.length>0) {
+        window.setTimeout(() => centerCard(cards[0]), 60);
+    }
 
     slider.addEventListener('scroll', ()=> updateCenterCard());
-    updateCenterCard();
+    // initial call (in case no scroll happens)
+    window.setTimeout(() => updateCenterCard(), 120);
 
     slider.addEventListener('click', e => {
         const clickedCard = e.target.closest('.experience-box');
         if(!clickedCard) return;
-        const centerCardEl = slider.querySelector('.experience-box.center');
-        if(centerCardEl === clickedCard) {
+
+        // Decide if clicked card is already centered (use threshold)
+        const sliderCenter = slider.scrollLeft + slider.offsetWidth / 2;
+        const cardCenter = clickedCard.offsetLeft + clickedCard.offsetWidth / 2;
+        const distance = Math.abs(sliderCenter - cardCenter);
+        const threshold = clickedCard.offsetWidth * 0.15; // 15% width tolerance
+
+        if(distance <= threshold) {
+            // already centered -> open modal with full-content
             const content = clickedCard.querySelector('.full-content');
-            if(content){
+            if(content) {
                 document.getElementById('modal-inner').innerHTML = content.innerHTML;
                 document.getElementById('modal').style.display='flex';
                 const headerHeight = document.querySelector('header').offsetHeight;
                 document.getElementById('modal-content').style.marginTop = headerHeight + 'px';
             }
         } else {
+            // center the clicked card
             centerCard(clickedCard);
+            // (updateCenterCard will run on scroll and add 'center' class)
         }
     });
 }
 
+// Initialize sliders
 initSlider('work-slider');
 initSlider('impact-slider');
 
-// Slideshow
+// Slideshow for any boxes that include slideshow-preview
 document.querySelectorAll('.experience-box').forEach(box => {
     const imgs = box.querySelectorAll('.slideshow-preview img');
-    if(imgs.length>0){
-        let cur=0; imgs[cur].classList.add('active');
-        setInterval(()=>{ imgs[cur].classList.remove('active'); cur=(cur+1)%imgs.length; imgs[cur].classList.add('active'); },3000);
+    if(imgs.length>0) {
+        let cur = 0;
+        imgs[cur].classList.add('active');
+        setInterval(() => {
+            imgs[cur].classList.remove('active');
+            cur = (cur + 1) % imgs.length;
+            imgs[cur].classList.add('active');
+        }, 3000);
     }
 });
 
 // Modal close
 document.getElementById('modal-close').addEventListener('click', ()=> document.getElementById('modal').style.display='none');
-window.addEventListener('click', e => { if(e.target===document.getElementById('modal')) document.getElementById('modal').style.display='none'; });
+window.addEventListener('click', e => { if(e.target === document.getElementById('modal')) document.getElementById('modal').style.display='none'; });
 
-// Chatbox
+// Chatbox toggle
 const chatIcon = document.getElementById('chat-icon');
 const chatBox = document.getElementById('chat-box');
 chatIcon.addEventListener('click', ()=>{ chatBox.style.display = (chatBox.style.display==='flex'?'none':'flex'); });
 
+// Chat send
 const chatSend = document.getElementById('chat-send');
 const chatInput = document.getElementById('chat-input');
 const chatBody = document.getElementById('chat-body');
 
-async function sendChat(){
+async function sendChat() {
     const msg = chatInput.value.trim();
     if(!msg) return;
     chatBody.innerHTML += `<div class="chat-message-user">${msg}</div>`;
     chatInput.value='';
-    try{
+    try {
         const res = await fetch('https://profile-az1i.onrender.com/ask', {
             method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({message: msg})
         });
@@ -797,7 +820,7 @@ async function sendChat(){
         await fetch('https://profile-az1i.onrender.com/save_conversation', {
             method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({user:msg,bot:data.response}) 
         });
-    }catch(e){
+    } catch(e) {
         chatBody.innerHTML += `<div class="chat-message-bot">Error: Could not fetch response.</div>`;
     }
 }
@@ -810,16 +833,17 @@ chatInput.addEventListener('keypress', function(e) {
     }
 });
 
+// Voice input
 const voiceBtn = document.getElementById('chat-voice');
 if ('webkitSpeechRecognition' in window) {
     const recognition = new webkitSpeechRecognition();
     recognition.continuous = false;
     recognition.interimResults = false;
     recognition.lang = "en-US";
-    voiceBtn.addEventListener('click', function(){
+    voiceBtn.addEventListener('click', function() {
         recognition.start();
     });
-    recognition.onresult = function(event){
+    recognition.onresult = function(event) {
         chatInput.value = event.results[0][0].transcript;
         sendChat();
     }
