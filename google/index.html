@@ -42,14 +42,16 @@ section { margin-bottom:3rem; }
   padding: 2rem 0;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
+  padding-left: 50vw; /* extra padding to allow first card centering */
+  padding-right: 50vw; /* extra padding to allow last card centering */
 }
 .experience-slider-container::-webkit-scrollbar { height:8px; }
 .experience-slider-container::-webkit-scrollbar-thumb { background: #0055a5; border-radius:4px; }
 
 .experience-box {
   scroll-snap-align: center;
-  width: 340px;
-  height: 390px;
+  width: 320px;
+  height: 350px;
   flex: 0 0 auto;
   background: rgba(255,255,255,0.85);
   backdrop-filter: blur(8px);
@@ -65,7 +67,7 @@ section { margin-bottom:3rem; }
   justify-content: space-between;
 }
 .experience-box.center {
-  transform: scale(1.3);
+  transform: scale(1.15);
   box-shadow: 0 12px 30px rgba(0,0,0,0.25);
   z-index: 10;
 }
@@ -84,8 +86,8 @@ section { margin-bottom:3rem; }
 a { color:#0055a5; text-decoration:none; }
 a:hover { text-decoration:underline; }
 
-.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); justify-content:center; align-items:flex-start; z-index:1000; overflow-y:auto; }
-.modal-content { background:#fff; padding:2rem; max-width:800px; width:90%; max-height:90%; overflow-y:auto; position:relative; border-radius:8px; margin-top:80px; }
+.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:flex-start; z-index:1000; overflow-y:auto; }
+.modal-content { background:#fff; padding:2rem; max-width:800px; width:90%; max-height:80%; overflow-y:auto; position:relative; border-radius:12px; margin-top:80px; box-shadow:0 8px 25px rgba(0,0,0,0.3); }
 .modal-close { position:absolute; top:1rem; right:1rem; font-size:1.5rem; cursor:pointer; color:#0055a5; }
 .image-row { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; margin-bottom:1rem; }
 .image-row figure { flex:1 1 200px; text-align:center; margin:0; }
@@ -139,15 +141,14 @@ a:hover { text-decoration:underline; }
 .chat-input button { background: #0055a5; color: white; border: none; padding: 0.5rem 1rem; cursor: pointer; }
 #chat-voice { background: #ff4081; border-radius: 4px; margin-left: 4px; }
 
-/* Mobile modal adjustments */
+/* Mobile modal popup effect */
 @media (max-width: 768px) {
     .modal-content {
-        width: calc(100% - 20px);
-        max-width: calc(100% - 20px);
-        height: calc(100% - 20px);
-        max-height: calc(100% - 20px);
-        margin: 10px auto;
-        border-radius: 8px;
+        width: calc(100% - 40px);
+        max-width: calc(100% - 40px);
+        max-height: calc(90% - 40px);
+        margin: 20px auto;
+        border-radius: 12px;
     }
 }
 </style>
@@ -704,13 +705,13 @@ a:hover { text-decoration:underline; }
 </div>
 
 <script>
-// Slider initialization with click-to-center & modal
+// Slider initialization with first/last card centering + click-to-open
 function initSlider(sliderId) {
     const slider = document.getElementById(sliderId);
     const cards = slider.querySelectorAll('.experience-box');
 
-    if(cards.length>0) {
-        slider.scrollLeft = cards[0].offsetLeft - slider.offsetWidth/2 + cards[0].offsetWidth/2;
+    function centerCard(card) {
+        slider.scrollTo({ left: card.offsetLeft - slider.offsetWidth/2 + card.offsetWidth/2, behavior:'smooth' });
     }
 
     function updateCenterCard() {
@@ -732,6 +733,9 @@ function initSlider(sliderId) {
         return closestCard;
     }
 
+    // Scroll first card to center on load
+    if(cards.length>0) centerCard(cards[0]);
+
     slider.addEventListener('scroll', ()=> updateCenterCard());
     updateCenterCard();
 
@@ -739,7 +743,6 @@ function initSlider(sliderId) {
         const clickedCard = e.target.closest('.experience-box');
         if(!clickedCard) return;
         const centerCard = slider.querySelector('.experience-box.center');
-
         if(centerCard === clickedCard) {
             const content = clickedCard.querySelector('.full-content');
             if(content){
@@ -749,10 +752,7 @@ function initSlider(sliderId) {
                 document.getElementById('modal-content').style.marginTop = headerHeight + 'px';
             }
         } else {
-            slider.scrollTo({
-                left: clickedCard.offsetLeft - slider.offsetWidth/2 + clickedCard.offsetWidth/2,
-                behavior: 'smooth'
-            });
+            centerCard(clickedCard);
         }
     });
 }
@@ -828,7 +828,6 @@ if ('webkitSpeechRecognition' in window) {
     }
 }
 </script>
-
 <footer style="text-align:center; margin:2rem 0; font-style:italic; font-size:1rem; color:#333; width:100%">
 Vivek Reddy Munnangi |
 <a href="../resume.pdf" target="_blank" style="color:#0055a5; text-decoration:none;margin-left:0.3rem;">Resume</a>
