@@ -5,20 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Portfolio</title>
 <style>
-/* base */
+/* ========== base ========== */
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:0; background:#f0f4f8; color:#333; scroll-behavior:smooth; overflow-x:hidden; }
 header {
   display:flex; align-items:center; justify-content:space-between; padding:1rem 2rem; background:#fff; border-bottom:2px solid #ccc;
   position: fixed; top:0; left:0; width:100%; z-index:1100;
 }
-.header-left { display:flex; align-items:center; }
-header img { height:60px; margin-right:20px; }
+.header-left { display:flex; align-items:center; gap:1rem; }
+header img { height:60px; margin-right:0; }
 header nav {
   display: flex;
   gap: 1.2rem;
-  flex-wrap: wrap;       /* allows wrapping instead of clipping */
+  flex-wrap: wrap;
   justify-content: flex-end;
-  max-width: 100%;       /* give full space */
+  max-width: 100%;
 }
 
 header nav a { color:#0055a5; font-weight:bold; cursor:pointer; text-decoration:none; }
@@ -26,8 +26,10 @@ header nav a:hover { text-decoration:underline; }
 
 h1,h2,h3 { color:#0055a5; }
 h2 { border-bottom:2px solid #0055a5; padding-bottom:0.3rem; margin-bottom:1rem; }
-section { margin-bottom:3rem; scroll-margin-top:90px; }
+section { margin-bottom:3rem; scroll-margin-top:90px; box-sizing:border-box; }
 
+/* ========== layout ========== */
+/* container used only for the middle content (sidebar + main). hero and contact are full-width outside this container */
 .container { display: flex; margin-top:80px; }
 .sidebar {
   width: 220px;
@@ -37,107 +39,115 @@ section { margin-bottom:3rem; scroll-margin-top:90px; }
   height: calc(100vh - 80px);
   padding: 2rem 1rem;
   background: #f0f4f8;
-  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  box-shadow: 2px 0 5px rgba(0,0,0,0.06);
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 0.6rem;
 }
 .profile-pic { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
 .education { font-style: italic; font-size: 0.9rem; color: #333; text-align: center; margin: 0.2rem 0; }
 .content { margin-left: 250px; padding: 2rem; max-width: calc(100% - 250px); margin-right: auto; box-sizing:border-box; }
 
-/* Hero Section */
+/* ========== Hero (full width; no sidebar) ========== */
 .hero {
-  height: 100vh; 
+  height: 100vh;
   width: 100%;
-  background: url('../images/ai_back.png') no-repeat center center/cover; /* add background image */
+  background: url('../images/ai_back.png') no-repeat center center/cover;
   display: flex;
-  justify-content: flex-end;   /* push to right */
-  align-items: flex-end;       /* push to bottom */
+  justify-content: flex-end;
+  align-items: flex-end;
   padding: 2rem;
   position: relative;
   box-sizing: border-box;
 }
-
 .hero::after {
   content: "";
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: rgba(0,0,0,0.3); /* dark overlay */
+  background: rgba(0,0,0,0.35);
 }
-
 .hero-content {
   position: relative;
   color: white;
   max-width: 500px;
-  text-align: right;   /* keep text aligned right */
+  text-align: right;
   z-index: 1;
 }
-
 .hero-content h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-
-.hero-content h2 {
-  font-size: 1.2rem;
+  font-size: 2.7rem;
   margin-bottom: 0.5rem;
+}
+.hero-content h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.6rem;
   color: #ddd;
 }
-
 .hero-content p {
   font-size: 1rem;
   line-height: 1.5;
   color: #f0f0f0;
 }
 
-
-/* Horizontal slider */
+/* ========== Slider (square cards; center enlarges) ========== */
 .experience-slider-container {
   display: flex;
+  align-items: center;
   overflow-x: auto;
   overflow-y: hidden;
-  gap: 1rem;
-  padding: 1rem 0;
+  gap: 2rem;
+  padding: 2rem 0;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
 }
 .experience-slider-container::-webkit-scrollbar { display:none; }
 .experience-slider-container { -ms-overflow-style:none; scrollbar-width:none; }
 
 .experience-box {
   scroll-snap-align: center;
-  width: 85%;
-  height: auto;
+  width: 240px;           /* square width */
+  height: 240px;          /* square height */
   flex: 0 0 auto;
-  background: rgba(255,255,255,0.85);
-  backdrop-filter: blur(8px);
-  padding: 1rem;
+  background: rgba(255,255,255,0.95);
+  padding: 0.75rem;
   border-left: 5px solid #0055a5;
   box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-  border-radius: 12px;
-  transition: transform 0.4s, box-shadow 0.4s;
+  border-radius: 14px;
+  transition: transform 0.35s cubic-bezier(.2,.9,.2,1), box-shadow 0.35s;
   cursor: pointer;
-  transform: scale(0.9);
+  transform: scale(0.95);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
 }
 .experience-box.center {
-  transform: scale(1.15);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
-  z-index: 10;
+  transform: scale(1.18) translateY(-8px);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.25);
+  z-index: 20;
 }
-.experience-box h3 { margin-top:0; text-align:center; }
-.experience-box p { text-align:center; margin-top:0.5rem; }
+.experience-box h3 { margin:0.4rem 0 0; font-size:1rem; }
+.experience-box p { margin:0.3rem 0 0.6rem; font-size:0.9rem; }
 .experience-box .full-content { display:none; }
 
+/* image area inside card (keeps square image) */
 .slideshow-preview {
-  position:relative; width:100%; height: 150px; margin:0.5rem 0; overflow:hidden;
+  width: 100%;
+  height: 60%;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  background:#eee;
 }
 .slideshow-preview img {
-  position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 1s;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  position:absolute; top:0; left:0; opacity:0; transition:opacity 0.8s ease;
 }
 .slideshow-preview img.active { opacity:1; }
 
@@ -145,15 +155,15 @@ section { margin-bottom:3rem; scroll-margin-top:90px; }
 a { color:#0055a5; text-decoration:none; }
 a:hover { text-decoration:underline; }
 
-/* Modal */
+/* ========== Modal ========== */
 .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:flex-start; z-index:1000; overflow-y:auto; }
-.modal-content {width: calc(100% - 20px);max-width: 100%;max-height: 85%;margin: 10px auto;border-radius: 8px;}
+.modal-content { background:#fff; padding:1.5rem; width: calc(100% - 40px); max-width:900px; max-height: 85%; overflow-y:auto; position:relative; border-radius:12px; margin-top:80px; box-shadow:0 8px 25px rgba(0,0,0,0.3); }
 .modal-close { position:absolute; top:1rem; right:1rem; font-size:1.5rem; cursor:pointer; color:#0055a5; }
 .image-row { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; margin-bottom:1rem; }
 .image-row figure { flex:1 1 200px; text-align:center; margin:0; }
 .image-row img { width:100%; height:auto; object-fit:contain; }
 
-/* Chat */
+/* ========== Chat ========== */
 .chat-icon {
   position: fixed;
   bottom: 20px;
@@ -174,8 +184,8 @@ a:hover { text-decoration:underline; }
 .chat-box {
   position: fixed;
   bottom: 80px;
-  right: 5%;
-  width: 35090%px;
+  right: 20px;
+  width: 350px;
   max-height: 60vh;
   background: #fff;
   border: 1px solid #ccc;
@@ -194,9 +204,48 @@ a:hover { text-decoration:underline; }
 .chat-input button { background: #0055a5; color: white; border: none; padding: 0.5rem 1rem; cursor: pointer; }
 #chat-voice { background: #ff4081; border-radius: 4px; margin-left: 4px; }
 
-/* Mobile modal popup effect */
+/* ========== Contact section: full-width dark container (last) ========== */
+.contact-full {
+  background: #000;
+  color: #fff;
+  padding: 6rem 1.5rem;
+  text-align: center;
+}
+.contact-full .inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.contact-full h2 { color: #fff; margin-bottom:0.6rem; }
+.contact-full p { color: #ddd; margin-bottom:1.2rem; font-size:1rem; }
+.contact-full form { display:flex; flex-direction:column; gap:0.6rem; align-items:center; }
+.contact-full input, .contact-full textarea {
+  width: 100%; max-width:560px; padding:0.8rem; border-radius:6px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.03); color: #fff;
+}
+.contact-full input::placeholder, .contact-full textarea::placeholder { color: rgba(255,255,255,0.6); }
+.contact-full button { background: #0055a5; color:#000; padding:0.8rem 1.2rem; border-radius:8px; border:none; cursor:pointer; font-weight:600; }
+
+/* ========== Responsive tweaks ========== */
+@media (max-width: 1000px) {
+  /* hide left sidebar on smaller screens so hero/contact stay full width */
+  .sidebar { display:none; }
+  .content { margin-left: 0; max-width: 100%; padding: 1.5rem; }
+}
+
 @media (max-width: 768px) {
-    .modal-content { width: calc(100% - 40px); max-width: calc(100% - 40px); max-height: calc(90% - 40px); margin: 20px auto; border-radius: 12px; }
+  .hero {
+    min-height: 60vh;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 1.2rem;
+    text-align: center;
+  }
+  .hero-content h1 { font-size: 1.8rem; }
+  .hero-content h2 { font-size: 1rem; }
+  .experience-slider-container { gap: 1rem; padding: 1rem 0; }
+  .experience-box { width: 85%; height: auto; min-height: 220px; }
+  .modal-content { width: calc(100% - 24px); max-width: calc(100% - 24px); max-height: 85%; margin: 10px auto; border-radius: 10px; }
+  .chat-box { width: 90%; right: 5%; }
+  .contact-full { padding: 3.5rem 1rem; }
 }
 </style>
 </head>
@@ -216,7 +265,7 @@ a:hover { text-decoration:underline; }
   </nav>
 </header>
 
-<!-- Hero Section -->
+<!-- HERO (full-width; no sidebar) -->
 <section class="hero">
   <div class="hero-content">
     <h1>Vivek Reddy Munnangi</h1>
@@ -225,6 +274,7 @@ a:hover { text-decoration:underline; }
   </div>
 </section>
 
+<!-- MIDDLE: sidebar + main content (this is the only area with sidebar) -->
 <div class="container">
   <aside class="sidebar">
       <img src="../images/my_picture.jpg" alt="Vivek Reddy Munnangi" class="profile-pic">
@@ -236,7 +286,7 @@ a:hover { text-decoration:underline; }
       <section id="company-section"><h2>Company Description</h2><p>Google’s mission is to organize the world’s information and make it universally accessible and useful. Founded in 1998 by Larry Page and Sergey Brin, Google has grown from a dorm-room project into a global technology leader, creating products that serve billions of users daily, including Google Search, YouTube, Android, Gmail, and Google Cloud. At its core, Google leverages cutting-edge technology, artificial intelligence, and machine learning to solve complex problems, enhance user experiences, and enable meaningful connections worldwide. Beyond products, Google drives innovation through AI research, exploring applications in natural language processing, computer vision, generative AI, and large-scale data systems. The company prioritizes accessibility, fairness, and inclusivity in all its technological solutions, ensuring that its impact benefits communities globally while maintaining a culture of collaboration, creativity, and ethical innovation.</p></section>
       <section id="scope-section"><h2>Scope</h2><p>At Google, the scope of work is broad and impactful, spanning multiple domains including AI, ML, cloud computing, computer vision, natural language processing, and generative AI. Engineers contribute to projects that operate at massive scale, influencing billions of users globally. Whether implementing computer vision solutions for YouTube, developing LLM-based tools for Search, or creating multi-modal generative AI models for Google Cloud, the scope involves both deep technical challenges and strategic innovation. Projects require designing scalable infrastructure, optimizing model performance, processing vast datasets, and building systems that are reliable, efficient, and secure. The work scope is not limited to individual contributions—engineers collaborate across teams, bridging research and production, while maintaining a focus on solving real-world problems that enhance accessibility, usability, and fairness for end-users everywhere.</p></section>
       <section id="culture-section"><h2>Work Culture</h2><p>Google fosters a unique, collaborative, and innovative work culture. Creativity, curiosity, and experimentation are highly encouraged, allowing teams to explore unconventional solutions while adhering to best practices. The company values diversity and inclusivity, emphasizing that teams should reflect the communities their products serve. Cross-functional collaboration is common, and employees are empowered to contribute ideas, challenge assumptions, and participate in decision-making processes. Google also prioritizes learning and professional growth, providing access to state-of-the-art technologies, mentorship programs, and opportunities to rotate across teams. Work-life balance, employee well-being, and a supportive environment contribute to a culture where innovation thrives and everyone can meaningfully impact technology for billions of users.</p></section>
-      <section id="fit-section"><h2>Motivation to Join Google</h2><p>I am motivated to work at Google because of its unparalleled commitment to leveraging technology to solve complex, real-world problems at scale. The opportunity to work on projects involving AI, ML, computer vision, and generative AI, while directly impacting billions of users, aligns perfectly with my passion for applying technical knowledge to meaningful challenges. Google’s focus on fairness, accessibility, and inclusivity resonates with my values, and the company’s culture of innovation, collaboration, and continuous learning inspires me to contribute my best. Being part of an organization that encourages experimentation, embraces emerging technologies, and pushes the boundaries of what’s possible motivates me to grow as an engineer while contributing to transformative solutions.</p></section>
+      <section id="fit-section"><h2>Motivation to Join</h2><p>I am motivated to work at Google because of its unparalleled commitment to leveraging technology to solve complex, real-world problems at scale. The opportunity to work on projects involving AI, ML, computer vision, and generative AI, while directly impacting billions of users, aligns perfectly with my passion for applying technical knowledge to meaningful challenges. Google’s focus on fairness, accessibility, and inclusivity resonates with my values, and the company’s culture of innovation, collaboration, and continuous learning inspires me to contribute my best. Being part of an organization that encourages experimentation, embraces emerging technologies, and pushes the boundaries of what’s possible motivates me to grow as an engineer while contributing to transformative solutions.</p></section>
       <section id="fit-reason-section"><h2>Why I am a Great Fit</h2><p>I am a strong fit for this role because my academic and professional background aligns closely with Google’s technical and cultural requirements. I have experience in AI, ML, computer vision, deep learning, and large-scale data processing, with hands-on expertise in Python, C++, R, SQL, ROS2, TensorFlow, PyTorch, and relevant frameworks. My work on autonomous vehicles, medical image registration, and real-time API systems demonstrates my ability to design, optimize, and deploy complex software solutions. I am a fast learner, capable of adapting to new technologies and concepts, and I thrive in collaborative, cross-functional environments. My problem-solving skills, combined with strong teamwork, leadership experience, and a commitment to delivering high-quality results, make me well-prepared to contribute effectively to Google’s projects and culture.</p></section>
 
       <section id="work-section"><h2>Work Experience</h2>
@@ -749,20 +799,24 @@ a:hover { text-decoration:underline; }
 
 </div>
       </section>
-
-      <!-- Get in Touch Section at the bottom -->
-      <section id="contact-section"><h2>Get In Touch</h2>
-        <p>You are welcome to use the assistant to ask any questions about me. If you feel that the information provided is not sufficient and you would like to connect directly, please kindly leave your contact details below, and I will be happy to reach out to you.</p>
-        <form class="w-webhook-form">
-          <label>Phone</label><input placeholder="Phone" required name="phone"/>
-          <label>Email</label><input placeholder="Email" required type="email" name="email"/>
-          <label>Message</label><textarea placeholder="Message" required name="message"></textarea>
-          <button type="submit">Send</button>
-        </form>
-      </section>
   </main>
 </div>
 
+<!-- CONTACT (full-width dark container; no sidebar) -->
+<section id="contact-section" class="contact-full">
+  <div class="inner">
+    <h2>Get In Touch</h2>
+    <p>If you'd like to connect, leave your contact details below and I'll reach out.</p>
+    <form class="w-webhook-form">
+      <input placeholder="Phone" required name="phone"/>
+      <input placeholder="Email" required type="email" name="email"/>
+      <textarea placeholder="Message" required name="message" rows="5"></textarea>
+      <button type="submit">Send</button>
+    </form>
+  </div>
+</section>
+
+<!-- Modal -->
 <div class="modal" id="modal">
     <div class="modal-content" id="modal-content">
         <span class="modal-close" id="modal-close">&times;</span>
@@ -770,6 +824,7 @@ a:hover { text-decoration:underline; }
     </div>
 </div>
 
+<!-- Chat -->
 <div class="chat-icon" id="chat-icon">💬</div>
 <div class="chat-box" id="chat-box">
   <div class="chat-header">Ask Me</div>
@@ -780,23 +835,24 @@ a:hover { text-decoration:underline; }
     <button id="chat-voice">🎤</button>
   </div>
 </div>
+
 <script>
-// Slider initialization
+// ========== Slider initialization ==========
 function initSlider(sliderId) {
   const slider = document.getElementById(sliderId);
   if (!slider) return;
   const cards = slider.querySelectorAll('.experience-box');
   let slideshowInterval = null;
-  let idleTimeout = null;
+  let idleTimer = null;
   let isPaused = false;
 
-  // Center card
+  // center a card smoothly
   function centerCard(card) {
     const offset = card.offsetLeft - (slider.clientWidth / 2 - card.clientWidth / 2);
     slider.scrollTo({ left: offset, behavior: 'smooth' });
   }
 
-  // Update active center card
+  // find & mark center card
   function updateCenterCard() {
     const sliderCenter = slider.scrollLeft + slider.offsetWidth / 2;
     let closestCard = null;
@@ -816,56 +872,56 @@ function initSlider(sliderId) {
     return closestCard;
   }
 
-  // Slideshow autoplay
+  // autoplay that loops
   function startSlideshow() {
     if (slideshowInterval) clearInterval(slideshowInterval);
     slideshowInterval = setInterval(() => {
       if (isPaused) return;
       const current = slider.querySelector('.experience-box.center');
       if (!current) return;
-      const next = current.nextElementSibling || cards[0]; // loop back
+      const next = current.nextElementSibling || cards[0];
       centerCard(next);
-      setTimeout(() => updateCenterCard(), 400);
-    }, 4000); // every 4s
+      setTimeout(() => updateCenterCard(), 420);
+    }, 3500);
   }
 
-  // Pause on hover inside card
-  function pauseSlideshow() {
+  // pause while cursor inside a card boundary; resume after 5s of no movement
+  function pauseForInteraction() {
     isPaused = true;
-    if (idleTimeout) clearTimeout(idleTimeout);
-    idleTimeout = setTimeout(() => {
-      isPaused = false;
-    }, 5000); // resume after 5s idle
+    if (idleTimer) clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => { isPaused = false; }, 5000);
   }
 
-  // Init: center first card
+  // initial
   if (cards.length > 0) {
     setTimeout(() => {
       centerCard(cards[0]);
       updateCenterCard();
       startSlideshow();
-    }, 100);
+    }, 120);
   }
 
-  // Update center on scroll
+  // keep center synced during manual scroll
   slider.addEventListener('scroll', () => {
     updateCenterCard();
   });
 
-  // Handle hover inside card boundary
+  // pause/resume behavior per card boundary
   cards.forEach(card => {
-    card.addEventListener('mouseenter', pauseSlideshow);
-    card.addEventListener('mousemove', pauseSlideshow);
-    card.addEventListener('mouseleave', () => { isPaused = false; });
+    card.addEventListener('mouseenter', pauseForInteraction);
+    card.addEventListener('mousemove', pauseForInteraction);
+    card.addEventListener('mouseleave', () => {
+      if (idleTimer) clearTimeout(idleTimer);
+      isPaused = false;
+    });
   });
 
-  // Click behavior
+  // click behavior: non-center => center it; center => open modal
   slider.addEventListener('click', e => {
     const clickedCard = e.target.closest('.experience-box');
     if (!clickedCard) return;
     const centerCardEl = slider.querySelector('.experience-box.center');
     if (centerCardEl === clickedCard) {
-      // open modal
       const content = clickedCard.querySelector('.full-content');
       if (content) {
         document.getElementById('modal-inner').innerHTML = content.innerHTML;
@@ -874,18 +930,17 @@ function initSlider(sliderId) {
         document.getElementById('modal-content').style.marginTop = headerHeight + 'px';
       }
     } else {
-      // move to center
       centerCard(clickedCard);
-      setTimeout(() => updateCenterCard(), 400);
+      setTimeout(() => updateCenterCard(), 420);
     }
   });
 }
 
-// Init both sliders
+// initialize both sliders if present
 initSlider('work-slider');
 initSlider('impact-slider');
 
-// Image slideshow inside each card
+// ========== small image slideshow inside each card ==========
 document.querySelectorAll('.experience-box').forEach(box => {
   const imgs = box.querySelectorAll('.slideshow-preview img');
   if (imgs.length > 0) {
@@ -898,61 +953,51 @@ document.querySelectorAll('.experience-box').forEach(box => {
     }, 3000);
   }
 });
-</script>
-<script>
 
-// Modal close
-document.getElementById('modal-close').addEventListener('click', ()=> document.getElementById('modal').style.display='none');
-window.addEventListener('click', e => { if(e.target === document.getElementById('modal')) document.getElementById('modal').style.display='none'; });
+// ========== modal close ==========
+document.getElementById('modal-close').addEventListener('click', () => document.getElementById('modal').style.display = 'none');
+window.addEventListener('click', e => { if (e.target === document.getElementById('modal')) document.getElementById('modal').style.display = 'none'; });
 
-// Chat toggle
+// ========== chat toggle & send ==========
 const chatIcon = document.getElementById('chat-icon');
 const chatBox = document.getElementById('chat-box');
-chatIcon.addEventListener('click', ()=>{ chatBox.style.display = (chatBox.style.display==='flex'?'none':'flex'); });
+chatIcon.addEventListener('click', () => { chatBox.style.display = (chatBox.style.display === 'flex' ? 'none' : 'flex'); });
 
-// Chat send
 const chatSend = document.getElementById('chat-send');
 const chatInput = document.getElementById('chat-input');
 const chatBody = document.getElementById('chat-body');
 
 async function sendChat() {
     const msg = chatInput.value.trim();
-    if(!msg) return;
+    if (!msg) return;
     chatBody.innerHTML += `<div class="chat-message-user">${msg}</div>`;
-    chatInput.value='';
+    chatInput.value = '';
     try {
         const res = await fetch('https://profile-az1i.onrender.com/ask', {
-            method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({message: msg})
+            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: msg })
         });
         const data = await res.json();
         chatBody.innerHTML += `<div class="chat-message-bot">${data.response}</div>`;
         chatBody.scrollTop = chatBody.scrollHeight;
         await fetch('https://profile-az1i.onrender.com/save_conversation', {
-            method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({user:msg,bot:data.response}) 
+            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ user: msg, bot: data.response })
         });
-    } catch(e) {
+    } catch (e) {
         chatBody.innerHTML += `<div class="chat-message-bot">Error: Could not fetch response.</div>`;
     }
 }
 
 chatSend.addEventListener('click', sendChat);
-chatInput.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        e.preventDefault();
-        sendChat();
-    }
-});
+chatInput.addEventListener('keypress', function(e) { if (e.key === 'Enter') { e.preventDefault(); sendChat(); } });
 
-// Voice input
+// ========== voice input ==========
 const voiceBtn = document.getElementById('chat-voice');
 if ('webkitSpeechRecognition' in window) {
     const recognition = new webkitSpeechRecognition();
     recognition.continuous = false;
     recognition.interimResults = false;
     recognition.lang = "en-US";
-    voiceBtn.addEventListener('click', function() {
-        recognition.start();
-    });
+    voiceBtn.addEventListener('click', function() { recognition.start(); });
     recognition.onresult = function(event) {
         chatInput.value = event.results[0][0].transcript;
         sendChat();
