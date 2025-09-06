@@ -204,7 +204,7 @@ a:hover { text-decoration:underline; }
 
 <header>
   <div class="header-left">
-    <img src="../images/ai_back.png" alt="Company Logo"/>
+    <img src="https://www.gstatic.com/marketing-cms/assets/images/f5/d3/a7f9db7045429cb6dc6be56bdcbe/google-logo-about.svg" alt="Company Logo"/>
     <h1>Career</h1>
   </div>
   <nav>
@@ -783,97 +783,123 @@ a:hover { text-decoration:underline; }
 <script>
 // Slider initialization
 function initSlider(sliderId) {
-    const slider = document.getElementById(sliderId);
-    if (!slider) return;
-    const cards = slider.querySelectorAll('.experience-box');
-    let slideshowInterval = null;
+  const slider = document.getElementById(sliderId);
+  if (!slider) return;
+  const cards = slider.querySelectorAll('.experience-box');
+  let slideshowInterval = null;
+  let idleTimeout = null;
+  let isPaused = false;
 
-    function centerCard(card) {
-        const offset = card.offsetLeft - (slider.clientWidth / 2 - card.clientWidth / 2);
-        slider.scrollTo({ left: offset, behavior: 'smooth' });
-    }
+  // Center card
+  function centerCard(card) {
+    const offset = card.offsetLeft - (slider.clientWidth / 2 - card.clientWidth / 2);
+    slider.scrollTo({ left: offset, behavior: 'smooth' });
+  }
 
-    function updateCenterCard() {
-        const sliderCenter = slider.scrollLeft + slider.offsetWidth / 2;
-        let closestCard = null;
-        let closestDistance = Infinity;
-        cards.forEach(card => {
-            const cardCenter = card.offsetLeft + card.offsetWidth / 2;
-            const distance = Math.abs(sliderCenter - cardCenter);
-            if (distance < closestDistance) {
-                closestDistance = distance;
-                closestCard = card;
-            }
-        });
-        cards.forEach(card => card.classList.remove('center'));
-        if (closestCard) closestCard.classList.add('center');
-        return closestCard;
-    }
+  // Update active center card
+  function updateCenterCard() {
+    const sliderCenter = slider.scrollLeft + slider.offsetWidth / 2;
+    let closestCard = null;
+    let closestDistance = Infinity;
 
-    // start slideshow autoplay
-    function startSlideshow() {
-        if (slideshowInterval) clearInterval(slideshowInterval);
-        slideshowInterval = setInterval(() => {
-            const current = slider.querySelector('.experience-box.center');
-            if (!current) return;
-            const next = current.nextElementSibling || cards[0];
-            centerCard(next);
-            setTimeout(() => updateCenterCard(), 400);
-        }, 4000); // 4s autoplay
-    }
-
-    // init: center first card
-    if (cards.length > 0) {
-        window.setTimeout(() => {
-            centerCard(cards[0]);
-            updateCenterCard();
-            startSlideshow();
-        }, 100);
-    }
-
-    // scroll update
-    slider.addEventListener('scroll', () => {
-        updateCenterCard();
+    cards.forEach(card => {
+      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+      const distance = Math.abs(sliderCenter - cardCenter);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestCard = card;
+      }
     });
 
-    // click behavior: 1st click -> center, 2nd click -> open modal
-    slider.addEventListener('click', e => {
-        const clickedCard = e.target.closest('.experience-box');
-        if (!clickedCard) return;
-        const centerCardEl = slider.querySelector('.experience-box.center');
-        if (centerCardEl === clickedCard) {
-            // second click: open modal
-            const content = clickedCard.querySelector('.full-content');
-            if (content) {
-                document.getElementById('modal-inner').innerHTML = content.innerHTML;
-                document.getElementById('modal').style.display = 'flex';
-                const headerHeight = document.querySelector('header').offsetHeight;
-                document.getElementById('modal-content').style.marginTop = headerHeight + 'px';
-            }
-        } else {
-            // first click: move to center
-            centerCard(clickedCard);
-            setTimeout(() => updateCenterCard(), 400);
-        }
-    });
+    cards.forEach(card => card.classList.remove('center'));
+    if (closestCard) closestCard.classList.add('center');
+    return closestCard;
+  }
+
+  // Slideshow autoplay
+  function startSlideshow() {
+    if (slideshowInterval) clearInterval(slideshowInterval);
+    slideshowInterval = setInterval(() => {
+      if (isPaused) return;
+      const current = slider.querySelector('.experience-box.center');
+      if (!current) return;
+      const next = current.nextElementSibling || cards[0]; // loop back
+      centerCard(next);
+      setTimeout(() => updateCenterCard(), 400);
+    }, 4000); // every 4s
+  }
+
+  // Pause on hover inside card
+  function pauseSlideshow() {
+    isPaused = true;
+    if (idleTimeout) clearTimeout(idleTimeout);
+    idleTimeout = setTimeout(() => {
+      isPaused = false;
+    }, 5000); // resume after 5s idle
+  }
+
+  // Init: center first card
+  if (cards.length > 0) {
+    setTimeout(() => {
+      centerCard(cards[0]);
+      updateCenterCard();
+      startSlideshow();
+    }, 100);
+  }
+
+  // Update center on scroll
+  slider.addEventListener('scroll', () => {
+    updateCenterCard();
+  });
+
+  // Handle hover inside card boundary
+  cards.forEach(card => {
+    card.addEventListener('mouseenter', pauseSlideshow);
+    card.addEventListener('mousemove', pauseSlideshow);
+    card.addEventListener('mouseleave', () => { isPaused = false; });
+  });
+
+  // Click behavior
+  slider.addEventListener('click', e => {
+    const clickedCard = e.target.closest('.experience-box');
+    if (!clickedCard) return;
+    const centerCardEl = slider.querySelector('.experience-box.center');
+    if (centerCardEl === clickedCard) {
+      // open modal
+      const content = clickedCard.querySelector('.full-content');
+      if (content) {
+        document.getElementById('modal-inner').innerHTML = content.innerHTML;
+        document.getElementById('modal').style.display = 'flex';
+        const headerHeight = document.querySelector('header').offsetHeight;
+        document.getElementById('modal-content').style.marginTop = headerHeight + 'px';
+      }
+    } else {
+      // move to center
+      centerCard(clickedCard);
+      setTimeout(() => updateCenterCard(), 400);
+    }
+  });
 }
 
+// Init both sliders
 initSlider('work-slider');
 initSlider('impact-slider');
 
 // Image slideshow inside each card
 document.querySelectorAll('.experience-box').forEach(box => {
-    const imgs = box.querySelectorAll('.slideshow-preview img');
-    if (imgs.length > 0) {
-        let cur = 0;
-        imgs[cur].classList.add('active');
-        setInterval(() => {
-            imgs[cur].classList.remove('active');
-            cur = (cur + 1) % imgs.length;
-            imgs[cur].classList.add('active');
-        }, 3000);
-    }
+  const imgs = box.querySelectorAll('.slideshow-preview img');
+  if (imgs.length > 0) {
+    let cur = 0;
+    imgs[cur].classList.add('active');
+    setInterval(() => {
+      imgs[cur].classList.remove('active');
+      cur = (cur + 1) % imgs.length;
+      imgs[cur].classList.add('active');
+    }, 3000);
+  }
 });
+</script>
+<script>
 
 // Modal close
 document.getElementById('modal-close').addEventListener('click', ()=> document.getElementById('modal').style.display='none');
