@@ -48,42 +48,50 @@ section { margin-bottom:3rem; scroll-margin-top:90px; }
 
 /* Hero Section */
 .hero {
-    height: auto;                /* let it shrink naturally */
-    min-height: 70vh;
-    justify-content: center;     /* center instead of right-align */
-    align-items: flex-end;
-    padding: 1rem;
-    text-align: center;
-  }
-.hero-content {max-width: 100%;text-align: center;}
+  height: 100vh; 
+  width: 100%;
+  background: url('../images/ai_back.png') no-repeat center center/cover; /* add background image */
+  display: flex;
+  justify-content: flex-end;   /* push to right */
+  align-items: flex-end;       /* push to bottom */
+  padding: 2rem;
+  position: relative;
+  box-sizing: border-box;
+}
+
 .hero::after {
   content: "";
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: rgba(0,0,0,0.3);
+  background: rgba(0,0,0,0.3); /* dark overlay */
 }
+
 .hero-content {
   position: relative;
   color: white;
   max-width: 500px;
-  text-align: right;
+  text-align: right;   /* keep text aligned right */
   z-index: 1;
 }
+
 .hero-content h1 {
   font-size: 2.5rem;
   margin-bottom: 1rem;
 }
+
 .hero-content h2 {
   font-size: 1.2rem;
   margin-bottom: 0.5rem;
   color: #ddd;
 }
+
 .hero-content p {
   font-size: 1rem;
   line-height: 1.5;
   color: #f0f0f0;
 }
+
 
 /* Horizontal slider */
 .experience-slider-container {
@@ -196,7 +204,7 @@ a:hover { text-decoration:underline; }
 
 <header>
   <div class="header-left">
-    <img src="https://www.gstatic.com/marketing-cms/assets/images/f5/d3/a7f9db7045429cb6dc6be56bdcbe/google-logo-about.svg" alt="Company Logo"/>
+    <img src="../images/ai_back.png" alt="Company Logo"/>
     <h1>Career</h1>
   </div>
   <nav>
