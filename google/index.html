@@ -13,7 +13,14 @@ header {
 }
 .header-left { display:flex; align-items:center; }
 header img { height:60px; margin-right:20px; }
-header nav { display:flex; gap:1rem; flex-wrap: wrap; justify-content:flex-end; max-width:70%; }
+header nav {
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;       /* allows wrapping instead of clipping */
+  justify-content: flex-end;
+  max-width: 100%;       /* give full space */
+}
+
 header nav a { color:#0055a5; font-weight:bold; cursor:pointer; text-decoration:none; }
 header nav a:hover { text-decoration:underline; }
 
@@ -41,16 +48,14 @@ section { margin-bottom:3rem; scroll-margin-top:90px; }
 
 /* Hero Section */
 .hero {
-  height: 100vh; 
-  width: 100%;
-  background: url('../images/ai_back.png') no-repeat center center/cover;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 2rem;
-  box-sizing: border-box;
-  position: relative;
-}
+    height: auto;                /* let it shrink naturally */
+    min-height: 70vh;
+    justify-content: center;     /* center instead of right-align */
+    align-items: flex-end;
+    padding: 1rem;
+    text-align: center;
+  }
+.hero-content {max-width: 100%;text-align: center;}
 .hero::after {
   content: "";
   position: absolute;
@@ -66,11 +71,11 @@ section { margin-bottom:3rem; scroll-margin-top:90px; }
   z-index: 1;
 }
 .hero-content h1 {
-  font-size: 3rem;
+  font-size: 2.5rem;
   margin-bottom: 1rem;
 }
 .hero-content h2 {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   margin-bottom: 0.5rem;
   color: #ddd;
 }
@@ -85,8 +90,8 @@ section { margin-bottom:3rem; scroll-margin-top:90px; }
   display: flex;
   overflow-x: auto;
   overflow-y: hidden;
-  gap: 2rem;
-  padding: 2rem 0;
+  gap: 1rem;
+  padding: 1rem 0;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
 }
@@ -95,8 +100,8 @@ section { margin-bottom:3rem; scroll-margin-top:90px; }
 
 .experience-box {
   scroll-snap-align: center;
-  width: 320px;
-  height: 350px;
+  width: 85%;
+  height: auto;
   flex: 0 0 auto;
   background: rgba(255,255,255,0.85);
   backdrop-filter: blur(8px);
@@ -134,7 +139,7 @@ a:hover { text-decoration:underline; }
 
 /* Modal */
 .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:flex-start; z-index:1000; overflow-y:auto; }
-.modal-content { background:#fff; padding:2rem; max-width:800px; width:90%; max-height:80%; overflow-y:auto; position:relative; border-radius:12px; margin-top:80px; box-shadow:0 8px 25px rgba(0,0,0,0.3); }
+.modal-content {width: calc(100% - 20px);max-width: 100%;max-height: 85%;margin: 10px auto;border-radius: 8px;}
 .modal-close { position:absolute; top:1rem; right:1rem; font-size:1.5rem; cursor:pointer; color:#0055a5; }
 .image-row { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; margin-bottom:1rem; }
 .image-row figure { flex:1 1 200px; text-align:center; margin:0; }
@@ -161,9 +166,9 @@ a:hover { text-decoration:underline; }
 .chat-box {
   position: fixed;
   bottom: 80px;
-  right: 20px;
-  width: 350px;
-  max-height: 450px;
+  right: 5%;
+  width: 35090%px;
+  max-height: 60vh;
   background: #fff;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -199,6 +204,7 @@ a:hover { text-decoration:underline; }
     <a href="#work-section">Work Experience</a>
     <a href="#impact-section">Impact Projects</a>
     <a href="#invention-section">Invention</a>
+    <a href="#contact-section">Get In Touch</a>
   </nav>
 </header>
 
@@ -766,17 +772,17 @@ a:hover { text-decoration:underline; }
     <button id="chat-voice">🎤</button>
   </div>
 </div>
-
 <script>
 // Slider initialization
 function initSlider(sliderId) {
     const slider = document.getElementById(sliderId);
-    if(!slider) return;
+    if (!slider) return;
     const cards = slider.querySelectorAll('.experience-box');
+    let slideshowInterval = null;
 
     function centerCard(card) {
         const offset = card.offsetLeft - (slider.clientWidth / 2 - card.clientWidth / 2);
-        slider.scrollTo({ left: offset, behavior:'smooth' });
+        slider.scrollTo({ left: offset, behavior: 'smooth' });
     }
 
     function updateCenterCard() {
@@ -786,48 +792,71 @@ function initSlider(sliderId) {
         cards.forEach(card => {
             const cardCenter = card.offsetLeft + card.offsetWidth / 2;
             const distance = Math.abs(sliderCenter - cardCenter);
-            if(distance < closestDistance) {
+            if (distance < closestDistance) {
                 closestDistance = distance;
                 closestCard = card;
             }
         });
         cards.forEach(card => card.classList.remove('center'));
-        if(closestCard) closestCard.classList.add('center');
+        if (closestCard) closestCard.classList.add('center');
         return closestCard;
     }
 
-    if(cards.length>0) {
-        window.setTimeout(() => centerCard(cards[0]), 60);
+    // start slideshow autoplay
+    function startSlideshow() {
+        if (slideshowInterval) clearInterval(slideshowInterval);
+        slideshowInterval = setInterval(() => {
+            const current = slider.querySelector('.experience-box.center');
+            if (!current) return;
+            const next = current.nextElementSibling || cards[0];
+            centerCard(next);
+            setTimeout(() => updateCenterCard(), 400);
+        }, 4000); // 4s autoplay
     }
 
-    slider.addEventListener('scroll', ()=> updateCenterCard());
-    window.setTimeout(() => updateCenterCard(), 120);
+    // init: center first card
+    if (cards.length > 0) {
+        window.setTimeout(() => {
+            centerCard(cards[0]);
+            updateCenterCard();
+            startSlideshow();
+        }, 100);
+    }
 
+    // scroll update
+    slider.addEventListener('scroll', () => {
+        updateCenterCard();
+    });
+
+    // click behavior: 1st click -> center, 2nd click -> open modal
     slider.addEventListener('click', e => {
         const clickedCard = e.target.closest('.experience-box');
-        if(!clickedCard) return;
+        if (!clickedCard) return;
         const centerCardEl = slider.querySelector('.experience-box.center');
-        if(centerCardEl === clickedCard) {
+        if (centerCardEl === clickedCard) {
+            // second click: open modal
             const content = clickedCard.querySelector('.full-content');
-            if(content){
+            if (content) {
                 document.getElementById('modal-inner').innerHTML = content.innerHTML;
-                document.getElementById('modal').style.display='flex';
+                document.getElementById('modal').style.display = 'flex';
                 const headerHeight = document.querySelector('header').offsetHeight;
                 document.getElementById('modal-content').style.marginTop = headerHeight + 'px';
             }
         } else {
+            // first click: move to center
             centerCard(clickedCard);
+            setTimeout(() => updateCenterCard(), 400);
         }
     });
-}  
+}
 
 initSlider('work-slider');
 initSlider('impact-slider');
 
-// Slideshow
+// Image slideshow inside each card
 document.querySelectorAll('.experience-box').forEach(box => {
     const imgs = box.querySelectorAll('.slideshow-preview img');
-    if(imgs.length>0) {
+    if (imgs.length > 0) {
         let cur = 0;
         imgs[cur].classList.add('active');
         setInterval(() => {
