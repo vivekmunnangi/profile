@@ -13,7 +13,7 @@ header {
 }
 .header-left { display:flex; align-items:center; }
 header img { height:60px; margin-right:20px; }
-header nav { display:flex; gap:1rem; flex-wrap: wrap;justify-content: flex-end;max-width: 70%; }
+header nav { display:flex; gap:1rem; flex-wrap: wrap; justify-content:flex-end; max-width:70%; }
 header nav a { color:#0055a5; font-weight:bold; cursor:pointer; text-decoration:none; }
 header nav a:hover { text-decoration:underline; }
 
@@ -39,7 +39,48 @@ section { margin-bottom:3rem; scroll-margin-top:90px; }
 .education { font-style: italic; font-size: 0.9rem; color: #333; text-align: center; margin: 0.2rem 0; }
 .content { margin-left: 250px; padding: 2rem; max-width: calc(100% - 250px); margin-right: auto; box-sizing:border-box; }
 
-/* Horizontal slider (removed 50vw padding to avoid page overflow) */
+/* Hero Section */
+.hero {
+  height: 100vh; 
+  width: 100%;
+  background: url('../images/ai_back.png') no-repeat center center/cover;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 2rem;
+  box-sizing: border-box;
+  position: relative;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.3);
+}
+.hero-content {
+  position: relative;
+  color: white;
+  max-width: 500px;
+  text-align: right;
+  z-index: 1;
+}
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+.hero-content h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #ddd;
+}
+.hero-content p {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #f0f0f0;
+}
+
+/* Horizontal slider */
 .experience-slider-container {
   display: flex;
   overflow-x: auto;
@@ -49,7 +90,6 @@ section { margin-bottom:3rem; scroll-margin-top:90px; }
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
 }
-/* Hide scrollbar but keep scrollable */
 .experience-slider-container::-webkit-scrollbar { display:none; }
 .experience-slider-container { -ms-overflow-style:none; scrollbar-width:none; }
 
@@ -148,6 +188,7 @@ a:hover { text-decoration:underline; }
 </style>
 </head>
 <body>
+
 <header>
   <div class="header-left">
     <img src="https://www.gstatic.com/marketing-cms/assets/images/f5/d3/a7f9db7045429cb6dc6be56bdcbe/google-logo-about.svg" alt="Company Logo"/>
@@ -160,6 +201,15 @@ a:hover { text-decoration:underline; }
     <a href="#invention-section">Invention</a>
   </nav>
 </header>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>Vivek Reddy Munnangi</h1>
+    <h2>Data Scientist & Autonomous Systems Engineer</h2>
+    <p>Passionate about building intelligent systems,<br>bridging AI with real-world applications.</p>
+  </div>
+</section>
 
 <div class="container">
   <aside class="sidebar">
@@ -619,7 +669,6 @@ a:hover { text-decoration:underline; }
       </section>
 
       <section id="invention-section"><h2>Invention</h2>
-          <!-- single card, left aligned, no slider -->
           <div class="experience-box" style="margin-left:0;"><div class="experience-box" data-title="3-Phase BLDC Wheel Hub Motor Patent">
     <h3>3-Phase BLDC Wheel Hub Motor | Patent</h3>
     <div class="slideshow-preview">
@@ -686,6 +735,17 @@ a:hover { text-decoration:underline; }
 
 </div>
       </section>
+
+      <!-- Get in Touch Section at the bottom -->
+      <section id="contact-section"><h2>Get In Touch</h2>
+        <p>You are welcome to use the assistant to ask any questions about me. If you feel that the information provided is not sufficient and you would like to connect directly, please kindly leave your contact details below, and I will be happy to reach out to you.</p>
+        <form class="w-webhook-form">
+          <label>Phone</label><input placeholder="Phone" required name="phone"/>
+          <label>Email</label><input placeholder="Email" required type="email" name="email"/>
+          <label>Message</label><textarea placeholder="Message" required name="message"></textarea>
+          <button type="submit">Send</button>
+        </form>
+      </section>
   </main>
 </div>
 
@@ -708,14 +768,13 @@ a:hover { text-decoration:underline; }
 </div>
 
 <script>
-// Slider initialization with correct centering (uses slider.scrollLeft + offsetLeft)
+// Slider initialization
 function initSlider(sliderId) {
     const slider = document.getElementById(sliderId);
     if(!slider) return;
     const cards = slider.querySelectorAll('.experience-box');
 
     function centerCard(card) {
-        // compute scrollLeft target relative to slider content
         const offset = card.offsetLeft - (slider.clientWidth / 2 - card.clientWidth / 2);
         slider.scrollTo({ left: offset, behavior:'smooth' });
     }
@@ -737,21 +796,17 @@ function initSlider(sliderId) {
         return closestCard;
     }
 
-    // small delay to ensure layout computed before centering first card
     if(cards.length>0) {
         window.setTimeout(() => centerCard(cards[0]), 60);
     }
 
     slider.addEventListener('scroll', ()=> updateCenterCard());
-    // initial call (in case no scroll happens)
     window.setTimeout(() => updateCenterCard(), 120);
 
     slider.addEventListener('click', e => {
         const clickedCard = e.target.closest('.experience-box');
         if(!clickedCard) return;
-
         const centerCardEl = slider.querySelector('.experience-box.center');
-
         if(centerCardEl === clickedCard) {
             const content = clickedCard.querySelector('.full-content');
             if(content){
@@ -764,16 +819,12 @@ function initSlider(sliderId) {
             centerCard(clickedCard);
         }
     });
-
 }  
 
-
-
-// Initialize sliders
 initSlider('work-slider');
 initSlider('impact-slider');
 
-// Slideshow for any boxes that include slideshow-preview
+// Slideshow
 document.querySelectorAll('.experience-box').forEach(box => {
     const imgs = box.querySelectorAll('.slideshow-preview img');
     if(imgs.length>0) {
@@ -791,7 +842,7 @@ document.querySelectorAll('.experience-box').forEach(box => {
 document.getElementById('modal-close').addEventListener('click', ()=> document.getElementById('modal').style.display='none');
 window.addEventListener('click', e => { if(e.target === document.getElementById('modal')) document.getElementById('modal').style.display='none'; });
 
-// Chatbox toggle
+// Chat toggle
 const chatIcon = document.getElementById('chat-icon');
 const chatBox = document.getElementById('chat-box');
 chatIcon.addEventListener('click', ()=>{ chatBox.style.display = (chatBox.style.display==='flex'?'none':'flex'); });
