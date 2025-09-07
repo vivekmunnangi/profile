@@ -84,22 +84,22 @@ section { margin-bottom:3rem; scroll-margin-top:calc(var(--header-height) + 10px
 .hero-content p { font-size:1rem; color:#f1f1f1; }
 
 /* ========== SLIDER (square cards) ========== */
-/* added horizontal padding so centered card has room */
+/* ensure enlarged card has breathing room: padding left/right equals approx half enlarged card width */
 .experience-slider-container {
   display:flex; align-items:center;
   overflow-x:auto; overflow-y:hidden;
-  gap:1rem; padding:1rem  calc(50% - 140px);   /* padding ensures center card won't be clipped (140 = half of 280px effective card) */
+  gap:1rem; padding:1rem  calc(50% - 160px);   /* larger calc so center card won't clip (160px ~ half of enlarged card) */
   scroll-behavior:smooth; scroll-snap-type:x mandatory;
   -webkit-overflow-scrolling: touch;
   box-sizing:border-box;
 }
-/* fallback if calc yields negative on small screens handled in media queries */
+/* fallback padding on small screens handled in media queries */
 .experience-slider-container::-webkit-scrollbar { display:none; }
 .experience-slider-container { -ms-overflow-style:none; scrollbar-width:none; }
 
 .experience-box {
   scroll-snap-align:center;
-  width:240px; height:240px;            /* square */
+  width:260px; height:260px;            /* slightly larger square to allow clear visuals */
   flex: 0 0 auto;
   background: rgba(255,255,255,0.98);
   padding:0.8rem;
@@ -112,11 +112,11 @@ section { margin-bottom:3rem; scroll-margin-top:calc(var(--header-height) + 10px
   transform:scale(0.95);
   position:relative;
   overflow:hidden;
-  margin: 0 8px;   /* give a little breathing room */
+  margin: 0 10px;   /* breathing room */
 }
 .experience-box.center {
-  transform:scale(1.16) translateY(-8px);
-  box-shadow:0 18px 42px rgba(0,0,0,0.24);
+  transform:scale(1.18) translateY(-10px);
+  box-shadow:0 20px 46px rgba(0,0,0,0.26);
   z-index:20;
 }
 .experience-box h3 { font-size:1rem; margin-top:0.4rem; }
@@ -139,33 +139,44 @@ section { margin-bottom:3rem; scroll-margin-top:calc(var(--header-height) + 10px
 
 /* ========== MODAL ========== */
 .modal {
-  display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:11000; justify-content:center; align-items:flex-start; overflow-y:auto;
+  display:none; position:fixed; inset:0; background:rgba(0,0,0,0.74); z-index:11000; justify-content:center; align-items:flex-start; overflow-y:auto;
 }
 .modal-content {
   background:#fff; color:#111; padding:1.25rem; width:calc(100% - 32px); max-width:920px; margin-top:calc(var(--header-height) + 20px);
   border-radius:12px; box-shadow:0 12px 36px rgba(0,0,0,0.35); position:relative;
 }
 
-/* *** Modal inner image grid: 2 per row on desktop, 1 per row on mobile *** */
+/* *** Modal inner content: preserve original order, but style images so they appear as 2-per-row visually *** */
 #modal-inner {
-  display:grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap:12px;
+  display:block;            /* we will clone content in original order */
 }
 #modal-inner img {
-  width:100%;
+  width: calc(50% - 8px);   /* 2 per row look */
+  max-width:100%;
   height:auto;
   object-fit:cover;
+  margin:4px;
+  display:inline-block;
+  vertical-align:top;
   border-radius:8px;
 }
+/* if image is inside a wrapper that should take full width, it can be forced with .full-width-image in your content */
+#modal-inner .full-width-image img { width:100%; }
+
+/* small screens: make images full width (1 per row) */
+@media (max-width: 600px) {
+  #modal-inner img { width:100%; display:block; margin:8px 0; }
+}
+
+/* ensure text inside modal is readable */
+#modal-inner p, #modal-inner h3, #modal-inner .desc { color:#222; line-height:1.5; }
+
+/* modal close */
 .modal-close {
   position:absolute; top:12px; right:12px; font-size:1.3rem; background:transparent; border:none; color:#0055a5; cursor:pointer;
 }
-.modal .modal-inner-text { color:#222; line-height:1.5; }
 
-/* clicking overlay will close - already handled in JS */
-
-/* ========== Chat ========== */
+/* ========== Chat (unchanged) ========== */
 .chat-icon {
   position: fixed; bottom:20px; right:20px; width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center;
   background:#0055a5; color:#fff; font-size:22px; cursor:pointer; z-index:1200; box-shadow:0 4px 14px rgba(0,0,0,0.18);
@@ -179,7 +190,7 @@ section { margin-bottom:3rem; scroll-margin-top:calc(var(--header-height) + 10px
 .chat-input input { flex:1; padding:0.5rem; border:none; outline:none; }
 .chat-input button { background:#0055a5; color:#fff; border:none; padding:0.5rem 0.9rem; cursor:pointer; }
 
-/* ========== Contact / Get In Touch (full width dark container) ========== */
+/* ========== Contact / Get In Touch (unchanged) ========== */
 #contact-section {
   background:#000; color:#fff; padding:3.5rem 1.25rem; text-align:center; box-sizing:border-box;
 }
@@ -213,8 +224,7 @@ section { margin-bottom:3rem; scroll-margin-top:calc(var(--header-height) + 10px
   .modal-content { width: calc(100% - 28px); margin-top:calc(var(--header-height) + 8px); }
   .chat-box { width:92%; right:4%; bottom:84px; }
   #contact-section { padding:2rem 1rem; }
-  /* modal grid to single column on small screens */
-  #modal-inner { grid-template-columns: 1fr; }
+  /* modal grid to single column on small screens handled above */
 }
 </style>
 </head>
@@ -786,7 +796,7 @@ section { margin-bottom:3rem; scroll-margin-top:calc(var(--header-height) + 10px
     <h2>Get In Touch</h2>
     <p>If you'd like to connect, leave your contact details below and I'll reach out.</p>
     <!-- submit via mailto so you receive inquiries directly -->
-    <form class="w-webhook-form" action="mailto:vmunnang@iu.edu" method="post" enctype="text/plain" onsubmit="return true;">
+    <form class="w-webhook-form" action="mailto:{vmunnang@iu.edu}" method="post" enctype="text/plain" onsubmit="return true;">
       <input placeholder="Phone" required name="phone"/>
       <input placeholder="Email" required type="email" name="email"/>
       <textarea placeholder="Message" required name="message" rows="4"></textarea>
@@ -921,28 +931,38 @@ function initSlider(sliderId) {
     card.addEventListener('touchstart', (e) => { pauseWithTimeout(); }, {passive:true});
   });
 
-  // clicking: center or open modal if already centered
-  slider.addEventListener('click', function(e) {
+  // clicking or pointerup: center or open modal if already centered
+  const handleInteraction = function(e) {
     const clicked = e.target.closest('.experience-box');
     if (!clicked) return;
     const centerEl = slider.querySelector('.experience-box.center');
+
     if (centerEl === clicked) {
+      // open modal: clone the full-content preserving original order
       const content = clicked.querySelector('.full-content');
       if (content) {
         const modal = document.getElementById('modal');
-        // prepare modal images into #modal-inner grid (keeps 2 per row)
         const modalInner = document.getElementById('modal-inner');
         modalInner.innerHTML = ''; // clear
-        // move images (if present in content) into modal grid
-        const imgs = Array.from(content.querySelectorAll('img'));
-        imgs.forEach(im => {
-          const imgEl = document.createElement('img');
-          imgEl.src = im.src;
-          modalInner.appendChild(imgEl);
+
+        // clone the content node to preserve order (text, images, etc.)
+        const clone = content.cloneNode(true);
+        clone.style.display = 'block';
+
+        // ensure images inside clone get styled for two-per-row visual layout
+        clone.querySelectorAll('img').forEach(img => {
+          // add no-op wrapper classes or adjust attributes if needed
+          img.classList.add('modal-img'); // styled via CSS above (#modal-inner img selector)
+          img.style.maxWidth = '100%';
+          img.style.height = 'auto';
         });
-        // append text/HTML description (if any) after images
-        const textNodes = content.querySelectorAll('p, h3, .desc');
-        textNodes.forEach(node => modalInner.appendChild(node.cloneNode(true)));
+
+        // append cloned nodes' children to modalInner so structure/order preserved
+        Array.from(clone.childNodes).forEach(child => {
+          // If child is text node or element, append a cloned copy
+          modalInner.appendChild(child.cloneNode(true));
+        });
+
         modal.style.display = 'flex';
         modal.setAttribute('aria-hidden','false');
         const header = document.querySelector('header');
@@ -951,10 +971,15 @@ function initSlider(sliderId) {
         modalContent.focus();
       }
     } else {
+      // center clicked card
       centerCard(clicked);
       setTimeout(updateCenterCard, 420);
     }
-  });
+  };
+
+  // prefer pointerup (works for touch and mouse) and also listen to click as fallback
+  slider.addEventListener('pointerup', handleInteraction);
+  slider.addEventListener('click', handleInteraction);
 }
 
 // initialize sliders
