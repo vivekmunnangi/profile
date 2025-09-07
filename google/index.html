@@ -1,1003 +1,403 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Portfolio</title>
-<style>
-:root {
-  --header-height: 64px;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vivek Reddy Portfolio</title>
+  <style>
+    /* Global background */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('{background_image}') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+    }
 
-/* ========== base ========== */
-body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:0; background:#f0f4f8; color:#333; scroll-behavior:smooth; overflow-x:hidden; }
-header {
-  display:flex; align-items:center; justify-content:space-between; padding:0.9rem 1.5rem; background:#fff; border-bottom:2px solid #ccc;
-  position: fixed; top:0; left:0; width:100%; z-index:1100; box-sizing:border-box;
-  height: auto;
-}
-.header-left { display:flex; align-items:center; gap:0.8rem; }
-header img { height:48px; width:auto; display:block; }
-#nav-toggle {
-  display:none;
-  background:transparent;
-  border:none;
-  font-size:1.4rem;
-  cursor:pointer;
-  padding:0.25rem 0.5rem;
-}
-header nav {
-  display:flex; gap:1rem; align-items:center;
-}
-header nav a { color:#0055a5; font-weight:600; cursor:pointer; text-decoration:none; white-space:nowrap; padding:0.35rem 0.6rem; border-radius:6px; }
-header nav a:hover { background: rgba(0,0,0,0.03); text-decoration:none; }
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0,0,0,0.7);
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+    }
 
-/* heading styles */
-h1,h2,h3 { color:#0055a5; margin:0; }
-h2 { border-bottom:2px solid #0055a5; padding-bottom:0.3rem; margin-bottom:1rem; }
-section { margin-bottom:3rem; scroll-margin-top:calc(var(--header-height) + 10px); }
+    header h1 {
+      font-size: 20px;
+      margin: 0;
+    }
 
-.container { display:flex; gap:2rem; align-items:flex-start; margin-top:calc(var(--header-height) + 0.5rem); box-sizing:border-box; }
+    nav {
+      display: flex;
+      gap: 15px;
+    }
 
-/* Sidebar (only for middle content) */
-.sidebar {
-  width:220px;
-  position:sticky;
-  top: calc(var(--header-height) + 16px);
-  height: calc(100vh - var(--header-height) - 32px);
-  padding:1.25rem;
-  background:#f0f4f8;
-  border-radius:8px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.04);
-  display:flex; flex-direction:column; align-items:center; gap:0.5rem;
-}
-.profile-pic { width:100%; border-radius:8px; margin-bottom:0.6rem; }
-.education { font-style:italic; font-size:0.9rem; color:#333; text-align:center; }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+    }
 
-/* main content area (middle) */
-.content { flex:1; min-width:260px; padding:2rem; box-sizing:border-box; }
+    /* Mobile hamburger */
+    .menu-toggle {
+      display: none;
+      cursor: pointer;
+      font-size: 24px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 15px;
+    }
+    .nav-links.mobile {
+      display: none;
+      flex-direction: column;
+      background: rgba(0,0,0,0.9);
+      position: absolute;
+      top: 50px;
+      right: 10px;
+      padding: 10px;
+    }
+    .nav-links.mobile a {
+      margin: 5px 0;
+    }
 
-/* ========== HERO (full width - no sidebar) ========== */
-.hero {
-  width:100%;
-  min-height: calc(100vh - var(--header-height));
-  display:flex;
-  justify-content:flex-end;
-  align-items:flex-end;
-  padding: 2rem;
-  box-sizing:border-box;
-  position:relative;
-  background: url('../images/ai_back.png') no-repeat center center/cover;
-}
-.hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.35);
-  pointer-events:none;
-}
-.hero-content {
-  position:relative; z-index:2; color:#fff; max-width:540px; text-align:right;
-}
-.hero-content h1 { font-size:2.4rem; line-height:1.05; margin-bottom:0.35rem; }
-.hero-content h2 { font-size:1.05rem; color:#ddd; margin-bottom:0.6rem; }
-.hero-content p { font-size:1rem; color:#f1f1f1; }
+    /* Hero */
+    .hero {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: rgba(0,0,0,0.6);
+    }
+    .hero h1 {
+      font-size: 36px;
+      margin: 0;
+    }
+    .hero h2 {
+      font-size: 22px;
+      margin: 10px 0;
+    }
 
-/* ========== SLIDER (square cards) ========== */
-.experience-slider-container {
-  display:flex; align-items:center;
-  overflow-x:auto; overflow-y:hidden;
-  gap:1rem; padding:1rem 0;
-  scroll-behavior:smooth; scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling: touch;
-}
-.experience-slider-container::-webkit-scrollbar { display:none; }
-.experience-slider-container { -ms-overflow-style:none; scrollbar-width:none; }
+    /* Section general */
+    section {
+      padding: 60px 20px;
+      background: rgba(0,0,0,0.6);
+      margin-top: 20px;
+    }
+    section h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
 
-.experience-box {
-  scroll-snap-align:center;
-  width:240px; height:240px;            /* square */
-  flex: 0 0 auto;
-  background: rgba(255,255,255,0.98);
-  padding:0.8rem;
-  border-left:5px solid #0055a5;
-  border-radius:12px;
-  box-shadow:0 6px 16px rgba(0,0,0,0.06);
-  display:flex; flex-direction:column; justify-content:space-between; align-items:center;
-  text-align:center; cursor:pointer;
-  transition: transform 0.36s cubic-bezier(.2,.9,.2,1), box-shadow 0.36s;
-  transform:scale(0.95);
-  position:relative;
-  overflow:hidden;
-}
-.experience-box.center {
-  transform:scale(1.16) translateY(-8px);
-  box-shadow:0 18px 42px rgba(0,0,0,0.24);
-  z-index:20;
-}
-.experience-box h3 { font-size:1rem; margin-top:0.4rem; }
-.experience-box p { font-size:0.9rem; margin:0.3rem 0; color:#444; }
-.experience-box .full-content { display:none; }
+    /* Slider */
+    .slider {
+      display: flex;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      gap: 20px;
+      padding: 20px;
+    }
+    .experience-box {
+      flex: 0 0 250px;
+      height: 250px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      position: relative;
+      transition: transform 0.3s, opacity 0.3s;
+      cursor: pointer;
+    }
+    .experience-box.center {
+      transform: scale(1.2);
+      z-index: 2;
+    }
 
-/* image area inside card - use aspect-ratio so it works cross-device */
-.slideshow-preview {
-  width:100%;
-  aspect-ratio: 1/1;           /* keep a square image area inside card */
-  border-radius:8px;
-  overflow:hidden;
-  position:relative;
-  background:#eee;
-}
-.slideshow-preview img {
-  position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 0.8s ease;
-}
-.slideshow-preview img.active { opacity:1; }
+    /* Slideshow preview */
+    .slideshow-preview {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 12px;
+    }
+    .slideshow-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+    .slideshow-preview img.active {
+      display: block;
+    }
 
-/* ========== MODAL ========== */
-.modal {
-  display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:11000; justify-content:center; align-items:flex-start; overflow-y:auto;
-}
-.modal-content {
-  background:#fff; color:#111; padding:1.25rem; width:calc(100% - 32px); max-width:920px; margin-top:calc(var(--header-height) + 20px);
-  border-radius:12px; box-shadow:0 12px 36px rgba(0,0,0,0.35); position:relative;
-}
-.modal-close {
-  position:absolute; top:12px; right:12px; font-size:1.3rem; background:transparent; border:none; color:#0055a5; cursor:pointer;
-}
-.modal .modal-inner-text { color:#222; line-height:1.5; }
+    /* Modal */
+    #modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
+      justify-content: center;
+      align-items: flex-start;
+      overflow-y: auto;
+      z-index: 2000;
+    }
+    #modal-content {
+      background: #222;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 90%;
+      margin-top: 70px;
+      position: relative;
+      color: #fff;
+    }
+    #modal-inner img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin: 5px;
+    }
+    #modal-inner .image-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    #close-modal {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #fff;
+    }
 
-/* clicking overlay will close - already handled in JS */
+    /* Contact form */
+    form {
+      max-width: 400px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    form input, form textarea, form button {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+    }
+    form button {
+      background: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
 
-/* ========== Chat ========== */
-.chat-icon {
-  position: fixed; bottom:20px; right:20px; width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center;
-  background:#0055a5; color:#fff; font-size:22px; cursor:pointer; z-index:1200; box-shadow:0 4px 14px rgba(0,0,0,0.18);
-}
-.chat-box {
-  position:fixed; bottom:92px; right:20px; width:340px; max-height:60vh; background:#fff; border-radius:8px; box-shadow:0 6px 20px rgba(0,0,0,0.12); display:none; flex-direction:column; z-index:1200; overflow:hidden;
-}
-.chat-header { background:#0055a5; color:#fff; padding:0.5rem; text-align:center; font-weight:600; }
-.chat-body { padding:0.6rem; overflow-y:auto; flex:1; font-size:0.9rem; }
-.chat-input { display:flex; border-top:1px solid #eee; }
-.chat-input input { flex:1; padding:0.5rem; border:none; outline:none; }
-.chat-input button { background:#0055a5; color:#fff; border:none; padding:0.5rem 0.9rem; cursor:pointer; }
-
-/* ========== Contact / Get In Touch (full width dark container) ========== */
-#contact-section {
-  background:#000; color:#fff; padding:3.5rem 1.25rem; text-align:center; box-sizing:border-box;
-}
-#contact-section .contact-inner { max-width:920px; margin:0 auto; }
-#contact-section input, #contact-section textarea {
-  width:100%; max-width:520px; padding:0.75rem; margin:0.4rem auto; display:block; border-radius:8px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.03); color:#fff;
-}
-#contact-section button { background:#0055a5; color:#000; padding:0.7rem 1rem; border-radius:8px; border:none; font-weight:700; cursor:pointer; }
-
-/* ========== Responsive - header behavior and layout fixes ========== */
-@media (max-width: 1024px) {
-  .sidebar { display:none; }
-  .content { padding:1.25rem; }
-  .experience-box { width:200px; height:200px; }
-}
-
-@media (max-width: 768px) {
-  header { padding:0.5rem 0.9rem; }
-  header img { height:40px; }
-  #nav-toggle { display:block; }
-  header nav { display:none; position:absolute; right:12px; top:calc(var(--header-height) + 6px); background:#fff; border-radius:8px; box-shadow:0 10px 28px rgba(0,0,0,0.14); flex-direction:column; gap:0; padding:0.35rem 0; z-index:1200; min-width:180px; }
-  header nav.show { display:flex; }
-  header nav a { display:block; padding:0.6rem 1rem; border-radius:0; }
-  .hero { padding:1.2rem; min-height: calc(100vh - var(--header-height)); align-items:flex-end; justify-content:center; }
-  .hero-content { text-align:center; max-width:90%; }
-  .hero-content h1 { font-size:1.6rem; }
-  .experience-slider-container { gap:0.8rem; padding:0.8rem 0; }
-  .experience-box { width:150px; height:150px; }
-  .slideshow-preview { aspect-ratio:1/1; }
-  .modal-content { width: calc(100% - 28px); margin-top:calc(var(--header-height) + 8px); }
-  .chat-box { width:92%; right:4%; bottom:84px; }
-  #contact-section { padding:2rem 1rem; }
-}
-
-</style>
+    /* Responsive */
+    @media (max-width: 768px) {
+      .menu-toggle { display: block; }
+      .nav-links { display: none; }
+      .nav-links.mobile { display: flex; }
+      .hero h1 { font-size: 26px; }
+      .experience-box { flex: 0 0 200px; height: 200px; }
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <h1>Vivek Reddy</h1>
+    <div class="menu-toggle">☰</div>
+    <nav class="nav-links">
+      <a href="#work">Work Experience</a>
+      <a href="#impact">Impact Projects</a>
+      <a href="#invention">Inventions</a>
+      <a href="#contact">Get in Touch</a>
+    </nav>
+  </header>
 
-<header>
-  <div class="header-left">
-    <img src="https://www.gstatic.com/marketing-cms/assets/images/f5/d3/a7f9db7045429cb6dc6be56bdcbe/google-logo-about.svg" alt="Logo"/>
+  <section class="hero">
     <div>
-      <div style="font-size:0.95rem; font-weight:700;">Career</div>
-      <div style="font-size:0.75rem; color:rgba(0,0,0,0.55);">Vivek Reddy Munnangi</div>
+      <h1>Vivek Reddy Munnangi</h1>
+      <h2>Data Scientist & Autonomous Systems Engineer</h2>
+      <p>Passionate about building intelligent systems,<br>bridging AI with real-world applications.</p>
     </div>
-  </div>
+  </section>
 
-  <!-- hamburger for mobile -->
-  <button id="nav-toggle" aria-label="Toggle navigation">☰</button>
-
-  <nav id="main-nav">
-    <a href="#fit-section">Why I am Good Fit</a>
-    <a href="#work-section">Work Experience</a>
-    <a href="#impact-section">Impact Projects</a>
-    <a href="#invention-section">Invention</a>
-    <a href="#contact-section">Get In Touch</a>
-  </nav>
-</header>
-
-<!-- HERO (full width; no sidebar) -->
-<section class="hero" id="hero">
-  <div class="hero-content">
-    <h1>Vivek Reddy Munnangi</h1>
-    <h2>Data Scientist & Autonomous Systems Engineer</h2>
-    <p>Passionate about building intelligent systems,<br/>bridging AI with real-world applications.</p>
-  </div>
-</section>
-
-<!-- MIDDLE: only this area contains the sidebar -->
-<div class="container">
-  <aside class="sidebar" id="left-sidebar">
-    <img src="../images/my_picture.jpg" alt="Vivek" class="profile-pic"/>
-    <div class="education">Masters in Data Science, IU Luddy</div>
-    <div class="education">Bachelors in Mechanical Engineering</div>
-  </aside>
-
-  <main class="content">
-    <section id="company-section"><h2>Company Description</h2><p>Google’s mission is to organize the world’s information and make it universally accessible and useful. Founded in 1998 by Larry Page and Sergey Brin, Google has grown from a dorm-room project into a global technology leader, creating products that serve billions of users daily, including Google Search, YouTube, Android, Gmail, and Google Cloud. At its core, Google leverages cutting-edge technology, artificial intelligence, and machine learning to solve complex problems, enhance user experiences, and enable meaningful connections worldwide. Beyond products, Google drives innovation through AI research, exploring applications in natural language processing, computer vision, generative AI, and large-scale data systems. The company prioritizes accessibility, fairness, and inclusivity in all its technological solutions, ensuring that its impact benefits communities globally while maintaining a culture of collaboration, creativity, and ethical innovation.</p></section>
-    <section id="scope-section"><h2>Scope</h2><p>At Google, the scope of work is broad and impactful, spanning multiple domains including AI, ML, cloud computing, computer vision, natural language processing, and generative AI. Engineers contribute to projects that operate at massive scale, influencing billions of users globally. Whether implementing computer vision solutions for YouTube, developing LLM-based tools for Search, or creating multi-modal generative AI models for Google Cloud, the scope involves both deep technical challenges and strategic innovation. Projects require designing scalable infrastructure, optimizing model performance, processing vast datasets, and building systems that are reliable, efficient, and secure. The work scope is not limited to individual contributions—engineers collaborate across teams, bridging research and production, while maintaining a focus on solving real-world problems that enhance accessibility, usability, and fairness for end-users everywhere.</p></section>
-    <section id="culture-section"><h2>Work Culture</h2><p>Google fosters a unique, collaborative, and innovative work culture. Creativity, curiosity, and experimentation are highly encouraged, allowing teams to explore unconventional solutions while adhering to best practices. The company values diversity and inclusivity, emphasizing that teams should reflect the communities their products serve. Cross-functional collaboration is common, and employees are empowered to contribute ideas, challenge assumptions, and participate in decision-making processes. Google also prioritizes learning and professional growth, providing access to state-of-the-art technologies, mentorship programs, and opportunities to rotate across teams. Work-life balance, employee well-being, and a supportive environment contribute to a culture where innovation thrives and everyone can meaningfully impact technology for billions of users.</p></section>
-    <section id="fit-section"><h2>Motivation to Join</h2><p>I am motivated to work at Google because of its unparalleled commitment to leveraging technology to solve complex, real-world problems at scale. The opportunity to work on projects involving AI, ML, computer vision, and generative AI, while directly impacting billions of users, aligns perfectly with my passion for applying technical knowledge to meaningful challenges. Google’s focus on fairness, accessibility, and inclusivity resonates with my values, and the company’s culture of innovation, collaboration, and continuous learning inspires me to contribute my best. Being part of an organization that encourages experimentation, embraces emerging technologies, and pushes the boundaries of what’s possible motivates me to grow as an engineer while contributing to transformative solutions.</p></section>
-    <section id="fit-reason-section"><h2>Why I am a Great Fit</h2><p>I am a strong fit for this role because my academic and professional background aligns closely with Google’s technical and cultural requirements. I have experience in AI, ML, computer vision, deep learning, and large-scale data processing, with hands-on expertise in Python, C++, R, SQL, ROS2, TensorFlow, PyTorch, and relevant frameworks. My work on autonomous vehicles, medical image registration, and real-time API systems demonstrates my ability to design, optimize, and deploy complex software solutions. I am a fast learner, capable of adapting to new technologies and concepts, and I thrive in collaborative, cross-functional environments. My problem-solving skills, combined with strong teamwork, leadership experience, and a commitment to delivering high-quality results, make me well-prepared to contribute effectively to Google’s projects and culture.</p></section>
-
-    <section id="work-section"><h2>Work Experience</h2>
-      <div class="experience-slider-container" id="work-slider">
-<div class="experience-box" data-title="Research Engineer, VAIL IU">
-    <h3>Research Engineer, VAIL IU</h3>
-    <div class="slideshow-preview">
-        <img src="../images/s_withcar.jpg" alt="Vehicle Model"/>
-        <img src="../images/group_withcar.jpg" alt="Team"/>
-        <img src="../images/grip_analysis.png" alt="Dashboard"/>
-    </div>
-    <p>State estimation, vehicle dynamics, and control development for IU Luddy Racing’s autonomous Indy Autonomous Challenge car.</p>
-    <div class="full-content">
-        <h3>Research Engineer, Vehicle Autonomy and Intelligence Lab – IU Luddy Racing</h3>
-        <div class="image-row">
-            <figure>
-                <img src="../images/s_withcar.jpg" alt="Vehicle Model"/>
-                <figcaption>Dallara AV-24 – IU Luddy Racing Racecar</figcaption>
-            </figure>
-            <figure>
-                <img src="../images/group_withcar.jpg" alt="Team"/>
-                <figcaption>IU Luddy Racing Team – Laguna Seca Race Weekend</figcaption>
-            </figure>
+  <section id="work">
+    <h2>Work Experience</h2>
+    <div class="slider" id="work-slider">
+      <div class="experience-box">
+        <div class="slideshow-preview">
+          <img src="{work_img1}" class="active" />
+          <img src="{work_img2}" />
         </div>
-
-        <p>
-            I joined the team in <strong>August 2024</strong>, about seven months into development, shortly after
-            IU Luddy Racing announced its participation in the <strong>Indy Autonomous Challenge (IAC)</strong>.
-            My focus was on <strong>state estimation and vehicle dynamics</strong>, working alongside the
-            controller and localization leads to solve state-related problems and refine the dynamics model.
-        </p>
-
-        <p>
-            After onboarding, I identified the need for a more advanced dynamics model and proposed a
-            <strong>grip prediction module</strong> to estimate traction limits. This allowed us to design
-            safer, more aggressive <strong>velocity profiles</strong> using offline planners. I also analyzed
-            <strong>engine performance data</strong>, building strategies for <strong>optimal gear shifting</strong>
-            based on ECU and dynamometer data to adapt power delivery to track demands.
-        </p>
-
-        <p>
-            Our first dynamic module control tests took place at <strong>Las Vegas Motor Speedway (LVMS) in January 2025</strong>,
-            showing promising results. Over the next months, we prepared for <strong>multi-car racing</strong>, updating the
-            stack for robustness and safety. In <strong>July 2025</strong>, we competed at <strong>Laguna Seca Raceway</strong>
-            against eight international teams. Despite a late practice crash that forced speed adjustments,
-            we achieved <strong>4th place overall</strong> – a strong showing for our first-ever road course race
-            and only our third competition as a new team.
-        </p>
-
-        <div class="image-row">
-            <figure>
-                <img src="../images/grip_analysis.png" alt="Dashboard"/>
-                <figcaption>Grip Prediction and Race Data Analysis</figcaption>
-            </figure>
+        <div class="full-content" style="display:none;">
+          <h3>Work Role</h3>
+          <div class="image-grid">
+            <img src="{work_img1}" />
+            <img src="{work_img2}" />
+          </div>
+          <p>Detailed description of work experience...</p>
         </div>
-
-        <p>
-            These milestones gave us valuable data on vehicle dynamics, localization, and controller behavior.
-            Going forward, I continue developing new modules to push performance and safety, helping
-            IU Luddy Racing compete at the cutting edge of autonomous motorsport.
-        </p>
-
-        <p><a href="https://vail-robotics.net/pages/people#" target="_blank">My Research Profile</a></p>
-    </div>
-</div>
-
-
-<div class="experience-box" data-title="Partner & AI Head, DentalMatrix.ai">
-    <h3>AI Head, DentalMatrix.ai</h3>
-    <div class="slideshow-preview">
-        <img src="../images/writeoff_description.png" alt="Dashboard"/>
-        <img src="../images/writeoff_distribution.png" alt="Distribution"/>
-    </div>
-    <p>Co-founded and developed a unified dental platform with real-time ETL pipelines and a fine-tuned AI agent for actionable practice insights.</p>
-
-    <div class="full-content">
-        <h3>AI Head, DentalMatrix.ai</h3>
-
-        <p>
-            At DentalMatrix.ai, we built a platform to help dental clinics unify their patient and lead data. 
-            Clinics often manage patient records in OpenDental and track new inquiries in GoHighLevel CRM. 
-            Our solution integrates these systems into a single database, allowing clinics to track existing patients 
-            and potential leads in one place. This unified data enables clinics to target marketing campaigns, convert 
-            potential patients into real appointments, and improve overall operational efficiency. So with this I started working on sync operations using API on <strong>September 2024</strong>
-        </p>
-
-        <p>
-            We also developed a domain-specific <strong>AI Agent</strong> to interact with clinic staff. Unlike generic 
-            chatbots, this agent is fine-tuned on dental terminology, CRM data structures, and official dental abbreviations. 
-            It provides answers to natural-language questions with either <strong>textual explanations or data visualizations</strong>. 
-            Examples of queries include: 
-            <em>"Which procedures have the highest write-offs?"</em> or 
-            <em>"Show conversion rates for new patient inquiries this month."</em>
-        </p>
-
-        <p>
-            The AI Agent uses a <strong>Qwen-3 base model</strong> for its multilingual capabilities, 
-            allowing clinics to translate campaigns and communications into languages like Spanish automatically. 
-            Fine-tuning was performed on <strong>2× H100 GPUs</strong> using <strong>DeepSpeed, Fully Sharded Data Parallel (FSDP), and parallel computing</strong> 
-            to accelerate training and optimize performance.
-        </p>
-
-        <p>
-            The backend includes a robust <strong>ETL pipeline</strong> that extracts and synchronizes structured data 
-            from OpenDental and the CRM into a centralized relational database. This enables real-time CRUD operations 
-            and ensures all patient and lead information is immediately up-to-date.
-        </p>
-        <p> When asked about <em>"Which procedures have the highest write-offs?"</em>, the agent reaponse as text was <em> "The WriteOff is calculated as: (Sum of all fees on procedures - Sum of all insurance estimates and insurance payments received) + WriteoffsAlreadySent.  It's not just a simple sum of all writeoffs.  The user can never directly edit this field, but it is possible to set it blank.  If the WriteOff value is higher than the WriteOffEst, then we show the WriteOff value in color red.  This means that it has been manually altered from the estimate. We don't currently track who changed it."</em>, and the visual response as shown below </p>
-        <div class="image-row">
-            <figure>
-                <img src="../images/writeoff_description.png" alt="Dashboard"/>
-                <figcaption>AI Agent visualization: Patient write-off insights</figcaption>
-            </figure>
-            <figure>
-                <img src="../images/writeoff_distribution.png" alt="Distribution"/>
-                <figcaption>AI Agent visualization: Distribution of total write-offs amount</figcaption>
-            </figure>
-        </div>
-
-        <p>
-            This platform provides dental clinics with a unified view of all contacts, actionable insights for resource planning, 
-            marketing, and patient management, and an intelligent assistant designed specifically for dental operations. 
-            With this foundation, clinics can better understand patient needs, optimize marketing efforts, 
-            and deliver higher quality care efficiently.
-        </p>
-        <p><a href="https://dentalmetrics.ai/" target="_blank">Link to site(Under development)</a></p>
-    </div>
-</div>
-
-
-<div class="experience-box" data-title="Research Assistant">
-    <h3>Research Assistant, Frontiers of Optical Imaging and Biology Lab</h3>
-    
-    <div class="slideshow-preview">
-        <img src="../images/lab_logo.png" alt="Lab Logo"/>
-        <img src="../images/Mice_Eye_3D.png" alt="3D Eye Scan"/>
-        <img src="../images/is_after.png" alt="Registered Eye Scan"/>
-    </div>
-    
-    <p>Developed a dynamic 3D image registration pipeline to correct cellular-level motion in high-resolution eye scans across multiple subjects.</p>
-    
-    <div class="full-content">
-        <h3>Research Assistant, Frontiers of Optical Imaging and Biology Lab</h3>
-        <p>
-            In this research, I worked on aligning 3D eye scan datasets from humans, mice, and bovine subjects. 
-            Each scan captures cellular structures at <strong>2 µm focus</strong>, where even small biological motions 
-            or scanner delays cause misalignment. The goal was to dynamically correct drift while preserving the natural movement of cells.
-        </p>
-        
-        <p>
-            The workflow included:
-            <ul>
-                <li><strong>Pixel classification:</strong> Identified cell bodies, nuclei, and background pixels using intensity distribution and pooling. Noise pixels were removed.</li>
-                <li><strong>Dynamic registration:</strong> Sequentially aligned frames by tracking drift and adjusting each frame relative to the first, while allowing live cells to move naturally.</li>
-                <li><strong>Subject-agnostic design:</strong> The code works across different species and datasets without manual tuning.</li>
-            </ul>
-        </p>
-        <div class="image-row">
-            <figure>
-                <img src="../images/sv_before_drift.png" alt="Side view before"/>
-                <figcaption>Side view before registration</figcaption>
-            </figure>
-            <figure>
-                <img src="../images/sv_after_drift.png" alt="Side view after"/>
-                <figcaption>Side view after registration</figcaption>
-            </figure>
-        </div>
-
-        <div class="image-row">
-            <figure>
-                <img src="../images/sv_before.png" alt="Front view before"/>
-                <figcaption>Front view before registration</figcaption>
-            </figure>
-            <figure>
-                <img src="../images/sv_after.png" alt="Front view after"/>
-                <figcaption>Front view after registration</figcaption>
-            </figure>
-        </div>
-
-        <p>
-            The registration consistently produced highly quality alignment with 97% and at  6.5 MB/s processing speed, making cellular structures clearly visible 
-            in top, front, and side views, and enabling downstream analysis of cell motion and behavior.
-        </p>
-        
-
-        <div class="image-row">
-            <figure>
-                <img src="../images/is_before.png" alt="Top view before"/>
-                <figcaption>Top view before registration (3D stack)</figcaption>
-            </figure>
-            <figure>
-                <img src="../images/is_after.png" alt="Top view after"/>
-                <figcaption>Top view after registration (3D stack)</figcaption>
-            </figure>
-        </div>
-        <div class="image-row">
-            <figure>
-                <img src="../images/Mice_Eye_3D.png" alt="Top view before"/>
-                <figcaption>Mice Eye constructed as 3D image from scan</figcaption>
-            </figure>
-        </div>
-        <p><a href="https://blogs.iu.edu/tankamlab/people/" target="_blank">My Research Profile</a></p>
-    </div>
-</div>
-
-<div class="experience-box" data-title="Consultant, EDD chat assistant">
-    <h3>Consultant, EDD chat assistant</h3>
-
-    <div class="slideshow-preview">
-        <img src="../images/edd_logo.png" alt="CEDS Dashboard"/>
-        <img src="../images/ceds_template.png" alt="AI Integration"/>
-        <img src="../images/edd_region.png" alt="AI Integration"/>
-    </div>
-
-    <p>Developed an AI-driven tool to assist Economic Development Districts (EDDs) in creating Comprehensive Economic Development Strategies (CEDS).</p>
-
-    <div class="full-content">
-        <h3>Consultant, EDD chat assistant</h3>
-
-        <p>
-            From August 2024 to January 2025, I worked on integrating AI into the **CEDS creation process** for under-resourced Economic Development Districts (EDDs). 
-            The CEDS is a strategic plan used to drive regional economic growth and is critical for securing federal funding through the Economic Development Administration (EDA). 
-            Many EDDs face challenges in creating strong CEDS documents due to limited resources, expertise, and access to data.
-        </p>
-        <div class="image-row">
-            <figure>
-                <img src="../images/edd_region.png" alt="Top view before"/>
-                <figcaption>Interactive map of Economic Development District - EDD Zones</figcaption>
-            </figure>
-
-        <p>
-            <strong>Problem:</strong> Creating a robust CEDS is time-intensive and requires data analysis, stakeholder engagement, and alignment with EDA guidelines. Smaller districts often struggle to meet these requirements, delaying funding and limiting economic development opportunities.
-        </p>
-
-        <p>
-            <strong>Solution:</strong> The project aimed to develop an AI-driven CEDS generator that leverages generative AI and transformer-based models to automate key parts of the process. Key features include:
-            <ul>
-                <li><strong>Structured Input Interface:</strong> Predefined fields for entering regional data to ensure alignment with EDA guidelines.</li>
-                <li><strong>LLM Integration:</strong> Large language models process inputs and generate region-specific strategies using historical CEDS data.</li>
-                <li><strong>SWOT Automation:</strong> AI-assisted SWOT analyses and strategic recommendations based on regional data.</li>
-                <li><strong>Evaluation Framework Alignment:</strong> Automated feedback to ensure generated CEDS meets EDA evaluation criteria.</li>
-                <li><strong>Scalability:</strong> Modular design allowing use across multiple EDDs with regional customization.</li>
-            </ul>
-        </p>
-        <div class="image-row">
-            <figure>
-                <img src="../images/ceds_template.png" alt="Top view before"/>
-                <figcaption>Basic CEDS Template</figcaption>
-            </figure>
-            <figure>
-                <img src="../images/inital_proposal.png" alt="Top view after"/>
-                <figcaption>Initial Proposal</figcaption>
-            </figure>
-        </div>
-        <p>
-            <strong>Implementation Strategy:</strong> 
-            - Built a prototype integrating AI( used VLLM mistral architecture with mutiple Lora adaptors targeting different layers of base model) with SWOT analysis and draft CEDS generation.  
-            - Used cosine similarity to compare generated content against approved CEDS documents, focusing on areas like climate resilience and equity.  
-            - Incorporated feedback loops for planners to iteratively refine inputs and outputs.  
-            - Designed front-end mockups and modular agent frameworks for user-friendly interaction.
-        </p>
-
-        <p>
-            <strong>Impact:</strong> This project demonstrated the potential for AI to streamline CEDS creation, automate labor-intensive tasks, and improve document quality and compliance. The prototype empowered planners to create data-backed, EDA-compliant strategies more efficiently.  
-            While I paused working on this project after January 2025 due to time constraints, the foundation provides a scalable framework for future AI-assisted economic development tools.
-        </p>
-
-        <div class="image-row">
-            <figure>
-                <img src="../images/pn_analysis.png" alt="CEDS Dashboard"/>
-                <figcaption>Positive and negative statment analysis per topics</figcaption>
-            </figure>
-
-
-        </div>
-    </div>
-</div>
-
-
-</div>
-    </section>
-
-    <section id="impact-section"><h2>Impact Projects</h2>
-      <div class="experience-slider-container" id="impact-slider">
-<div class="experience-box" data-title="Full-Stack Web Application for Restaurants">
-    <h3>Full-Stack Web Application</h3>
-    <div class="slideshow-preview">
-        
-        <img src="../images/adt_logo2.png" alt="Customer Data Interface"/>
-    </div>
-    <p>Developed a full-stack web application using the MERN stack to manage customer preferences, allergies, and reservations efficiently.</p>
-    <div class="full-content">
-        <h3>Full-Stack Web Application for Restaurants | MERN Stack, Render</h3>
-        <p>
-            The goal was to create a comprehensive web application for restaurant owners and staff to store, retrieve, and manage customer details effectively.
-        </p>
-        <p>
-            This system centralizes key customer information, including food preferences, allergies, and special preparation instructions, ensuring both safety and personalized service. 
-            By integrating a user friendly interface, restaurant staff can efficiently handle reservations, walk-ins, and customer updates with minimal errors.
-        </p>
-        <p>
-            Technically, the application leverages the MERN stack (MongoDB, Express, React, Node.js) for full stack functionality, combined with Render for hosting. 
-            For advanced data processing and scalability, Databricks was used to enable large-scale machine learning workflows and optimized database queries.
-        </p>
-        <p>
-            <strong>Impact:</strong> This solution enhances restaurant operations by providing a reliable, intuitive system for managing customer data. 
-            It improves the overall dining experience by allowing staff to cater to individual preferences, manage allergies safely, and streamline food preparation workflows. 
-            Compared to existing systems, our application offers better integration, usability, and customization for the hospitality industry.
-        </p>
-        <div class="image-row">
-            <figure>
-                <img src="../images/adt_loginpage.png" alt="Top view before"/>
-                <figcaption>Login page of the App</figcaption>
-            </figure>
-            <figure>
-                <img src="../images/retreival_page.png" alt="Top view after"/>
-                <figcaption>Retrieving customer info from database using mobile number</figcaption>
-            </figure>
-        </div>
-
-    </div>
-</div>
-
-
-<div class="experience-box" data-title="Analyzing and Visualizing Usage for Common Coordinate Framework UIs">
-    <h3>Clicks Usage Analysis</h3>
-    <div class="slideshow-preview">
-        <img src="../images/cns_logo.png" alt="CCF UI Analytics Overview"/>
-        
-    </div>
-    <p>Analyzed and visualized user interaction data for the CCF's User Interfaces using Google Analytics</p>
-    <div class="full-content">
-        <h3>Analyzing and Visualizing Usage for Common Coordinate Framework User Interfaces | Google Analytics</h3>
-        <p>
-            This project focused on understanding how users interact with the Registration User Interface (RUI) and Exploration User Interface (EUI) of the Common Coordinate Framework (CCF), developed by Indiana University's Cyberinfrastructure for Network Science Center. 
-            By leveraging Google Analytics data, we examined user behavior patterns, element usage frequency, and engagement with spatial search and opacity features.
-        </p>
-        <p>
-            The project involved cleaning and preprocessing a dataset of <strong>192,271 user events</strong>, including event timestamps, page locations, and user identifiers. Critical steps included converting Unix epoch timestamps to human-readable formats, handling missing data, and ensuring data consistency for accurate analysis.
-        </p>
-        <p>
-            Our objectives were to:
-            <ul>
-                <li>Analyze frequency distributions of user events, such as clicks, mouse movements, and interactions with UI elements.</li>
-                <li>Identify the most and least used interface components to understand user engagement.</li>
-                <li>Quantify the frequency of opacity changes in the RUI and assess spatial search usage in the EUI.</li>
-                <li>Provide insights to guide interface improvements and feature prioritization.</li>
-            </ul>
-        </p>
-        <p>
-            Visualization techniques included time series analysis to capture engagement trends, bar and pie charts to illustrate UI element usage, and histograms for opacity and spatial search events. Key insights revealed:
-            <ul>
-                <li>Fluctuating engagement over time, highlighting peak usage periods and optimal times for feature rollouts.</li>
-                <li>High interaction with central UI elements, with underutilized features identified for refinement.</li>
-                <li>Specific adoption patterns of spatial search, suggesting areas for personalized feature enhancements.</li>
-                <li>Opacity adjustments in the RUI indicating user interest in visual customization, guiding future UI enhancements.</li>
-            </ul>
-        </p>
-        <p>
-            During validation, we addressed challenges such as data complexity, event identification, missing values, and visualization clarity by:
-            <ul>
-                <li>Implementing sophisticated data filtering and segmentation.</li>
-                <li>Standardizing timestamps and handling missing values through imputation or exclusion.</li>
-                <li>Creating focused, user-centric visualizations for each analytical question.</li>
-                <li>Categorizing user events with refined approaches to highlight meaningful interactions.</li>
-            </ul>
-        </p>
-        <div class="image-row">
-            <figure>
-                <img src="../images/fq_uielement.png" alt="Top view before"/>
-                <figcaption>Frequency of UI Elements</figcaption>
-            </figure>
-            <figure>
-                <img src="../images/dashboard_vis.png" alt="Top view after"/>
-                <figcaption>Dashboard to Visualize Google Analytics Data</figcaption>
-            </figure>
-        </div>
-        <p>
-            This work emphasizes the importance of continuous monitoring and data-driven design for improving UI usability. Insights from this analysis can inform longitudinal studies, user segmentation, interface personalization, and potential automated feedback loops, contributing to more responsive and user-friendly CCF interfaces.
-        </p>
-        <p><strong>Acknowledgments:</strong> Special thanks to Andreas Bueckle and Michael Patrick Ginda for guidance, and to all Indiana University Bloomington Visual Analytics course staff for their support.</p>
-    </div>
-</div>
-
-<div class="experience-box" data-title="Head of Powertrain - SAE Baja ATV">
-    <h3>Head of Powertrain - SAE Baja ATV</h3>
-    <div class="slideshow-preview">
-        <img src="../images/44_1.jpg" alt="ATV Gearbox and CVT Design"/>
-        <img src="../images/44_win1.jpg" alt="ATV Gearbox and Rear Hub Assembly"/>
-    </div>
-    <p>Led the design and manufacturing of the complete powertrain for SRM University's first SAE Baja ATV</p>
-    <div class="full-content">
-        <h3>Head of Powertrain - SRM University SAE Baja ATV | 2019</h3>
-        <div class="image-row">
-            <figure>
-                <img src="../images/44_grp.jpg" alt="Top view before"/>
-                <figcaption>Team at race weekend</figcaption>
-            </figure>
-            <figure>
-                <img src="../images/44_1.jpg" alt="Top view before"/>
-                <figcaption>Picture of SAE Baja ATV Car</figcaption>
-            </figure>
-        </div>
-        <p>
-            As the Head of Powertrain, I was responsible for the **complete design and manufacturing of the ATV’s transmission system** from scratch. This included the gearbox, CVT, drive shafts, gearbox mounting, and rear hub assembly. Key tasks involved defining tolerances, calculating loads on each structural component, designing angles, and ensuring efficient integration with the vehicle chassis. 
-        </p>
-        <p>
-            Working with a tight budget of approximately <strong>₹58,000 (~$800 USD)</strong> in 2019, we optimized costs by selectively manufacturing components in-house while strategically purchasing critical parts like drive shafts. Aluminum was chosen for several components due to its light weight and heat transfer properties, and careful design of cuts and holes helped reduce weight without compromising structural integrity. Air channeling techniques were integrated to ensure efficient cooling of critical powertrain components.
-        </p>
-        <p>
-            Challenges included managing the mechanical design of the CVT and gearbox housings, ensuring alignment and smooth transmission of power, and maintaining performance under dynamic loads. Despite these challenges, the design performed reliably during testing and competition.
-        </p>
-        <p>
-            Achievements during the competition:
-            <ul>
-                <li>Ranked top team for best acceleration and braking performance.</li>
-                <li>Placed top 5 in maneuverability out of 85 teams from leading Indian universities.</li>
-                <li>Successfully built the university’s first functional Baja vehicle, demonstrating practical engineering, cost optimization, and innovative design solutions.</li>
-            </ul>
-        </p>
-        <div class="image-row">
-            <figure>
-                <img src="../images/44_win1.jpg" alt="Top view before"/>
-                <figcaption>Top Step in Acceleration test</figcaption>
-            </figure>
-        </div>
-        
-        <p>
-            This experience not only strengthened my mechanical design, manufacturing, and project management skills, but also honed my ability to make high-impact decisions under budget and time constraints while leading a team to execute complex engineering projects.
-        </p>
-        <p>
-        After this I acted as Consultant for SAE Supra Student Formula team, used KTM 390 CC engine and modifed intake, exhaust, few engine head parts to extract maximum performance. Also helped them design gearbox and drive shaft for race car.
-        </p>
-        <div class="image-row">
-            <figure>
-                <img src="../images/cons_fema.jpg" alt="Top view before"/>
-                <figcaption>SAE Supra car</figcaption>
-            </figure>
-    </div>
-</div>
-
-
-</div>
-    </section>
-
-    <section id="invention-section"><h2>Invention</h2>
-      <div class="experience-slider-container" id="invention-slider">
-        <div class="experience-box"><div class="experience-box" data-title="3-Phase BLDC Wheel Hub Motor Patent">
-    <h3>3-Phase BLDC Wheel Hub Motor | Patent</h3>
-    <div class="slideshow-preview">
-        <img src="../images/design_motor.jpg" alt="3-Phase BLDC Wheel Hub Motor Design"/>
-        <img src="../images/temp_motor.png" alt="Inner Rotor and Outer Stator Assembly"/>
-    </div>
-    <p>Developed a high-efficiency 3-phase BLDC wheel hub motor for small electric vehicles and hybrid applications.</p>
-    <div class="full-content">
-        <h3>3-Phase BLDC Wheel Hub Motor - Patent</h3>
-        <p>
-            This invention focuses on the design, development, and optimization of a 3-phase BLDC wheel hub motor with an inner rotor and outer stator. The motor is designed to reduce wheel size while maintaining high torque and efficiency. Key components include the stator, rotor, and Hall sensors for precise rotor position detection.
-        </p>
-        <div class="image-row">
-            <figure>
-                <img src="../images/design_motor.jpg" alt="Top view before"/>
-                <figcaption>Design of motor</figcaption>
-            </figure>
-            <figure>
-                <img src="../images/temp_motor.png" alt="Top view before"/>
-                <figcaption>Thermal simulation of motor</figcaption>
-            </figure>
-        </div>
-        <p>
-            The stator is constructed using laminated material to minimize eddy current losses and contains 18 slots arranged in a star winding pattern for copper coils. The **rotor** uses six high-flux Neodymium permanent magnets, chosen to maximize torque output in a compact form factor. Hall sensors are employed to synchronize stator excitation, enabling smooth rotation and efficient electronic commutation.
-        </p>
-        <p>
-            Each design parameter—pole count, slot number, coil turns, and rotor geometry—was evaluated through multiple iterative simulations, generating large datasets for performance, torque, thermal, and magnetic efficiency. I applied machine learning models to analyze these outputs, identify patterns, and predict optimal configurations for the next iteration, effectively connecting the dots between simulations and achieving highly efficient motor designs.
-        </p>
-        <p>
-            The design allows for direct integration into the wheel, eliminating the need for conventional drivetrains, gearboxes, axles, or differentials. This results in weight reduction, lower maintenance, improved vehicle dynamics, and greater interior design flexibility.
-        </p>
-        <p>
-            Design considerations included:
-            <ul>
-                <li>Inner rotor and outer stator configuration to reduce motor diameter and improve torque-to-size ratio.</li>
-                <li>Iterative optimization of pole count, slot number, and coil turns for desired performance using ML-assisted analysis.</li>
-                <li>Evaluation of multiple rotor core designs (curved, rectangular, perpendicular magnets) for optimal surface fit and torque efficiency.</li>
-                <li>Use of cost-effective materials while ensuring high thermal performance and reliability.</li>
-                <li>Minimized cogging torque and high dynamic response for fast acceleration and precise control.</li>
-            </ul>
-        </p>
-        <div class="image-row">
-            <figure>
-                <img src="../images/cd_motor.png" alt="Top view before"/>
-                <figcaption>Current Density simulation</figcaption>
-            </figure>
-            <figure>
-                <img src="../images/ct_motor.png" alt="Top view before"/>
-                <figcaption>Cogging Torque simulation</figcaption>
-            </figure>
-        </div>
-        <p>
-            Advantages of this motor include smaller wheel size, improved torque-to-size ratio, higher efficiency, reduced weight, and simplified drivetrain design. The motor can be used in hybrid or fully electric vehicles with small wheel rims (5.9–10 inches).
-        </p>
-        <p>
-            Working on this project sparked my interest in data-driven engineering and ML applications in mechatronics, inspiring me to pursue a Master’s in Data Science at Indiana University. This allowed me to deepen my expertise in data analysis, predictive modeling, and optimization, and eventually join the IU Autonomous Racing Team to apply these skills to real-world autonomous vehicle systems.
-        </p>
-        <p>
-            Overall, this patent project strengthened my skills in electromechanical design, motor optimization, iterative analysis, and innovation for electric vehicle systems, while also bridging my interest in data science and autonomous technologies.
-        </p>
-    </div>
-</div>
-
-
-</div>
       </div>
-    </section>
-  </main>
-</div>
+    </div>
+  </section>
 
-<!-- CONTACT (full-width dark container) -->
-<section id="contact-section">
-  <div class="contact-inner">
-    <h2>Get In Touch</h2>
-    <p>If you'd like to connect, leave your contact details below and I'll reach out.</p>
-    <form class="w-webhook-form">
-      <input placeholder="Phone" required name="phone"/>
-      <input placeholder="Email" required type="email" name="email"/>
-      <textarea placeholder="Message" required name="message" rows="4"></textarea>
+  <section id="impact">
+    <h2>Impact Projects</h2>
+    <div class="slider" id="impact-slider">
+      <div class="experience-box">
+        <div class="slideshow-preview">
+          <img src="{impact_img1}" class="active" />
+          <img src="{impact_img2}" />
+        </div>
+        <div class="full-content" style="display:none;">
+          <h3>Impact Project</h3>
+          <div class="image-grid">
+            <img src="{impact_img1}" />
+            <img src="{impact_img2}" />
+          </div>
+          <p>Detailed description of project...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="invention">
+    <h2>Inventions</h2>
+    <div class="slider" id="invention-slider">
+      <div class="experience-box">
+        <div class="slideshow-preview">
+          <img src="{invention_img1}" class="active" />
+          <img src="{invention_img2}" />
+        </div>
+        <div class="full-content" style="display:none;">
+          <h3>Invention</h3>
+          <div class="image-grid">
+            <img src="{invention_img1}" />
+            <img src="{invention_img2}" />
+          </div>
+          <p>Details about the invention...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Get in Touch</h2>
+    <form action="mailto:{your_email}" method="POST" enctype="text/plain">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
       <button type="submit">Send</button>
     </form>
+  </section>
+
+  <!-- Modal -->
+  <div id="modal">
+    <div id="modal-content">
+      <span id="close-modal">&times;</span>
+      <div id="modal-inner"></div>
+    </div>
   </div>
-</section>
 
-<!-- Modal -->
-<div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="modal-content" id="modal-content">
-    <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
-    <div id="modal-inner" class="modal-inner-text"></div>
-  </div>
-</div>
-
-<!-- Chat -->
-<div class="chat-icon" id="chat-icon">💬</div>
-<div class="chat-box" id="chat-box" role="region" aria-label="Chat">
-  <div class="chat-header">Ask Me</div>
-  <div class="chat-body" id="chat-body"><div class="chat-message-bot">Hi! How can I help you?</div></div>
-  <div class="chat-input">
-    <input type="text" id="chat-input" placeholder="Type a message..."/>
-    <button id="chat-send">Send</button>
-    <button id="chat-voice" title="Voice input">🎤</button>
-  </div>
-</div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const header = document.querySelector('header');
-  const nav = document.getElementById('main-nav');
-  const navToggle = document.getElementById('nav-toggle');
-  const hero = document.getElementById('hero');
-
-  function setHeaderHeightVar() {
-    const h = header.offsetHeight || 64;
-    document.documentElement.style.setProperty('--header-height', h + 'px');
-    if (hero) hero.style.minHeight = 'calc(100vh - ' + h + 'px)';
-  }
-
-  // initial set, also update on resize
-  setHeaderHeightVar();
-  window.addEventListener('resize', function() { setHeaderHeightVar(); if (window.innerWidth > 768) nav.classList.remove('show'); });
-
-  // nav toggle for small screens
-  navToggle.addEventListener('click', function(e) {
-    e.stopPropagation();
-    nav.classList.toggle('show');
-    setHeaderHeightVar();
-  });
-
-  // close nav when clicking outside
-  document.addEventListener('click', function(e) {
-    if (nav.classList.contains('show') && !nav.contains(e.target) && !navToggle.contains(e.target)) {
-      nav.classList.remove('show');
-    }
-  });
-
-  // adjust when nav link clicked (close mobile dropdown)
-  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    nav.classList.remove('show');
-  }));
-});
-
-// ========== Slider initialization (center + loop + pause on pointer inside card) ==========
-function initSlider(sliderId) {
-  const slider = document.getElementById(sliderId);
-  if (!slider) return;
-  const cards = Array.from(slider.querySelectorAll('.experience-box'));
-  let slideshowInterval = null;
-  let idleTimer = null;
-  let isPaused = false;
-
-  function centerCard(card) {
-    const offset = card.offsetLeft - (slider.clientWidth / 2 - card.clientWidth / 2);
-    slider.scrollTo({ left: offset, behavior: 'smooth' });
-  }
-
-  function updateCenterCard() {
-    const sliderCenter = slider.scrollLeft + slider.offsetWidth / 2;
-    let closest = null;
-    let bestDist = Infinity;
-    cards.forEach(c => {
-      const cCenter = c.offsetLeft + c.offsetWidth / 2;
-      const d = Math.abs(sliderCenter - cCenter);
-      if (d < bestDist) { bestDist = d; closest = c; }
+  <script>
+    // Toggle menu
+    document.querySelector('.menu-toggle').addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('mobile');
     });
-    cards.forEach(c => c.classList.remove('center'));
-    if (closest) closest.classList.add('center');
-    return closest;
-  }
 
-  function startAutoplay() {
-    if (slideshowInterval) clearInterval(slideshowInterval);
-    slideshowInterval = setInterval(() => {
-      if (isPaused) return;
-      const current = slider.querySelector('.experience-box.center') || cards[0];
-      const next = current.nextElementSibling || cards[0];
-      centerCard(next);
-      setTimeout(updateCenterCard, 420);
-    }, 3500);
-  }
+    // Slider
+    function initSlider(sliderId) {
+      const slider = document.getElementById(sliderId);
+      if (!slider) return;
+      const cards = slider.querySelectorAll('.experience-box');
+      let slideshowInterval = null;
 
-  function pauseWithTimeout() {
-    isPaused = true;
-    if (idleTimer) clearTimeout(idleTimer);
-    idleTimer = setTimeout(() => { isPaused = false; }, 5000);
-  }
-
-  // initialize
-  if (cards.length) {
-    setTimeout(() => {
-      centerCard(cards[0]);
-      updateCenterCard();
-      startAutoplay();
-    }, 120);
-  }
-
-  slider.addEventListener('scroll', updateCenterCard);
-
-  // pointer-based pause/resume on each card (works for mouse/touch)
-  cards.forEach(card => {
-    let pointerInside = false;
-    card.addEventListener('pointerenter', (e) => { pointerInside = true; pauseWithTimeout(); });
-    card.addEventListener('pointermove', (e) => { if (pointerInside) pauseWithTimeout(); });
-    card.addEventListener('pointerleave', (e) => { pointerInside = false; isPaused = false; });
-    // also handle touchstart explicitly to pause immediately
-    card.addEventListener('touchstart', (e) => { pauseWithTimeout(); }, {passive:true});
-  });
-
-  // clicking: center or open modal if already centered
-  slider.addEventListener('click', function(e) {
-    const clicked = e.target.closest('.experience-box');
-    if (!clicked) return;
-    const centerEl = slider.querySelector('.experience-box.center');
-    if (centerEl === clicked) {
-      const content = clicked.querySelector('.full-content');
-      if (content) {
-        const modal = document.getElementById('modal');
-        document.getElementById('modal-inner').innerHTML = content.innerHTML;
-        modal.style.display = 'flex';
-        modal.setAttribute('aria-hidden','false');
-        // ensure modal is visible and header offset accounted
-        const header = document.querySelector('header');
-        const modalContent = document.getElementById('modal-content');
-        modalContent.style.marginTop = (header ? header.offsetHeight : 64) + 'px';
-        // focus for accessibility
-        modalContent.focus();
+      function centerCard(card) {
+        const offset = card.offsetLeft - (slider.clientWidth / 2 - card.clientWidth / 2);
+        slider.scrollTo({ left: offset, behavior: 'smooth' });
       }
-    } else {
-      centerCard(clicked);
-      setTimeout(updateCenterCard, 420);
-    }
-  });
-}
 
-// initialize sliders
-initSlider('work-slider');
-initSlider('impact-slider');
-initSlider('invention-slider');
+      function updateCenterCard() {
+        const sliderCenter = slider.scrollLeft + slider.offsetWidth / 2;
+        let closestCard = null;
+        let closestDistance = Infinity;
+        cards.forEach(card => {
+          const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+          const distance = Math.abs(sliderCenter - cardCenter);
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestCard = card;
+          }
+        });
+        cards.forEach(card => card.classList.remove('center'));
+        if (closestCard) closestCard.classList.add('center');
+        return closestCard;
+      }
 
-// ========== per-card image slideshow (works both desktop & mobile) ==========
-document.querySelectorAll('.experience-box').forEach(box => {
-  const imgs = Array.from(box.querySelectorAll('.slideshow-preview img'));
-  if (!imgs.length) return;
-  let cur = 0;
-  // ensure starting state
-  imgs.forEach((im, i) => { im.classList.remove('active'); im.style.opacity = i===0 ? '1' : '0'; });
-  imgs[0].classList.add('active');
-  setInterval(() => {
-    imgs[cur].classList.remove('active');
-    imgs[cur].style.opacity = '0';
-    cur = (cur + 1) % imgs.length;
-    imgs[cur].classList.add('active');
-    imgs[cur].style.opacity = '1';
-  }, 3000);
-});
+      function startSlideshow() {
+        if (slideshowInterval) clearInterval(slideshowInterval);
+        slideshowInterval = setInterval(() => {
+          const current = slider.querySelector('.experience-box.center');
+          if (!current) return;
+          const next = current.nextElementSibling || cards[0];
+          centerCard(next);
+          setTimeout(() => updateCenterCard(), 400);
+        }, 4000);
+      }
 
-// ========== Modal close handlers & accessibility ==========
-(function modalSetup() {
-  const modal = document.getElementById('modal');
-  const modalClose = document.getElementById('modal-close');
-  modalClose.addEventListener('click', () => { modal.style.display = 'none'; modal.setAttribute('aria-hidden','true'); });
-  // click overlay to close
-  window.addEventListener('click', function(e) { if (e.target === modal) { modal.style.display = 'none'; modal.setAttribute('aria-hidden','true'); } });
-  // ESC to close
-  window.addEventListener('keydown', function(e) { if (e.key === 'Escape') { if (modal.style.display === 'flex') { modal.style.display = 'none'; modal.setAttribute('aria-hidden','true'); } } });
-})();
+      if (cards.length > 0) {
+        window.setTimeout(() => {
+          centerCard(cards[0]);
+          updateCenterCard();
+          startSlideshow();
+        }, 100);
+      }
 
-// ========== Chat toggle & send (simple local UI) ==========
-(function chatSetup() {
-  const chatIcon = document.getElementById('chat-icon');
-  const chatBox = document.getElementById('chat-box');
-  chatIcon.addEventListener('click', () => { chatBox.style.display = (chatBox.style.display === 'flex' ? 'none' : 'flex'); });
-
-  const chatSend = document.getElementById('chat-send');
-  const chatInput = document.getElementById('chat-input');
-  const chatBody = document.getElementById('chat-body');
-
-  chatSend.addEventListener('click', async () => {
-    const msg = chatInput.value.trim();
-    if (!msg) return;
-    chatBody.innerHTML += `<div class="chat-message-user">${msg}</div>`;
-    chatBody.scrollTop = chatBody.scrollHeight;
-    chatInput.value = '';
-    // optional: call your backend here (kept safe/fallback)
-    try {
-      const res = await fetch('https://profile-az1i.onrender.com/ask', {
-        method:'POST', headers: { 'Content-Type':'application/json' }, body: JSON.stringify({ message: msg })
+      slider.addEventListener('scroll', () => {
+        updateCenterCard();
       });
-      const data = await res.json();
-      chatBody.innerHTML += `<div class="chat-message-bot">${data.response}</div>`;
-      chatBody.scrollTop = chatBody.scrollHeight;
-      // save conv optional
-      await fetch('https://profile-az1i.onrender.com/save_conversation', {
-        method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ user: msg, bot: data.response })
+
+      slider.addEventListener('click', e => {
+        const clickedCard = e.target.closest('.experience-box');
+        if (!clickedCard) return;
+        const centerCardEl = slider.querySelector('.experience-box.center');
+        if (centerCardEl === clickedCard) {
+          const content = clickedCard.querySelector('.full-content');
+          if (content) {
+            document.getElementById('modal-inner').innerHTML = content.innerHTML;
+            document.getElementById('modal').style.display = 'flex';
+          }
+        } else {
+          centerCard(clickedCard);
+          setTimeout(() => updateCenterCard(), 400);
+        }
       });
-    } catch (err) {
-      chatBody.innerHTML += `<div class="chat-message-bot">Error: Could not fetch response.</div>`;
-      chatBody.scrollTop = chatBody.scrollHeight;
     }
-  });
 
-  chatInput.addEventListener('keypress', function(e) { if (e.key === 'Enter') { e.preventDefault(); chatSend.click(); } });
-})();
-</script>
+    initSlider('work-slider');
+    initSlider('impact-slider');
+    initSlider('invention-slider');
 
-<footer style="text-align:center; margin:2rem 0; font-style:italic; font-size:1rem; color:#333; width:100%">
-  Vivek Reddy Munnangi |
-  <a href="../resume.pdf" target="_blank" style="color:#0055a5; text-decoration:none;margin-left:0.3rem;">Resume</a>
-</footer>
+    // Image slideshow
+    document.querySelectorAll('.experience-box').forEach(box => {
+      const imgs = box.querySelectorAll('.slideshow-preview img');
+      if (imgs.length > 0) {
+        let cur = 0;
+        imgs[cur].classList.add('active');
+        setInterval(() => {
+          imgs[cur].classList.remove('active');
+          cur = (cur + 1) % imgs.length;
+          imgs[cur].classList.add('active');
+        }, 3000);
+      }
+    });
+
+    // Modal close
+    document.getElementById('close-modal').addEventListener('click', () => {
+      document.getElementById('modal').style.display = 'none';
+    });
+  </script>
 </body>
 </html>
