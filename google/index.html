@@ -1,246 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Portfolio</title>
 <style>
 :root {
   --header-height: 64px;
 }
 
-/* ========== base ========== */
-body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:0; background:#f0f4f8; color:#333; scroll-behavior:smooth; overflow-x:hidden; }
+html,body { height:100%; }
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin:0; padding:0;
+  /* base background (your common background image) */
+  background: url('../images/back.png') no-repeat center center fixed;
+  background-size: cover;
+  color:#111;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  scroll-behavior:smooth;
+  overflow-x:hidden;
+}
+
+/* translucent containers so base background shows through */
+.header-bg, .content, .sidebar {
+  /* use light translucent panels so text remains readable while showing base bg */
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(4px);
+}
+
+/* header (translucent) */
 header {
-  display:flex; align-items:center; justify-content:space-between; padding:0.9rem 1.5rem; background:#fff; border-bottom:2px solid #ccc;
-  position: fixed; top:0; left:0; width:100%; z-index:1100; box-sizing:border-box;
-  height: auto;
+  position:fixed; top:0; left:0; right:0;
+  height:auto;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0.8rem 1.2rem; box-sizing:border-box;
+  border-bottom:1px solid rgba(0,0,0,0.08);
+  z-index:1200;
 }
-.header-left { display:flex; align-items:center; gap:0.8rem; }
+.header-left { display:flex; gap:0.8rem; align-items:center; }
 header img { height:48px; width:auto; display:block; }
-#nav-toggle {
-  display:none;
-  background:transparent;
-  border:none;
-  font-size:1.4rem;
-  cursor:pointer;
-  padding:0.25rem 0.5rem;
-}
-header nav {
-  display:flex; gap:1rem; align-items:center;
-}
-header nav a { color:#0055a5; font-weight:600; cursor:pointer; text-decoration:none; white-space:nowrap; padding:0.35rem 0.6rem; border-radius:6px; }
-header nav a:hover { background: rgba(0,0,0,0.03); text-decoration:none; }
+#nav-toggle { display:none; background:transparent; border:none; font-size:1.4rem; cursor:pointer; }
+nav#main-nav { display:flex; gap:0.9rem; align-items:center; }
+nav#main-nav a { color:#0055a5; font-weight:600; text-decoration:none; padding:0.28rem 0.6rem; border-radius:6px; }
+nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
 
-/* heading styles */
-h1,h2,h3 { color:#0055a5; margin:0; }
-h2 { border-bottom:2px solid #0055a5; padding-bottom:0.3rem; margin-bottom:1rem; }
-section { margin-bottom:3rem; scroll-margin-top:calc(var(--header-height) + 10px); }
-
-.container { display:flex; gap:2rem; align-items:flex-start; margin-top:calc(var(--header-height) + 0.5rem); box-sizing:border-box; }
-
-/* Sidebar (only for middle content) */
-.sidebar {
-  width:220px;
-  position:sticky;
-  top: calc(var(--header-height) + 16px);
-  height: calc(100vh - var(--header-height) - 32px);
-  padding:1.25rem;
-  background:#f0f4f8;
-  border-radius:8px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.04);
-  display:flex; flex-direction:column; align-items:center; gap:0.5rem;
-}
-.profile-pic { width:100%; border-radius:8px; margin-bottom:0.6rem; }
-.education { font-style:italic; font-size:0.9rem; color:#333; text-align:center; }
-
-/* main content area (middle) */
-.content { flex:1; min-width:260px; padding:2rem; box-sizing:border-box; }
-
-/* ========== HERO (full width - no sidebar) ========== */
+/* top-level hero (keeps its own image & overlay) */
 .hero {
   width:100%;
   min-height: calc(100vh - var(--header-height));
-  display:flex;
-  justify-content:flex-end;
-  align-items:flex-end;
-  padding: 2rem;
-  box-sizing:border-box;
-  position:relative;
+  display:flex; align-items:flex-end; justify-content:flex-end;
+  padding:2rem; box-sizing:border-box; position:relative;
   background: url('../images/ai_back.png') no-repeat center center/cover;
 }
 .hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.35);
-  pointer-events:none;
+  content:""; position:absolute; inset:0; background: rgba(0,0,0,0.32); pointer-events:none;
 }
-.hero-content {
-  position:relative; z-index:2; color:#fff; max-width:540px; text-align:right;
-}
-.hero-content h1 { font-size:2.4rem; line-height:1.05; margin-bottom:0.35rem; }
-.hero-content h2 { font-size:1.05rem; color:#ddd; margin-bottom:0.6rem; }
-.hero-content p { font-size:1rem; color:#f1f1f1; }
+.hero-content { position:relative; z-index:2; color:#fff; max-width:540px; text-align:right; }
+.hero-content h1 { font-size:2.4rem; margin:0 0 0.35rem 0; color:#fff; }
+.hero-content h2 { font-size:1.05rem; color:#ddd; margin:0 0 0.6rem 0; }
+.hero-content p { color:#f1f1f1; }
 
-/* ========== SLIDER (square cards) ========== */
-/* ensure enlarged card has breathing room: padding left/right equals approx half enlarged card width */
+/* page layout (middle container has sidebar + content) */
+.container {
+  display:flex; gap:2rem; align-items:flex-start;
+  margin-top: calc(var(--header-height) + 0.6rem);
+  padding: 1rem 1.25rem 3rem 1.25rem;
+  box-sizing:border-box;
+}
+
+/* sidebar (sticky in middle area) */
+.sidebar {
+  width:220px;
+  position:sticky; top: calc(var(--header-height) + 16px);
+  height: calc(100vh - var(--header-height) - 32px);
+  padding:1.25rem; box-sizing:border-box; border-radius:10px;
+  box-shadow:0 8px 30px rgba(2,6,23,0.06);
+}
+.profile-pic { width:100%; border-radius:8px; display:block; margin-bottom:0.6rem; }
+.education { font-size:0.9rem; color:#333; text-align:center; }
+
+/* main content */
+.content {
+  flex:1; min-width:260px; padding:1rem; box-sizing:border-box;
+  border-radius:10px;
+}
+
+/* Professional Summary (new single section) */
+.professional-summary {
+  background: rgba(255,255,255,0.9);
+  padding:1.1rem; border-radius:10px; margin-bottom:1.25rem;
+}
+.professional-summary h2 { color:#0055a5; margin:0 0 0.5rem 0; }
+.professional-summary p { color:#222; line-height:1.5; }
+
+/* ChatGPT-style inline box */
+.ask-box {
+  background: #fff; border-radius:12px; box-shadow:0 10px 30px rgba(2,6,23,0.06);
+  max-width:920px; margin: 1.2rem auto; padding:0.6rem; overflow:hidden;
+}
+.ask-head { text-align:center; padding:0.6rem 0; border-bottom:1px solid rgba(0,0,0,0.04); }
+.ask-head h2 { margin:0; color:#0055a5; }
+.ask-suggestions {
+  display:flex; gap:0.6rem; padding:0.6rem; overflow:hidden; align-items:center; justify-content:center;
+}
+.sugg-chip {
+  flex: 0 0 auto;
+  background: linear-gradient(90deg,#f7f7f8,#fff);
+  border-radius:999px; padding:0.5rem 0.9rem; font-weight:600; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.06);
+  white-space:nowrap;
+}
+.sugg-chip.active { box-shadow:0 8px 20px rgba(0,0,0,0.12); transform:translateY(-2px); }
+.ask-body {
+  padding:0.9rem; min-height:260px; max-height:420px; overflow:auto; background: linear-gradient(#fff,#fbfbfb); border-radius:8px; margin-top:0.75rem;
+}
+.ask-input-wrap { display:flex; gap:0.5rem; margin-top:0.7rem; }
+.ask-input { flex:1; padding:0.8rem; border-radius:8px; border:1px solid #e6e6e6; }
+.ask-send { background:#0055a5; color:#fff; border:none; padding:0.6rem 0.9rem; border-radius:8px; font-weight:700; cursor:pointer; }
+
+/* ========== SLIDER (square cards same as before) ========== */
 .experience-slider-container {
   display:flex; align-items:center;
   overflow-x:auto; overflow-y:hidden;
-  gap:1rem; padding:1rem  calc(50% - 160px);   /* larger calc so center card won't clip (160px ~ half of enlarged card) */
+  gap:1rem; padding:1rem  calc(50% - 160px);
   scroll-behavior:smooth; scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling: touch;
-  box-sizing:border-box;
+  -webkit-overflow-scrolling: touch; box-sizing:border-box;
 }
-/* fallback padding on small screens handled in media queries */
-.experience-slider-container::-webkit-scrollbar { display:none; }
-.experience-slider-container { -ms-overflow-style:none; scrollbar-width:none; }
-
 .experience-box {
-  scroll-snap-align:center;
-  width:260px; height:260px;            /* slightly larger square to allow clear visuals */
-  flex: 0 0 auto;
-  background: rgba(255,255,255,0.98);
-  padding:0.8rem;
-  border-left:5px solid #0055a5;
-  border-radius:12px;
-  box-shadow:0 6px 16px rgba(0,0,0,0.06);
-  display:flex; flex-direction:column; justify-content:space-between; align-items:center;
-  text-align:center; cursor:pointer;
-  transition: transform 0.36s cubic-bezier(.2,.9,.2,1), box-shadow 0.36s;
-  transform:scale(0.95);
-  position:relative;
-  overflow:hidden;
-  margin: 0 10px;   /* breathing room */
+  scroll-snap-align:center; width:260px; height:260px; flex:0 0 auto;
+  background: rgba(255,255,255,0.98); padding:0.8rem; border-left:5px solid #0055a5;
+  border-radius:12px; box-shadow:0 6px 16px rgba(0,0,0,0.06);
+  display:flex; flex-direction:column; justify-content:space-between; align-items:center; cursor:pointer;
+  transition:transform 0.36s, box-shadow 0.36s; transform:scale(0.95); margin:0 10px; overflow:hidden;
 }
-.experience-box.center {
-  transform:scale(1.18) translateY(-10px);
-  box-shadow:0 20px 46px rgba(0,0,0,0.26);
-  z-index:20;
-}
-.experience-box h3 { font-size:1rem; margin-top:0.4rem; }
-.experience-box p { font-size:0.9rem; margin:0.3rem 0; color:#444; }
-.experience-box .full-content { display:none; }
-
-/* image area inside card - use aspect-ratio so it works cross-device */
-.slideshow-preview {
-  width:100%;
-  aspect-ratio: 1/1;           /* keep a square image area inside card */
-  border-radius:8px;
-  overflow:hidden;
-  position:relative;
-  background:#eee;
-}
-.slideshow-preview img {
-  position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 0.8s ease;
-}
+.experience-box.center { transform:scale(1.18) translateY(-10px); box-shadow:0 20px 46px rgba(0,0,0,0.26); z-index:20; }
+.slideshow-preview { width:100%; aspect-ratio:1/1; border-radius:8px; overflow:hidden; position:relative; background:#eee; }
+.slideshow-preview img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 0.8s ease; }
 .slideshow-preview img.active { opacity:1; }
 
-/* ========== MODAL ========== */
-.modal {
-  display:none; position:fixed; inset:0; background:rgba(0,0,0,0.74); z-index:11000; justify-content:center; align-items:flex-start; overflow-y:auto;
-}
-.modal-content {
-  background:#fff; color:#111; padding:1.25rem; width:calc(100% - 32px); max-width:920px; margin-top:calc(var(--header-height) + 20px);
-  border-radius:12px; box-shadow:0 12px 36px rgba(0,0,0,0.35); position:relative;
-}
+/* modal same behavior (images 2-per-row on desktop) */
+.modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.74); z-index:13000; justify-content:center; align-items:flex-start; overflow-y:auto; }
+.modal-content { background:#fff; color:#111; padding:1.25rem; width:calc(100% - 32px); max-width:920px; margin-top:calc(var(--header-height) + 20px); border-radius:12px; box-shadow:0 12px 36px rgba(0,0,0,0.35); position:relative; }
+#modal-inner { display:block; }
+#modal-inner img { width: calc(50% - 8px); margin:4px; vertical-align:top; border-radius:8px; }
+@media (max-width:600px) { #modal-inner img { width:100%; display:block; margin:8px 0; } }
 
-/* *** Modal inner content: preserve original order, but style images so they appear as 2-per-row visually *** */
-#modal-inner {
-  display:block;            /* we will clone content in original order */
-}
-#modal-inner img {
-  width: calc(50% - 8px);   /* 2 per row look */
-  max-width:100%;
-  height:auto;
-  object-fit:cover;
-  margin:4px;
-  display:inline-block;
-  vertical-align:top;
-  border-radius:8px;
-}
-/* if image is inside a wrapper that should take full width, it can be forced with .full-width-image in your content */
-#modal-inner .full-width-image img { width:100%; }
-
-/* small screens: make images full width (1 per row) */
-@media (max-width: 600px) {
-  #modal-inner img { width:100%; display:block; margin:8px 0; }
-}
-
-/* ensure text inside modal is readable */
-#modal-inner p, #modal-inner h3, #modal-inner .desc { color:#222; line-height:1.5; }
-
-/* modal close */
-.modal-close {
-  position:absolute; top:12px; right:12px; font-size:1.3rem; background:transparent; border:none; color:#0055a5; cursor:pointer;
-}
-
-/* ========== Chat (unchanged) ========== */
-.chat-icon {
-  position: fixed; bottom:20px; right:20px; width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center;
-  background:#0055a5; color:#fff; font-size:22px; cursor:pointer; z-index:1200; box-shadow:0 4px 14px rgba(0,0,0,0.18);
-}
-.chat-box {
-  position:fixed; bottom:92px; right:20px; width:340px; max-height:60vh; background:#fff; border-radius:8px; box-shadow:0 6px 20px rgba(0,0,0,0.12); display:none; flex-direction:column; z-index:1200; overflow:hidden;
-}
-.chat-header { background:#0055a5; color:#fff; padding:0.5rem; text-align:center; font-weight:600; }
-.chat-body { padding:0.6rem; overflow-y:auto; flex:1; font-size:0.9rem; }
-.chat-input { display:flex; border-top:1px solid #eee; }
-.chat-input input { flex:1; padding:0.5rem; border:none; outline:none; }
-.chat-input button { background:#0055a5; color:#fff; border:none; padding:0.5rem 0.9rem; cursor:pointer; }
-
-/* ========== Contact / Get In Touch (unchanged) ========== */
-#contact-section {
-  background:#000; color:#fff; padding:3.5rem 1.25rem; text-align:center; box-sizing:border-box;
-}
+/* contact (full-width dark band) */
+#contact-section { background: #000; color:#fff; padding:3.5rem 1.25rem; text-align:center; box-sizing:border-box; }
 #contact-section .contact-inner { max-width:920px; margin:0 auto; }
-#contact-section input, #contact-section textarea {
-  width:100%; max-width:520px; padding:0.75rem; margin:0.4rem auto; display:block; border-radius:8px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.03); color:#fff;
-}
+#contact-section input, #contact-section textarea { width:100%; max-width:520px; padding:0.75rem; margin:0.4rem auto; display:block; border-radius:8px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.03); color:#fff; }
 #contact-section button { background:#0055a5; color:#000; padding:0.7rem 1rem; border-radius:8px; border:none; font-weight:700; cursor:pointer; }
 
-/* ========== Responsive - header behavior and layout fixes ========== */
-@media (max-width: 1024px) {
+/* responsive tweaks */
+@media (max-width:1024px) {
   .sidebar { display:none; }
-  .content { padding:1.25rem; }
+  .content { padding:1rem; }
   .experience-box { width:200px; height:200px; }
   .experience-slider-container { padding-left: 1rem; padding-right: 1rem; }
 }
-
-@media (max-width: 768px) {
-  header { padding:0.5rem 0.9rem; }
-  header img { height:40px; }
+@media (max-width:768px) {
   #nav-toggle { display:block; }
-  header nav { display:none; position:absolute; right:12px; top:calc(var(--header-height) + 6px); background:#fff; border-radius:8px; box-shadow:0 10px 28px rgba(0,0,0,0.14); flex-direction:column; gap:0; padding:0.35rem 0; z-index:1200; min-width:180px; }
-  header nav.show { display:flex; }
-  header nav a { display:block; padding:0.6rem 1rem; border-radius:0; }
-  .hero { padding:1.2rem; min-height: calc(100vh - var(--header-height)); align-items:flex-end; justify-content:center; }
+  nav#main-nav { display:none; position:absolute; right:12px; top:calc(var(--header-height) + 6px); background:rgba(255,255,255,0.95); flex-direction:column; border-radius:8px; padding:0.4rem; box-shadow:0 8px 30px rgba(0,0,0,0.12); z-index:1300; }
+  nav#main-nav.show { display:flex; }
+  .hero { align-items:center; justify-content:center; padding:1.2rem; }
   .hero-content { text-align:center; max-width:90%; }
-  .hero-content h1 { font-size:1.6rem; }
-  .experience-slider-container { gap:0.8rem; padding:0.8rem 1rem; } /* smaller padding on mobile so calc doesn't break */
-  .experience-box { width:150px; height:150px; margin: 0 6px; }
-  .slideshow-preview { aspect-ratio:1/1; }
-  .modal-content { width: calc(100% - 28px); margin-top:calc(var(--header-height) + 8px); }
-  .chat-box { width:92%; right:4%; bottom:84px; }
-  #contact-section { padding:2rem 1rem; }
-  /* modal grid to single column on small screens handled above */
+  .experience-slider-container { gap:0.8rem; padding:0.8rem 1rem; }
+  .experience-box { width:150px; height:150px; margin:0 6px; }
+  .ask-body { min-height:200px; max-height:320px; }
 }
 </style>
 </head>
 <body>
 
-<header>
+<!-- HEADER -->
+<header class="header-bg">
   <div class="header-left">
     <img src="https://www.gstatic.com/marketing-cms/assets/images/f5/d3/a7f9db7045429cb6dc6be56bdcbe/google-logo-about.svg" alt="Logo"/>
     <div>
-      <div style="font-size:0.95rem; font-weight:700;">Career</div>
-      <div style="font-size:0.75rem; color:rgba(0,0,0,0.55);">Vivek Reddy Munnangi</div>
+      <div style="font-weight:700;">Career</div>
+      <div style="font-size:0.8rem; color:rgba(0,0,0,0.55);">Vivek Reddy Munnangi</div>
     </div>
   </div>
 
-  <!-- hamburger for mobile -->
-  <button id="nav-toggle" aria-label="Toggle navigation">☰</button>
+  <button id="nav-toggle" aria-label="Toggle nav">☰</button>
 
   <nav id="main-nav">
     <a href="#fit-section">Why I am Good Fit</a>
@@ -251,7 +195,7 @@ section { margin-bottom:3rem; scroll-margin-top:calc(var(--header-height) + 10px
   </nav>
 </header>
 
-<!-- HERO (full width; no sidebar) -->
+<!-- HERO -->
 <section class="hero" id="hero">
   <div class="hero-content">
     <h1>Vivek Reddy Munnangi</h1>
@@ -260,21 +204,45 @@ section { margin-bottom:3rem; scroll-margin-top:calc(var(--header-height) + 10px
   </div>
 </section>
 
-<!-- MIDDLE: only this area contains the sidebar -->
+<!-- MIDDLE: SIDEBAR + MAIN CONTENT (professional summary -> ask box -> work/impact/invention -> contact) -->
 <div class="container">
-  <aside class="sidebar" id="left-sidebar">
+  <aside class="sidebar">
     <img src="../images/my_picture.jpg" alt="Vivek" class="profile-pic"/>
     <div class="education">Masters in Data Science, IU Luddy</div>
     <div class="education">Bachelors in Mechanical Engineering</div>
   </aside>
 
-  <main class="content">
-    <section id="company-section"><h2>Company Description</h2><p>Google’s mission is to organize the world’s information and make it universally accessible and useful. Founded in 1998 by Larry Page and Sergey Brin, Google has grown from a dorm-room project into a global technology leader, creating products that serve billions of users daily, including Google Search, YouTube, Android, Gmail, and Google Cloud. At its core, Google leverages cutting-edge technology, artificial intelligence, and machine learning to solve complex problems, enhance user experiences, and enable meaningful connections worldwide. Beyond products, Google drives innovation through AI research, exploring applications in natural language processing, computer vision, generative AI, and large-scale data systems. The company prioritizes accessibility, fairness, and inclusivity in all its technological solutions, ensuring that its impact benefits communities globally while maintaining a culture of collaboration, creativity, and ethical innovation.</p></section>
-    <section id="scope-section"><h2>Scope</h2><p>At Google, the scope of work is broad and impactful, spanning multiple domains including AI, ML, cloud computing, computer vision, natural language processing, and generative AI. Engineers contribute to projects that operate at massive scale, influencing billions of users globally. Whether implementing computer vision solutions for YouTube, developing LLM-based tools for Search, or creating multi-modal generative AI models for Google Cloud, the scope involves both deep technical challenges and strategic innovation. Projects require designing scalable infrastructure, optimizing model performance, processing vast datasets, and building systems that are reliable, efficient, and secure. The work scope is not limited to individual contributions—engineers collaborate across teams, bridging research and production, while maintaining a focus on solving real-world problems that enhance accessibility, usability, and fairness for end-users everywhere.</p></section>
-    <section id="culture-section"><h2>Work Culture</h2><p>Google fosters a unique, collaborative, and innovative work culture. Creativity, curiosity, and experimentation are highly encouraged, allowing teams to explore unconventional solutions while adhering to best practices. The company values diversity and inclusivity, emphasizing that teams should reflect the communities their products serve. Cross-functional collaboration is common, and employees are empowered to contribute ideas, challenge assumptions, and participate in decision-making processes. Google also prioritizes learning and professional growth, providing access to state-of-the-art technologies, mentorship programs, and opportunities to rotate across teams. Work-life balance, employee well-being, and a supportive environment contribute to a culture where innovation thrives and everyone can meaningfully impact technology for billions of users.</p></section>
-    <section id="fit-section"><h2>Motivation to Join</h2><p>I am motivated to work at Google because of its unparalleled commitment to leveraging technology to solve complex, real-world problems at scale. The opportunity to work on projects involving AI, ML, computer vision, and generative AI, while directly impacting billions of users, aligns perfectly with my passion for applying technical knowledge to meaningful challenges. Google’s focus on fairness, accessibility, and inclusivity resonates with my values, and the company’s culture of innovation, collaboration, and continuous learning inspires me to contribute my best. Being part of an organization that encourages experimentation, embraces emerging technologies, and pushes the boundaries of what’s possible motivates me to grow as an engineer while contributing to transformative solutions.</p></section>
-    <section id="fit-reason-section"><h2>Why I am a Great Fit</h2><p>I am a strong fit for this role because my academic and professional background aligns closely with Google’s technical and cultural requirements. I have experience in AI, ML, computer vision, deep learning, and large-scale data processing, with hands-on expertise in Python, C++, R, SQL, ROS2, TensorFlow, PyTorch, and relevant frameworks. My work on autonomous vehicles, medical image registration, and real-time API systems demonstrates my ability to design, optimize, and deploy complex software solutions. I am a fast learner, capable of adapting to new technologies and concepts, and I thrive in collaborative, cross-functional environments. My problem-solving skills, combined with strong teamwork, leadership experience, and a commitment to delivering high-quality results, make me well-prepared to contribute effectively to Google’s projects and culture.</p></section>
+  <main class="content header-bg">
+    <!-- PROFESSIONAL SUMMARY (single section replacing many small ones) -->
+    <section id="professional-summary" class="professional-summary">
+      <h2>Professional Summary</h2>
+      <p>I am motivated to work at Google because of its unparalleled commitment to leveraging technology to solve complex, real-world problems at scale. The opportunity to work on projects involving AI, ML, computer vision, and generative AI, while directly impacting billions of users, aligns perfectly with my passion for applying technical knowledge to meaningful challenges. Google’s focus on fairness, accessibility, and inclusivity resonates with my values, and the company’s culture of innovation, collaboration, and continuous learning inspires me to contribute my best. Being part of an organization that encourages experimentation, embraces emerging technologies, and pushes the boundaries of what’s possible motivates me to grow as an engineer while contributing to transformative solutions.</p>
+    </section>
 
+    <!-- ASK ABOUT ME - ChatGPT style box (inline, centered) -->
+    <section id="ask-section">
+      <div class="ask-box" role="region" aria-label="Ask about me">
+        <div class="ask-head"><h2>Ask about me</h2></div>
+        <div class="ask-suggestions" id="suggestions">
+          <div class="sugg-chip">Why this company</div>
+          <div class="sugg-chip">Motivation</div>
+          <div class="sugg-chip">How I'll fit the role</div>
+          <div class="sugg-chip">Key achievements</div>
+          <div class="sugg-chip">Technical strengths</div>
+        </div>
+        <div class="ask-body" id="ask-body">
+          <div id="ask-messages">
+            <div style="color:#444;">Try a suggestion above or type a question in the box below.</div>
+          </div>
+          <div class="ask-input-wrap">
+            <input id="ask-input" class="ask-input" placeholder="Ask something about my experience, motivation, or projects..." />
+            <button id="ask-send" class="ask-send">Ask</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORK EXPERIENCE -->
     <section id="work-section"><h2>Work Experience</h2>
       <div class="experience-slider-container" id="work-slider">
 <div class="experience-box" data-title="Research Engineer, VAIL IU">
@@ -555,6 +523,7 @@ section { margin-bottom:3rem; scroll-margin-top:calc(var(--header-height) + 10px
 </div>
     </section>
 
+    <!-- IMPACT PROJECTS -->
     <section id="impact-section"><h2>Impact Projects</h2>
       <div class="experience-slider-container" id="impact-slider">
 <div class="experience-box" data-title="Full-Stack Web Application for Restaurants">
@@ -718,6 +687,7 @@ section { margin-bottom:3rem; scroll-margin-top:calc(var(--header-height) + 10px
 </div>
     </section>
 
+    <!-- INVENTION -->
     <section id="invention-section"><h2>Invention</h2>
       <div class="experience-slider-container" id="invention-slider">
         <div class="experience-box"><div class="experience-box" data-title="3-Phase BLDC Wheel Hub Motor Patent">
@@ -790,13 +760,12 @@ section { margin-bottom:3rem; scroll-margin-top:calc(var(--header-height) + 10px
   </main>
 </div>
 
-<!-- CONTACT (full-width dark container) -->
+<!-- CONTACT (unchanged; full-width dark band) -->
 <section id="contact-section">
   <div class="contact-inner">
     <h2>Get In Touch</h2>
     <p>If you'd like to connect, leave your contact details below and I'll reach out.</p>
-    <!-- submit via mailto so you receive inquiries directly -->
-    <form class="w-webhook-form" action="mailto:{vmunnang@iu.edu}" method="post" enctype="text/plain" onsubmit="return true;">
+    <form action="mailto:{vmunnang@iu.edu}" method="post" enctype="text/plain">
       <input placeholder="Phone" required name="phone"/>
       <input placeholder="Email" required type="email" name="email"/>
       <textarea placeholder="Message" required name="message" rows="4"></textarea>
@@ -805,17 +774,17 @@ section { margin-bottom:3rem; scroll-margin-top:calc(var(--header-height) + 10px
   </div>
 </section>
 
-<!-- Modal -->
-<div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="modal-content" id="modal-content">
+<!-- MODAL -->
+<div class="modal" id="modal" aria-hidden="true" role="dialog">
+  <div class="modal-content" id="modal-content" tabindex="-1">
     <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
-    <div id="modal-inner" class="modal-inner-text"></div>
+    <div id="modal-inner"></div>
   </div>
 </div>
 
-<!-- Chat -->
+<!-- Floating chat icon/box (kept as before) -->
 <div class="chat-icon" id="chat-icon">💬</div>
-<div class="chat-box" id="chat-box" role="region" aria-label="Chat">
+<div class="chat-box" id="chat-box" role="region" aria-label="Chat" style="display:none;">
   <div class="chat-header">Ask Me</div>
   <div class="chat-body" id="chat-body"><div class="chat-message-bot">Hi! How can I help you?</div></div>
   <div class="chat-input">
@@ -826,43 +795,56 @@ section { margin-bottom:3rem; scroll-margin-top:calc(var(--header-height) + 10px
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const header = document.querySelector('header');
-  const nav = document.getElementById('main-nav');
-  const navToggle = document.getElementById('nav-toggle');
-  const hero = document.getElementById('hero');
-
-  function setHeaderHeightVar() {
-    const h = header.offsetHeight || 64;
-    document.documentElement.style.setProperty('--header-height', h + 'px');
-    if (hero) hero.style.minHeight = 'calc(100vh - ' + h + 'px)';
+/* small helper: rotate suggestion chips */
+(function suggestionRotator() {
+  const chips = Array.from(document.querySelectorAll('.sugg-chip'));
+  let idx = 0;
+  function activate(i) {
+    chips.forEach((c,ii)=>c.classList.toggle('active', ii===i));
   }
-
-  // initial set, also update on resize
-  setHeaderHeightVar();
-  window.addEventListener('resize', function() { setHeaderHeightVar(); if (window.innerWidth > 768) nav.classList.remove('show'); });
-
-  // nav toggle for small screens
-  navToggle.addEventListener('click', function(e) {
-    e.stopPropagation();
-    nav.classList.toggle('show');
-    setHeaderHeightVar();
-  });
-
-  // close nav when clicking outside
-  document.addEventListener('click', function(e) {
-    if (nav.classList.contains('show') && !nav.contains(e.target) && !navToggle.contains(e.target)) {
-      nav.classList.remove('show');
-    }
-  });
-
-  // adjust when nav link clicked (close mobile dropdown)
-  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    nav.classList.remove('show');
+  if (chips.length>0) { activate(0); setInterval(() => { idx = (idx+1) % chips.length; activate(idx); }, 3500); }
+  // clicking a chip injects into input
+  chips.forEach(c => c.addEventListener('click', () => {
+    document.getElementById('ask-input').value = c.textContent;
+    document.getElementById('ask-send').click();
   }));
+})();
+
+/* Ask box send handler - reuse your existing backend endpoint */
+document.getElementById('ask-send').addEventListener('click', async function() {
+  const input = document.getElementById('ask-input');
+  const query = input.value.trim();
+  if (!query) return;
+  const body = document.getElementById('ask-messages');
+  body.innerHTML += `<div style="margin:8px 0; font-weight:600;">You: ${query}</div>`;
+  input.value = '';
+  // call same backend used by floating chat (if available)
+  try {
+    const res = await fetch('https://profile-az1i.onrender.com/ask', {
+      method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ message: query })
+    });
+    const data = await res.json();
+    body.innerHTML += `<div style="margin:8px 0; color:#333;">${data.response}</div>`;
+    body.scrollTop = body.scrollHeight;
+    // optionally save
+    await fetch('https://profile-az1i.onrender.com/save_conversation', {
+      method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ user: query, bot: data.response })
+    });
+  } catch (err) {
+    body.innerHTML += `<div style="margin:8px 0; color:#c00;">Error: could not get response.</div>`;
+    body.scrollTop = body.scrollHeight;
+  }
 });
 
-// ========== Slider initialization (center + loop + pause on pointer inside card) ==========
+/* NAV toggle for small screens */
+document.getElementById('nav-toggle').addEventListener('click', function(e) {
+  const nav = document.getElementById('main-nav');
+  nav.classList.toggle('show');
+});
+
+/* Slider logic - uses the robust pointerdown/pointerup click handling and modal cloning
+   (this is same logic as prior working version, slightly adapted) */
+
 function initSlider(sliderId) {
   const slider = document.getElementById(sliderId);
   if (!slider) return;
@@ -880,8 +862,7 @@ function initSlider(sliderId) {
 
   function updateCenterCard() {
     const sliderCenter = slider.scrollLeft + slider.offsetWidth / 2;
-    let closest = null;
-    let bestDist = Infinity;
+    let closest = null; let bestDist = Infinity;
     cards.forEach(c => {
       const cCenter = c.offsetLeft + c.offsetWidth / 2;
       const d = Math.abs(sliderCenter - cCenter);
@@ -889,7 +870,6 @@ function initSlider(sliderId) {
     });
     cards.forEach(c => c.classList.remove('center'));
     if (closest) closest.classList.add('center');
-    // clear awaitingOpen flags when center changes
     cards.forEach(c => c.dataset.awaitingOpen = '');
     return closest;
   }
@@ -911,33 +891,22 @@ function initSlider(sliderId) {
     idleTimer = setTimeout(() => { isPaused = false; }, 5000);
   }
 
-  // initialize
+  // init
   if (cards.length) {
-    setTimeout(() => {
-      centerCard(cards[0]);
-      updateCenterCard();
-      startAutoplay();
-    }, 120);
+    setTimeout(() => { centerCard(cards[0]); updateCenterCard(); startAutoplay(); }, 120);
   }
 
-  slider.addEventListener('scroll', () => {
-    updateCenterCard();
-    // clear awaitingOpen while user is scrolling
-    cards.forEach(c => c.dataset.awaitingOpen = '');
-  });
+  slider.addEventListener('scroll', () => { updateCenterCard(); cards.forEach(c => c.dataset.awaitingOpen = ''); });
   window.addEventListener('resize', updateCenterCard);
 
-  // pointer-based pause/resume on each card (works for mouse/touch)
   cards.forEach(card => {
-    let pointerInside = false;
-    card.addEventListener('pointerenter', (e) => { pointerInside = true; pauseWithTimeout(); });
-    card.addEventListener('pointermove', (e) => { if (pointerInside) pauseWithTimeout(); });
-    card.addEventListener('pointerleave', (e) => { pointerInside = false; isPaused = false; });
-    // also handle touchstart explicitly to pause immediately
-    card.addEventListener('touchstart', (e) => { pauseWithTimeout(); }, {passive:true});
+    card.addEventListener('pointerenter', () => pauseWithTimeout());
+    card.addEventListener('pointermove', () => pauseWithTimeout());
+    card.addEventListener('pointerleave', () => { isPaused=false; });
+    card.addEventListener('touchstart', () => pauseWithTimeout(), {passive:true});
   });
 
-  // Robust tap/click handling using pointerdown + pointerup to differentiate drag vs tap
+  // pointer logic to distinguish drag vs tap
   let pointerState = { active:false, startX:0, startY:0, target:null };
 
   slider.addEventListener('pointerdown', function(e) {
@@ -945,7 +914,6 @@ function initSlider(sliderId) {
     pointerState.startX = e.clientX;
     pointerState.startY = e.clientY;
     pointerState.target = e.target.closest('.experience-box') || null;
-    // stop autoplay briefly on user interaction
     isPaused = true;
     if (idleTimer) clearTimeout(idleTimer);
   });
@@ -957,131 +925,77 @@ function initSlider(sliderId) {
     const moved = Math.sqrt(dx*dx + dy*dy);
     const clickedCard = e.target.closest('.experience-box') || pointerState.target;
     pointerState.active = false;
-    // resume autoplay after small delay unless user keeps interacting
     if (idleTimer) clearTimeout(idleTimer);
     idleTimer = setTimeout(() => { isPaused = false; }, 2000);
 
-    // if it was a drag (moved more than threshold), don't treat as click
     if (!clickedCard || moved > 8) {
-      // user dragged/swiped — clear awaitingOpen
       cards.forEach(c => c.dataset.awaitingOpen = '');
       return;
     }
 
     const centerEl = slider.querySelector('.experience-box.center');
-
     if (centerEl === clickedCard) {
-      // second click on centered card -> open modal (clone full-content preserving order)
       const content = clickedCard.querySelector('.full-content');
       if (content) {
         const modal = document.getElementById('modal');
         const modalInner = document.getElementById('modal-inner');
-        modalInner.innerHTML = ''; // clear
-
-        // Clone children in original order and append to modalInner
-        const clone = content.cloneNode(true);
-        clone.style.display = 'block';
-        Array.from(clone.childNodes).forEach(child => {
-          // if child is element, clone it; if text node, clone it too
-          modalInner.appendChild(child.cloneNode(true));
-        });
-
-        // style images inside modalInner (they match CSS selector #modal-inner img)
-        modal.style.display = 'flex';
-        modal.setAttribute('aria-hidden','false');
-        const header = document.querySelector('header');
-        const modalContent = document.getElementById('modal-content');
-        modalContent.style.marginTop = (header ? header.offsetHeight : 64) + 'px';
-        modalContent.focus();
+        modalInner.innerHTML = '';
+        // clone children preserving order
+        const clone = content.cloneNode(true); clone.style.display='block';
+        Array.from(clone.childNodes).forEach(child => modalInner.appendChild(child.cloneNode(true)));
+        // show modal
+        modal.style.display = 'flex'; modal.setAttribute('aria-hidden','false');
+        const header = document.querySelector('header'); document.getElementById('modal-content').style.marginTop = (header ? header.offsetHeight : 64) + 'px';
+        document.getElementById('modal-content').focus();
       }
     } else {
-      // 1st click: center the clicked card and set awaitingOpen flag
       centerCard(clickedCard);
-      // mark clicked card as awaiting open; clear others
       cards.forEach(c => c.dataset.awaitingOpen = '');
       clickedCard.dataset.awaitingOpen = '1';
-      // also ensure center class updates after animation
       setTimeout(updateCenterCard, 420);
     }
   });
 
-  // also as a fallback listen to click (some browsers may still fire click)
-  slider.addEventListener('click', function(e) {
-    // no-op here because pointerup handles clicks; prevents duplicate actions
-  });
-}
+} // end initSlider
 
-// initialize sliders
 initSlider('work-slider');
 initSlider('impact-slider');
 initSlider('invention-slider');
 
-// ========== per-card image slideshow (works both desktop & mobile) ==========
+/* per-card slideshow images */
 document.querySelectorAll('.experience-box').forEach(box => {
   const imgs = Array.from(box.querySelectorAll('.slideshow-preview img'));
   if (!imgs.length) return;
   let cur = 0;
-  imgs.forEach((im, i) => { im.classList.remove('active'); im.style.opacity = i===0 ? '1' : '0'; });
+  imgs.forEach((im,i)=>{ im.classList.remove('active'); im.style.opacity = i===0 ? '1' : '0'; });
   imgs[0].classList.add('active');
-  setInterval(() => {
-    imgs[cur].classList.remove('active');
-    imgs[cur].style.opacity = '0';
-    cur = (cur + 1) % imgs.length;
-    imgs[cur].classList.add('active');
-    imgs[cur].style.opacity = '1';
-  }, 3000);
+  setInterval(()=>{ imgs[cur].classList.remove('active'); imgs[cur].style.opacity='0'; cur = (cur+1)%imgs.length; imgs[cur].classList.add('active'); imgs[cur].style.opacity='1'; }, 3000);
 });
 
-// ========== Modal close handlers & accessibility ==========
+/* modal close handlers */
 (function modalSetup() {
   const modal = document.getElementById('modal');
   const modalClose = document.getElementById('modal-close');
-  modalClose.addEventListener('click', () => { modal.style.display = 'none'; modal.setAttribute('aria-hidden','true'); });
-  // click overlay to close
-  window.addEventListener('click', function(e) { if (e.target === modal) { modal.style.display = 'none'; modal.setAttribute('aria-hidden','true'); } });
-  // ESC to close
-  window.addEventListener('keydown', function(e) { if (e.key === 'Escape') { if (modal.style.display === 'flex') { modal.style.display = 'none'; modal.setAttribute('aria-hidden','true'); } } });
+  modalClose.addEventListener('click', ()=>{ modal.style.display='none'; modal.setAttribute('aria-hidden','true'); });
+  window.addEventListener('click', e => { if (e.target === modal) { modal.style.display='none'; modal.setAttribute('aria-hidden','true'); } });
+  window.addEventListener('keydown', e => { if (e.key === 'Escape') { if (modal.style.display === 'flex') { modal.style.display='none'; modal.setAttribute('aria-hidden','true'); } } });
 })();
 
-// ========== Chat toggle & send (simple local UI) ==========
+/* floating chat toggle + send (keeps previous behavior) */
 (function chatSetup() {
   const chatIcon = document.getElementById('chat-icon');
   const chatBox = document.getElementById('chat-box');
-  chatIcon.addEventListener('click', () => { chatBox.style.display = (chatBox.style.display === 'flex' ? 'none' : 'flex'); });
-
-  const chatSend = document.getElementById('chat-send');
-  const chatInput = document.getElementById('chat-input');
-  const chatBody = document.getElementById('chat-body');
-
-  chatSend.addEventListener('click', async () => {
-    const msg = chatInput.value.trim();
-    if (!msg) return;
-    chatBody.innerHTML += `<div class="chat-message-user">${msg}</div>`;
-    chatBody.scrollTop = chatBody.scrollHeight;
-    chatInput.value = '';
-    try {
-      const res = await fetch('https://profile-az1i.onrender.com/ask', {
-        method:'POST', headers: { 'Content-Type':'application/json' }, body: JSON.stringify({ message: msg })
-      });
-      const data = await res.json();
-      chatBody.innerHTML += `<div class="chat-message-bot">${data.response}</div>`;
-      chatBody.scrollTop = chatBody.scrollHeight;
-      await fetch('https://profile-az1i.onrender.com/save_conversation', {
-        method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ user: msg, bot: data.response })
-      });
-    } catch (err) {
-      chatBody.innerHTML += `<div class="chat-message-bot">Error: Could not fetch response.</div>`;
-      chatBody.scrollTop = chatBody.scrollHeight;
-    }
-  });
-
-  chatInput.addEventListener('keypress', function(e) { if (e.key === 'Enter') { e.preventDefault(); chatSend.click(); } });
+  chatIcon.addEventListener('click', ()=>{ chatBox.style.display = (chatBox.style.display === 'flex' ? 'none':'flex'); });
+  const chatSend = document.getElementById('chat-send'), chatInput = document.getElementById('chat-input'), chatBody = document.getElementById('chat-body');
+  chatSend.addEventListener('click', async ()=>{ const msg = chatInput.value.trim(); if(!msg) return; chatBody.innerHTML += `<div class="chat-message-user">${msg}</div>`; chatInput.value=''; try{ const res = await fetch('https://profile-az1i.onrender.com/ask', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ message: msg }) }); const data = await res.json(); chatBody.innerHTML += `<div class="chat-message-bot">${data.response}</div>`; await fetch('https://profile-az1i.onrender.com/save_conversation', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ user: msg, bot: data.response }) }); }catch(e){ chatBody.innerHTML += `<div class="chat-message-bot">Error: Could not fetch response.</div>`; }});
+  chatInput.addEventListener('keypress', function(e){ if(e.key==='Enter'){ e.preventDefault(); chatSend.click(); } });
 })();
+
 </script>
 
-<footer style="text-align:center; margin:2rem 0; font-style:italic; font-size:1rem; color:#333; width:100%">
+<footer style="text-align:center; margin:2rem 0; font-style:italic; font-size:0.95rem; color:#333; width:100%">
   Vivek Reddy Munnangi |
-  <a href="../resume.pdf" target="_blank" style="color:#0055a5; text-decoration:none;margin-left:0.3rem;">Resume</a>
+  <a href="../resume.pdf" target="_blank" style="color:#0055a5; text-decoration:none; margin-left:0.3rem;">Resume</a>
 </footer>
 </body>
 </html>
