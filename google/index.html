@@ -889,6 +889,8 @@ function initSlider(sliderId) {
     });
     cards.forEach(c => c.classList.remove('center'));
     if (closest) closest.classList.add('center');
+    // clear awaitingOpen flags when center changes
+    cards.forEach(c => c.dataset.awaitingOpen = '');
     return closest;
   }
 
@@ -918,7 +920,11 @@ function initSlider(sliderId) {
     }, 120);
   }
 
-  slider.addEventListener('scroll', updateCenterCard);
+  slider.addEventListener('scroll', () => {
+    updateCenterCard();
+    // clear awaitingOpen while user is scrolling
+    cards.forEach(c => c.dataset.awaitingOpen = '');
+  });
   window.addEventListener('resize', updateCenterCard);
 
   // pointer-based pause/resume on each card (works for mouse/touch)
@@ -931,38 +937,56 @@ function initSlider(sliderId) {
     card.addEventListener('touchstart', (e) => { pauseWithTimeout(); }, {passive:true});
   });
 
-  // clicking or pointerup: center or open modal if already centered
-  const handleInteraction = function(e) {
-    const clicked = e.target.closest('.experience-box');
-    if (!clicked) return;
+  // Robust tap/click handling using pointerdown + pointerup to differentiate drag vs tap
+  let pointerState = { active:false, startX:0, startY:0, target:null };
+
+  slider.addEventListener('pointerdown', function(e) {
+    pointerState.active = true;
+    pointerState.startX = e.clientX;
+    pointerState.startY = e.clientY;
+    pointerState.target = e.target.closest('.experience-box') || null;
+    // stop autoplay briefly on user interaction
+    isPaused = true;
+    if (idleTimer) clearTimeout(idleTimer);
+  });
+
+  slider.addEventListener('pointerup', function(e) {
+    if (!pointerState.active) return;
+    const dx = Math.abs(e.clientX - pointerState.startX);
+    const dy = Math.abs(e.clientY - pointerState.startY);
+    const moved = Math.sqrt(dx*dx + dy*dy);
+    const clickedCard = e.target.closest('.experience-box') || pointerState.target;
+    pointerState.active = false;
+    // resume autoplay after small delay unless user keeps interacting
+    if (idleTimer) clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => { isPaused = false; }, 2000);
+
+    // if it was a drag (moved more than threshold), don't treat as click
+    if (!clickedCard || moved > 8) {
+      // user dragged/swiped — clear awaitingOpen
+      cards.forEach(c => c.dataset.awaitingOpen = '');
+      return;
+    }
+
     const centerEl = slider.querySelector('.experience-box.center');
 
-    if (centerEl === clicked) {
-      // open modal: clone the full-content preserving original order
-      const content = clicked.querySelector('.full-content');
+    if (centerEl === clickedCard) {
+      // second click on centered card -> open modal (clone full-content preserving order)
+      const content = clickedCard.querySelector('.full-content');
       if (content) {
         const modal = document.getElementById('modal');
         const modalInner = document.getElementById('modal-inner');
         modalInner.innerHTML = ''; // clear
 
-        // clone the content node to preserve order (text, images, etc.)
+        // Clone children in original order and append to modalInner
         const clone = content.cloneNode(true);
         clone.style.display = 'block';
-
-        // ensure images inside clone get styled for two-per-row visual layout
-        clone.querySelectorAll('img').forEach(img => {
-          // add no-op wrapper classes or adjust attributes if needed
-          img.classList.add('modal-img'); // styled via CSS above (#modal-inner img selector)
-          img.style.maxWidth = '100%';
-          img.style.height = 'auto';
-        });
-
-        // append cloned nodes' children to modalInner so structure/order preserved
         Array.from(clone.childNodes).forEach(child => {
-          // If child is text node or element, append a cloned copy
+          // if child is element, clone it; if text node, clone it too
           modalInner.appendChild(child.cloneNode(true));
         });
 
+        // style images inside modalInner (they match CSS selector #modal-inner img)
         modal.style.display = 'flex';
         modal.setAttribute('aria-hidden','false');
         const header = document.querySelector('header');
@@ -971,15 +995,20 @@ function initSlider(sliderId) {
         modalContent.focus();
       }
     } else {
-      // center clicked card
-      centerCard(clicked);
+      // 1st click: center the clicked card and set awaitingOpen flag
+      centerCard(clickedCard);
+      // mark clicked card as awaiting open; clear others
+      cards.forEach(c => c.dataset.awaitingOpen = '');
+      clickedCard.dataset.awaitingOpen = '1';
+      // also ensure center class updates after animation
       setTimeout(updateCenterCard, 420);
     }
-  };
+  });
 
-  // prefer pointerup (works for touch and mouse) and also listen to click as fallback
-  slider.addEventListener('pointerup', handleInteraction);
-  slider.addEventListener('click', handleInteraction);
+  // also as a fallback listen to click (some browsers may still fire click)
+  slider.addEventListener('click', function(e) {
+    // no-op here because pointerup handles clicks; prevents duplicate actions
+  });
 }
 
 // initialize sliders
