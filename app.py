@@ -65,7 +65,7 @@ def ask():
     prompt = "\n\n".join(prompt_parts)
 
     # Prepare Gemini request (same as before)
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-8b:generateContent?key={API_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent?key={API_KEY}"
     payload = {"contents": [{"parts": [{"text": prompt}]}]}
 
     try:
