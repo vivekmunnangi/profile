@@ -19,9 +19,9 @@ body {
   overflow-x:hidden;
 }
 
-/* translucent panels so base background shows through */
+/* translucent panels - slightly more transparent so base bg shows */
 .header-bg, .content, .sidebar {
-  background: rgba(255,255,255,0.78);
+  background: rgba(255,255,255,0.60); /* increased transparency */
   backdrop-filter: blur(4px);
 }
 
@@ -75,15 +75,15 @@ nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
 .content { flex:1; min-width:260px; padding:1rem; box-sizing:border-box; border-radius:10px; }
 
 /* professional summary */
-.professional-summary { background: rgba(255,255,255,0.92); padding:1.1rem; border-radius:10px; margin-bottom:1.25rem; }
+.professional-summary { background: rgba(255,255,255,0.72); padding:1.1rem; border-radius:10px; margin-bottom:1.25rem; }
 .professional-summary h2 { color:#0055a5; margin:0 0 0.5rem 0; }
 .professional-summary p { color:#222; line-height:1.5; }
 
 /* Ask box (ChatGPT-style) */
-.ask-box { background:#fff; border-radius:12px; box-shadow:0 10px 30px rgba(2,6,23,0.06); max-width:920px; margin:1.2rem auto; padding:0.6rem; overflow:hidden; }
+.ask-box { background: rgba(255,255,255,0.92); border-radius:12px; box-shadow:0 10px 30px rgba(2,6,23,0.06); max-width:920px; margin:1.2rem auto; padding:0.6rem; overflow:hidden; }
 .ask-head { text-align:center; padding:0.6rem 0; border-bottom:1px solid rgba(0,0,0,0.04); }
 .ask-head h2 { margin:0; color:#0055a5; }
-.ask-suggestions { display:flex; gap:0.6rem; padding:0.6rem; overflow:hidden; align-items:center; justify-content:center; }
+.ask-suggestions { display:flex; gap:0.6rem; padding:0.6rem; overflow:auto; align-items:center; justify-content:center; }
 .sugg-chip {
   flex: 0 0 auto; background: linear-gradient(90deg,#f7f7f8,#fff); border-radius:999px; padding:0.5rem 0.9rem; font-weight:600; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.06); white-space:nowrap;
 }
@@ -92,9 +92,9 @@ nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
 .ask-input-wrap { display:flex; gap:0.5rem; margin-top:0.7rem; }
 .ask-input { flex:1; padding:0.8rem; border-radius:8px; border:1px solid #e6e6e6; }
 .ask-send { background:#0055a5; color:#fff; border:none; padding:0.6rem 0.9rem; border-radius:8px; font-weight:700; cursor:pointer; }
+.job-desc-textarea { width:100%; padding:0.6rem; border-radius:8px; border:1px solid #e6e6e6; margin-top:0.6rem; }
 
 /* SLIDER - square cards */
-/* horizontal padding calc kept for multi-card center; JS will override for single-card case */
 .experience-slider-container {
   display:flex; align-items:center;
   overflow-x:auto; overflow-y:hidden;
@@ -139,9 +139,14 @@ nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
 /* modal */
 .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.74); z-index:13000; justify-content:center; align-items:flex-start; overflow-y:auto; }
 .modal-content { background:#fff; color:#111; padding:1.25rem; width:calc(100% - 32px); max-width:920px; margin-top:calc(var(--header-height) + 20px); border-radius:12px; box-shadow:0 12px 36px rgba(0,0,0,0.35); position:relative; }
-#modal-inner { display:block; }
-#modal-inner img { width: calc(50% - 8px); margin:4px; vertical-align:top; border-radius:8px; }
-@media (max-width:600px) { #modal-inner img { width:100%; display:block; margin:8px 0; } }
+#modal-inner { display:block; max-width:100%; box-sizing:border-box; }
+/* two images per row on desktop */
+#modal-inner .image-row { display:flex; flex-wrap:wrap; gap:8px; }
+#modal-inner .image-row figure { flex: 0 0 calc(50% - 8px); margin:0; }
+#modal-inner .image-row img { width:100%; height:auto; border-radius:8px; }
+@media (max-width:600px) {
+  #modal-inner .image-row figure { flex: 0 0 100%; }
+}
 
 /* contact area */
 #contact-section { background:#000; color:#fff; padding:3.5rem 1.25rem; text-align:center; box-sizing:border-box; }
@@ -219,6 +224,7 @@ nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
     <section id="ask-section">
       <div class="ask-box" role="region" aria-label="Ask about me">
         <div class="ask-head"><h2>Ask about me</h2></div>
+
         <div class="ask-suggestions" id="suggestions">
           <div class="sugg-chip">Why this company</div>
           <div class="sugg-chip">Motivation</div>
@@ -226,10 +232,18 @@ nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
           <div class="sugg-chip">Key achievements</div>
           <div class="sugg-chip">Technical strengths</div>
         </div>
+
         <div class="ask-body" id="ask-body">
           <div id="ask-messages">
             <div style="color:#444;">Try a suggestion above or type a question in the box below.</div>
           </div>
+
+          <div style="margin-top:8px;">
+            <!-- user can paste job description here (optional) -->
+            <label for="job-desc-textarea" style="font-size:0.85rem; color:#555;">Attach job description (optional)</label>
+            <textarea id="job-desc-textarea" class="job-desc-textarea" rows="6" placeholder="Paste the job description here to provide role context (optional)"></textarea>
+          </div>
+
           <div class="ask-input-wrap">
             <input id="ask-input" class="ask-input" placeholder="Ask something about my experience, motivation, or projects..." />
             <button id="ask-send" class="ask-send">Ask</button>
@@ -681,7 +695,7 @@ nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
 </div>
     </section>
 
-    <!-- IMPORTANT: don't wrap <div class="experience-box" data-title="3-Phase BLDC Wheel Hub Motor Patent">
+    <!-- Invention: single card only; don't wrap <div class="experience-box" data-title="3-Phase BLDC Wheel Hub Motor Patent">
     <h3>3-Phase BLDC Wheel Hub Motor | Patent</h3>
     <div class="slideshow-preview">
         <img src="../images/design_motor.jpg" alt="3-Phase BLDC Wheel Hub Motor Design"/>
@@ -745,7 +759,7 @@ nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
 </div>
 
 
- in another .experience-box to avoid duplicates -->
+ again if it already contains .experience-box -->
     <section id="invention-section"><h2>Invention</h2>
       <div class="experience-slider-container" id="invention-slider">
         <div class="experience-box" data-title="3-Phase BLDC Wheel Hub Motor Patent">
@@ -823,7 +837,7 @@ nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
   <div class="contact-inner">
     <h2>Get In Touch</h2>
     <p>If you'd like to connect, leave your contact details below and I'll reach out.</p>
-    <form action="mailto:{vmunnang@iu.edu}" method="post" enctype="text/plain">
+    <form action="mailto:vmunnang@iu.edu" method="post" enctype="text/plain">
       <input placeholder="Phone" required name="phone"/>
       <input placeholder="Email" required type="email" name="email"/>
       <textarea placeholder="Message" required name="message" rows="4"></textarea>
@@ -831,6 +845,9 @@ nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
     </form>
   </div>
 </section>
+
+<!-- Hidden (server-side) job description fallback (optional) -->
+<div id="job-desc" style="display:none;">{"Minimum qualifications: Bachelor’s degree or equivalent practical experience. 2 years of experience with software development in one or more programming languages, or 1 year of experience with an advanced degree. 1 year of experience with ML infrastructure (e.g., model deployment, model evaluation, optimization, data processing, debugging). Experience with core GenAI concepts (LLM, Multi-Modal, Large Vision Models) and experience with text, image, video, or audio generation. Preferred qualifications: Master's degree or PhD in Computer Science or related technical fields. 2 years of experience with data structures or algorithms.Experience developing accessible technologies.About the job: Google's software engineers develop the next-generation technologies that change how billions of users connect, explore, and interact with information and one another. Our products need to handle information at massive scale, and extend well beyond web search. We're looking for engineers who bring fresh ideas from all areas, including information retrieval, distributed computing, large-scale system design, networking and data storage, security, artificial intelligence, natural language processing, UI design and mobile; the list goes on and is growing every day. As a software engineer, you will work on a specific project critical to Google’s needs with opportunities to switch teams and projects as you and our fast-paced business grow and evolve. We need our engineers to be versatile, display leadership qualities and be enthusiastic to take on new problems across the full-stack as we continue to push technology forward. Google Cloud accelerates every organization’s ability to digitally transform its business and industry. We deliver enterprise-grade solutions that leverage Google’s cutting-edge technology, and tools that help developers build more sustainably. Customers in more than 200 countries and territories turn to Google Cloud as their trusted partner to enable growth and solve their most critical business problems. The US base salary range for this full-time position is $141,000-$202,000 + bonus + equity + benefits. Our salary ranges are determined by role, level, and location. Within the range, individual pay is determined by work location and additional factors, including job-related skills, experience, and relevant education or training. Your recruiter can share more about the specific salary range for your preferred location during the hiring process. Please note that the compensation details listed in US role postings reflect the base salary only, and do not include bonus, equity, or benefits. Learn more about benefits at Google. Responsibilities: Write product or system development code. Collaborate with peers and stakeholders through design and code reviews to ensure best practices amongst available technologies (e.g., style guidelines, checking code in, accuracy, testability, and efficiency,) Contribute to existing documentation or educational content and adapt content based on product/program updates and user feedback. Triage product or system issues and debug/track/resolve by analyzing the sources of issues and the impact on hardware, network, or service operations and quality. Implement GenAI solutions, utilize ML infrastructure, and contribute to data preparation, optimization, and performance enhancements."}</div>
 
 <!-- MODAL -->
 <div class="modal" id="modal" aria-hidden="true" role="dialog">
@@ -853,6 +870,32 @@ nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
 </div>
 
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+  const header = document.querySelector('header');
+  const nav = document.getElementById('main-nav');
+  const navToggle = document.getElementById('nav-toggle');
+  const hero = document.getElementById('hero');
+
+  function setHeaderHeightVar() {
+    const h = header.offsetHeight || 64;
+    document.documentElement.style.setProperty('--header-height', h + 'px');
+    if (hero) hero.style.minHeight = 'calc(100vh - ' + h + 'px)';
+  }
+
+  setHeaderHeightVar();
+  window.addEventListener('resize', function() { setHeaderHeightVar(); if (window.innerWidth > 768) nav.classList.remove('show'); });
+
+  navToggle.addEventListener('click', function(e) { e.stopPropagation(); nav.classList.toggle('show'); setHeaderHeightVar(); });
+
+  document.addEventListener('click', function(e) {
+    if (nav.classList.contains('show') && !nav.contains(e.target) && !navToggle.contains(e.target)) {
+      nav.classList.remove('show');
+    }
+  });
+
+  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { nav.classList.remove('show'); }));
+});
+
 /* suggestion rotator and click-to-fill */
 (function suggestionRotator() {
   const chips = Array.from(document.querySelectorAll('.sugg-chip'));
@@ -861,89 +904,70 @@ nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
   if (chips.length>0) { activate(0); setInterval(() => { idx = (idx+1) % chips.length; activate(idx); }, 3500); }
   chips.forEach(c => c.addEventListener('click', () => {
     document.getElementById('ask-input').value = c.textContent;
-    document.getElementById('ask-send').click();
+    sendAsk(); // immediately send on chip click
   }));
 })();
 
-
-/* chnage job dis here */
-<div id="job-desc" style="display:none;">{Software Engineer III, AI/ML GenAI, Google Cloud Platforms: Minimum qualifications:
-Bachelor’s degree or equivalent practical experience.
-2 years of experience with software development in one or more programming languages, or 1 year of experience with an advanced degree.
-1 year of experience with ML infrastructure (e.g., model deployment, model evaluation, optimization, data processing, debugging).
-Experience with core GenAI concepts (LLM, Multi-Modal, Large Vision Models) and experience with text, image, video, or audio generation.
-
-Preferred qualifications:
-Master's degree or PhD in Computer Science or related technical fields.
-2 years of experience with data structures or algorithms.
-Experience developing accessible technologies.
-About the job
-Google's software engineers develop the next-generation technologies that change how billions of users connect, explore, and interact with information and one another. Our products need to handle information at massive scale, and extend well beyond web search. We're looking for engineers who bring fresh ideas from all areas, including information retrieval, distributed computing, large-scale system design, networking and data storage, security, artificial intelligence, natural language processing, UI design and mobile; the list goes on and is growing every day. As a software engineer, you will work on a specific project critical to Google’s needs with opportunities to switch teams and projects as you and our fast-paced business grow and evolve. We need our engineers to be versatile, display leadership qualities and be enthusiastic to take on new problems across the full-stack as we continue to push technology forward.
-
-Google Cloud accelerates every organization’s ability to digitally transform its business and industry. We deliver enterprise-grade solutions that leverage Google’s cutting-edge technology, and tools that help developers build more sustainably. Customers in more than 200 countries and territories turn to Google Cloud as their trusted partner to enable growth and solve their most critical business problems.
-
-The US base salary range for this full-time position is $141,000-$202,000 + bonus + equity + benefits. Our salary ranges are determined by role, level, and location. Within the range, individual pay is determined by work location and additional factors, including job-related skills, experience, and relevant education or training. Your recruiter can share more about the specific salary range for your preferred location during the hiring process.
-
-Please note that the compensation details listed in US role postings reflect the base salary only, and do not include bonus, equity, or benefits. Learn more about benefits at Google.
-Responsibilities
-Write product or system development code. 
-Collaborate with peers and stakeholders through design and code reviews to ensure best practices amongst available technologies (e.g., style guidelines, checking code in, accuracy, testability, and efficiency,)
-Contribute to existing documentation or educational content and adapt content based on product/program updates and user feedback.
-Triage product or system issues and debug/track/resolve by analyzing the sources of issues and the impact on hardware, network, or service operations and quality.
-Implement GenAI solutions, utilize ML infrastructure, and contribute to data preparation, optimization, and performance enhancements.}</div>
-
-/* ask-box send: uses same backend as floating chat */
-document.getElementById('ask-send').addEventListener('click', async function () {
+/* sendAsk - sends message + job description to backend and displays response */
+async function sendAsk() {
   const input = document.getElementById('ask-input');
-  const q = input.value.trim();
+  const q = (input?.value || '').trim();
   if (!q) return;
 
-  const jobDescription = (document.getElementById('job-desc')?.textContent || '').trim();
+  // prefer visible textarea if user pasted JD, otherwise fallback to hidden job-desc injected by server
+  const jdArea = document.getElementById('job-desc-textarea');
+  const fallbackJD = document.getElementById('job-desc');
+  const jobDescription = (jdArea && jdArea.value.trim()) || (fallbackJD && fallbackJD.textContent.trim()) || '';
 
-  const payload = {
-    message: q,
-    job_description: jobDescription
-  };
-
-  const body = document.getElementById('ask-messages');
-  body.innerHTML += `<div style="margin:8px 0; font-weight:600;">You: ${q}</div>`;
+  const bodyUI = document.getElementById('ask-messages');
+  bodyUI.innerHTML += `<div style="margin:8px 0; font-weight:600;">You: ${q}</div>`;
   input.value = '';
 
   try {
-    const res = await fetch('https://profile-az1i.onrender.com/ask', {
+    const res = await fetch('/ask', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      body: JSON.stringify({ message: q, job_description: jobDescription })
     });
-
+    if (!res.ok) {
+      const t = await res.text();
+      bodyUI.innerHTML += `<div style="margin:8px 0; color:#c00;">Error: ${res.status} ${res.statusText} - ${t}</div>`;
+      bodyUI.scrollTop = bodyUI.scrollHeight;
+      return;
+    }
     const data = await res.json();
-    body.innerHTML += `<div style="margin:8px 0; color:#333;">${data.response}</div>`;
-    body.scrollTop = body.scrollHeight;
+    bodyUI.innerHTML += `<div style="margin:8px 0; color:#333;">${data.response}</div>`;
+    bodyUI.scrollTop = bodyUI.scrollHeight;
 
-    // Save conversation
-    await fetch('https://profile-az1i.onrender.com/save_conversation', {
-      method: 'POST',
+    // save conv (best-effort)
+    fetch('/save_conversation', {
+      method:'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ user: q, bot: data.response })
-    });
+      body: JSON.stringify({ user: q, bot: data.response, job_description: jobDescription })
+    }).catch(()=>{ /* ignore save errors */ });
   } catch (err) {
-    body.innerHTML += `<div style="margin:8px 0; color:#c00;">Error: could not get response.</div>`;
-    body.scrollTop = body.scrollHeight;
+    bodyUI.innerHTML += `<div style="margin:8px 0; color:#c00;">Network error: ${err.message}</div>`;
+    bodyUI.scrollTop = bodyUI.scrollHeight;
   }
-});
+}
+
+/* wire up Ask button and Enter key */
+document.getElementById('ask-send').addEventListener('click', sendAsk);
+document.getElementById('ask-input').addEventListener('keypress', function(e) { if (e.key === 'Enter') { e.preventDefault(); sendAsk(); } });
 
 /* nav toggle */
 document.getElementById('nav-toggle').addEventListener('click', function () {
   document.getElementById('main-nav').classList.toggle('show');
 });
 
-
-/* slider init with single-card behavior */
+/* Slider initialization (center + loop + pause on pointer inside card) */
 function initSlider(sliderId) {
   const slider = document.getElementById(sliderId);
   if (!slider) return;
   const cards = Array.from(slider.querySelectorAll('.experience-box'));
-  let slideshowInterval = null, idleTimer = null, isPaused = false;
+  let slideshowInterval = null;
+  let idleTimer = null;
+  let isPaused = false;
 
   function centerCard(card) {
     const sliderRect = slider.getBoundingClientRect();
@@ -954,7 +978,7 @@ function initSlider(sliderId) {
 
   function updateCenterCard() {
     const sliderCenter = slider.scrollLeft + slider.offsetWidth / 2;
-    let closest = null, bestDist = Infinity;
+    let closest = null; let bestDist = Infinity;
     cards.forEach(c => {
       const cCenter = c.offsetLeft + c.offsetWidth / 2;
       const d = Math.abs(sliderCenter - cCenter);
@@ -962,7 +986,6 @@ function initSlider(sliderId) {
     });
     cards.forEach(c => c.classList.remove('center'));
     if (closest) closest.classList.add('center');
-    cards.forEach(c => c.dataset.awaitingOpen = '');
     return closest;
   }
 
@@ -983,34 +1006,33 @@ function initSlider(sliderId) {
     idleTimer = setTimeout(() => { isPaused = false; }, 5000);
   }
 
+  if (cards.length === 0) return;
+
   // single-card special handling: left-align and disable center/enlarge/autoplay
   if (cards.length === 1) {
-    // remove large padding so left alignment
     slider.style.paddingLeft = '1rem';
     slider.style.paddingRight = '1rem';
-    // ensure no center class applied
     cards[0].classList.remove('center');
-    // don't start autoplay
   } else {
-    // multi-card init
     setTimeout(() => { centerCard(cards[0]); updateCenterCard(); startAutoplay(); }, 120);
   }
 
-  slider.addEventListener('scroll', () => { updateCenterCard(); cards.forEach(c => c.dataset.awaitingOpen = ''); });
+  slider.addEventListener('scroll', () => { updateCenterCard(); });
   window.addEventListener('resize', updateCenterCard);
 
   cards.forEach(card => {
     card.addEventListener('pointerenter', () => pauseWithTimeout());
     card.addEventListener('pointermove', () => pauseWithTimeout());
-    card.addEventListener('pointerleave', () => { isPaused=false; });
+    card.addEventListener('pointerleave', () => { isPaused = false; });
     card.addEventListener('touchstart', () => pauseWithTimeout(), {passive:true});
   });
 
-  // pointerdown/up to detect tap vs drag
+  // detect click vs drag
   let pointerState = { active:false, startX:0, startY:0, target:null };
 
   slider.addEventListener('pointerdown', function(e) {
-    pointerState.active = true; pointerState.startX = e.clientX; pointerState.startY = e.clientY;
+    pointerState.active = true;
+    pointerState.startX = e.clientX; pointerState.startY = e.clientY;
     pointerState.target = e.target.closest('.experience-box') || null;
     isPaused = true; if (idleTimer) clearTimeout(idleTimer);
   });
@@ -1025,42 +1047,34 @@ function initSlider(sliderId) {
     idleTimer = setTimeout(() => { isPaused = false; }, 2000);
 
     if (!clickedCard || moved > 8) {
-      cards.forEach(c => c.dataset.awaitingOpen = '');
       return;
     }
 
-    // if single card: just open modal (or do nothing if no .full-content)
+    // single card => open modal directly
     if (cards.length === 1) {
       const content = clickedCard.querySelector('.full-content');
       if (content) {
         const modal = document.getElementById('modal');
-        const modalInner = document.getElementById('modal-inner');
-        modalInner.innerHTML = '';
-        const clone = content.cloneNode(true); clone.style.display='block';
-        Array.from(clone.childNodes).forEach(child => modalInner.appendChild(child.cloneNode(true)));
-        modal.style.display='flex'; modal.setAttribute('aria-hidden','false');
+        document.getElementById('modal-inner').innerHTML = content.innerHTML;
+        modal.style.display = 'flex'; modal.setAttribute('aria-hidden','false');
         document.getElementById('modal-content').style.marginTop = (document.querySelector('header')?.offsetHeight || 64) + 'px';
-        document.getElementById('modal-content').focus();
       }
       return;
     }
 
     const centerEl = slider.querySelector('.experience-box.center');
     if (centerEl === clickedCard) {
+      // second click -> open modal
       const content = clickedCard.querySelector('.full-content');
       if (content) {
-        const modal = document.getElementById('modal'); const modalInner = document.getElementById('modal-inner');
-        modalInner.innerHTML = '';
-        const clone = content.cloneNode(true); clone.style.display='block';
-        Array.from(clone.childNodes).forEach(child => modalInner.appendChild(child.cloneNode(true)));
-        modal.style.display='flex'; modal.setAttribute('aria-hidden','false');
+        const modal = document.getElementById('modal');
+        document.getElementById('modal-inner').innerHTML = content.innerHTML;
+        modal.style.display = 'flex'; modal.setAttribute('aria-hidden','false');
         document.getElementById('modal-content').style.marginTop = (document.querySelector('header')?.offsetHeight || 64) + 'px';
-        document.getElementById('modal-content').focus();
       }
     } else {
+      // first click -> center
       centerCard(clickedCard);
-      cards.forEach(c => c.dataset.awaitingOpen = '');
-      clickedCard.dataset.awaitingOpen = '1';
       setTimeout(updateCenterCard, 420);
     }
   });
@@ -1071,7 +1085,7 @@ initSlider('work-slider');
 initSlider('impact-slider');
 initSlider('invention-slider');
 
-/* per-card slideshow images */
+/* per-card slideshow images - works on desktop & mobile */
 document.querySelectorAll('.experience-box').forEach(box => {
   const imgs = Array.from(box.querySelectorAll('.slideshow-preview img'));
   if (!imgs.length) return;
@@ -1081,12 +1095,12 @@ document.querySelectorAll('.experience-box').forEach(box => {
   setInterval(()=>{ imgs[cur].classList.remove('active'); imgs[cur].style.opacity='0'; cur = (cur+1)%imgs.length; imgs[cur].classList.add('active'); imgs[cur].style.opacity='1'; }, 3000);
 });
 
-/* modal close */
+/* modal close / accessibility */
 (function modalSetup() {
   const modal = document.getElementById('modal'); const modalClose = document.getElementById('modal-close');
   modalClose.addEventListener('click', ()=>{ modal.style.display='none'; modal.setAttribute('aria-hidden','true'); });
   window.addEventListener('click', e => { if (e.target === modal) { modal.style.display='none'; modal.setAttribute('aria-hidden','true'); } });
-  window.addEventListener('keydown', e => { if (e.key === 'Escape') { if (modal.style.display === 'flex') { modal.style.display='none'; modal.setAttribute('aria-hidden','true'); } } });
+  window.addEventListener('keydown', e => { if (e.key === 'Escape') { if (modal.style.display === 'flex') { modal.style.display = 'none'; modal.setAttribute('aria-hidden','true'); } } });
 })();
 
 /* floating chat toggle & send (unchanged) */
@@ -1094,7 +1108,7 @@ document.querySelectorAll('.experience-box').forEach(box => {
   const chatIcon = document.getElementById('chat-icon'); const chatBox = document.getElementById('chat-box');
   chatIcon.addEventListener('click', ()=>{ chatBox.style.display = (chatBox.style.display === 'flex' ? 'none':'flex'); });
   const chatSend = document.getElementById('chat-send'), chatInput = document.getElementById('chat-input'), chatBody = document.getElementById('chat-body');
-  chatSend.addEventListener('click', async ()=>{ const msg = chatInput.value.trim(); if(!msg) return; chatBody.innerHTML += `<div class="chat-message-user">${msg}</div>`; chatInput.value=''; try{ const res = await fetch('https://profile-az1i.onrender.com/ask', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ message: msg }) }); const data = await res.json(); chatBody.innerHTML += `<div class="chat-message-bot">${data.response}</div>`; await fetch('https://profile-az1i.onrender.com/save_conversation', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ user: msg, bot: data.response }) }); }catch(e){ chatBody.innerHTML += `<div class="chat-message-bot">Error: Could not fetch response.</div>`; }});
+  chatSend.addEventListener('click', async ()=>{ const msg = chatInput.value.trim(); if(!msg) return; chatBody.innerHTML += `<div class="chat-message-user">${msg}</div>`; chatInput.value=''; try{ const res = await fetch('/ask', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ message: msg }) }); const data = await res.json(); chatBody.innerHTML += `<div class="chat-message-bot">${data.response}</div>`; await fetch('/save_conversation', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ user: msg, bot: data.response }) }); }catch(e){ chatBody.innerHTML += `<div class="chat-message-bot">Error: Could not fetch response.</div>`; }});
   chatInput.addEventListener('keypress', function(e){ if(e.key==='Enter'){ e.preventDefault(); chatSend.click(); } });
 })();
 </script>
