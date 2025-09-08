@@ -924,7 +924,7 @@ async function sendAsk() {
   input.value = '';
 
   try {
-    const res = await fetch('/ask', {
+    const res = await fetch('https://profile-az1i.onrender.com/ask', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ message: q, job_description: jobDescription })
@@ -940,7 +940,7 @@ async function sendAsk() {
     bodyUI.scrollTop = bodyUI.scrollHeight;
 
     // save conv (best-effort)
-    fetch('/save_conversation', {
+    fetch('https://profile-az1i.onrender.com/save_conversation', {
       method:'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ user: q, bot: data.response, job_description: jobDescription })
