@@ -1,44 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Portfolio</title>
 <style>
-:root {
-  --header-height: 64px;
-}
+:root { --header-height: 64px; }
 
+/* base */
 html,body { height:100%; }
-
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin:0; padding:0;
-  /* base background (your common background image) */
   background: url('../images/back.png') no-repeat center center fixed;
   background-size: cover;
-  color:#111;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
+  color:#333;
   scroll-behavior:smooth;
   overflow-x:hidden;
 }
 
-/* translucent containers so base background shows through */
+/* translucent panels so base background shows through */
 .header-bg, .content, .sidebar {
-  /* use light translucent panels so text remains readable while showing base bg */
-  background: rgba(255,255,255,0.75);
+  background: rgba(255,255,255,0.78);
   backdrop-filter: blur(4px);
 }
 
-/* header (translucent) */
+/* header */
 header {
   position:fixed; top:0; left:0; right:0;
-  height:auto;
   display:flex; align-items:center; justify-content:space-between;
   padding:0.8rem 1.2rem; box-sizing:border-box;
-  border-bottom:1px solid rgba(0,0,0,0.08);
-  z-index:1200;
+  border-bottom:1px solid rgba(0,0,0,0.08); z-index:1200;
 }
 .header-left { display:flex; gap:0.8rem; align-items:center; }
 header img { height:48px; width:auto; display:block; }
@@ -47,7 +39,7 @@ nav#main-nav { display:flex; gap:0.9rem; align-items:center; }
 nav#main-nav a { color:#0055a5; font-weight:600; text-decoration:none; padding:0.28rem 0.6rem; border-radius:6px; }
 nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
 
-/* top-level hero (keeps its own image & overlay) */
+/* hero */
 .hero {
   width:100%;
   min-height: calc(100vh - var(--header-height));
@@ -55,23 +47,20 @@ nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
   padding:2rem; box-sizing:border-box; position:relative;
   background: url('../images/ai_back.png') no-repeat center center/cover;
 }
-.hero::after {
-  content:""; position:absolute; inset:0; background: rgba(0,0,0,0.32); pointer-events:none;
-}
+.hero::after { content:""; position:absolute; inset:0; background: rgba(0,0,0,0.32); pointer-events:none; }
 .hero-content { position:relative; z-index:2; color:#fff; max-width:540px; text-align:right; }
 .hero-content h1 { font-size:2.4rem; margin:0 0 0.35rem 0; color:#fff; }
 .hero-content h2 { font-size:1.05rem; color:#ddd; margin:0 0 0.6rem 0; }
 .hero-content p { color:#f1f1f1; }
 
-/* page layout (middle container has sidebar + content) */
+/* page layout */
 .container {
   display:flex; gap:2rem; align-items:flex-start;
   margin-top: calc(var(--header-height) + 0.6rem);
-  padding: 1rem 1.25rem 3rem 1.25rem;
-  box-sizing:border-box;
+  padding: 1rem 1.25rem 3rem 1.25rem; box-sizing:border-box;
 }
 
-/* sidebar (sticky in middle area) */
+/* sidebar */
 .sidebar {
   width:220px;
   position:sticky; top: calc(var(--header-height) + 16px);
@@ -82,45 +71,30 @@ nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
 .profile-pic { width:100%; border-radius:8px; display:block; margin-bottom:0.6rem; }
 .education { font-size:0.9rem; color:#333; text-align:center; }
 
-/* main content */
-.content {
-  flex:1; min-width:260px; padding:1rem; box-sizing:border-box;
-  border-radius:10px;
-}
+/* content */
+.content { flex:1; min-width:260px; padding:1rem; box-sizing:border-box; border-radius:10px; }
 
-/* Professional Summary (new single section) */
-.professional-summary {
-  background: rgba(255,255,255,0.9);
-  padding:1.1rem; border-radius:10px; margin-bottom:1.25rem;
-}
+/* professional summary */
+.professional-summary { background: rgba(255,255,255,0.92); padding:1.1rem; border-radius:10px; margin-bottom:1.25rem; }
 .professional-summary h2 { color:#0055a5; margin:0 0 0.5rem 0; }
 .professional-summary p { color:#222; line-height:1.5; }
 
-/* ChatGPT-style inline box */
-.ask-box {
-  background: #fff; border-radius:12px; box-shadow:0 10px 30px rgba(2,6,23,0.06);
-  max-width:920px; margin: 1.2rem auto; padding:0.6rem; overflow:hidden;
-}
+/* Ask box (ChatGPT-style) */
+.ask-box { background:#fff; border-radius:12px; box-shadow:0 10px 30px rgba(2,6,23,0.06); max-width:920px; margin:1.2rem auto; padding:0.6rem; overflow:hidden; }
 .ask-head { text-align:center; padding:0.6rem 0; border-bottom:1px solid rgba(0,0,0,0.04); }
 .ask-head h2 { margin:0; color:#0055a5; }
-.ask-suggestions {
-  display:flex; gap:0.6rem; padding:0.6rem; overflow:hidden; align-items:center; justify-content:center;
-}
+.ask-suggestions { display:flex; gap:0.6rem; padding:0.6rem; overflow:hidden; align-items:center; justify-content:center; }
 .sugg-chip {
-  flex: 0 0 auto;
-  background: linear-gradient(90deg,#f7f7f8,#fff);
-  border-radius:999px; padding:0.5rem 0.9rem; font-weight:600; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.06);
-  white-space:nowrap;
+  flex: 0 0 auto; background: linear-gradient(90deg,#f7f7f8,#fff); border-radius:999px; padding:0.5rem 0.9rem; font-weight:600; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.06); white-space:nowrap;
 }
 .sugg-chip.active { box-shadow:0 8px 20px rgba(0,0,0,0.12); transform:translateY(-2px); }
-.ask-body {
-  padding:0.9rem; min-height:260px; max-height:420px; overflow:auto; background: linear-gradient(#fff,#fbfbfb); border-radius:8px; margin-top:0.75rem;
-}
+.ask-body { padding:0.9rem; min-height:260px; max-height:420px; overflow:auto; background: linear-gradient(#fff,#fbfbfb); border-radius:8px; margin-top:0.75rem; }
 .ask-input-wrap { display:flex; gap:0.5rem; margin-top:0.7rem; }
 .ask-input { flex:1; padding:0.8rem; border-radius:8px; border:1px solid #e6e6e6; }
 .ask-send { background:#0055a5; color:#fff; border:none; padding:0.6rem 0.9rem; border-radius:8px; font-weight:700; cursor:pointer; }
 
-/* ========== SLIDER (square cards same as before) ========== */
+/* SLIDER - square cards */
+/* horizontal padding calc kept for multi-card center; JS will override for single-card case */
 .experience-slider-container {
   display:flex; align-items:center;
   overflow-x:auto; overflow-y:hidden;
@@ -128,32 +102,54 @@ nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
   scroll-behavior:smooth; scroll-snap-type:x mandatory;
   -webkit-overflow-scrolling: touch; box-sizing:border-box;
 }
+.experience-slider-container::-webkit-scrollbar { display:none; }
+.experience-slider-container { -ms-overflow-style:none; scrollbar-width:none; }
+
+/* card */
 .experience-box {
-  scroll-snap-align:center; width:260px; height:260px; flex:0 0 auto;
-  background: rgba(255,255,255,0.98); padding:0.8rem; border-left:5px solid #0055a5;
+  scroll-snap-align:center;
+  width:260px; height:260px;
+  flex:0 0 auto;
+  background: rgba(255,255,255,0.98);
+  padding:0.6rem 0.8rem;
+  border-left:5px solid #0055a5;
   border-radius:12px; box-shadow:0 6px 16px rgba(0,0,0,0.06);
-  display:flex; flex-direction:column; justify-content:space-between; align-items:center; cursor:pointer;
-  transition:transform 0.36s, box-shadow 0.36s; transform:scale(0.95); margin:0 10px; overflow:hidden;
+  display:flex; flex-direction:column; justify-content:flex-start; align-items:center;
+  text-align:center; cursor:pointer; transition: transform 0.36s, box-shadow 0.36s;
+  transform:scale(0.95); position:relative; overflow:hidden; margin:0 10px;
 }
-.experience-box.center { transform:scale(1.18) translateY(-10px); box-shadow:0 20px 46px rgba(0,0,0,0.26); z-index:20; }
-.slideshow-preview { width:100%; aspect-ratio:1/1; border-radius:8px; overflow:hidden; position:relative; background:#eee; }
-.slideshow-preview img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 0.8s ease; }
+/* title smaller by ~1 point */
+.experience-box h3 { font-size:0.95rem; margin:0.5rem 0 0.35rem 0; }
+/* summary smaller by ~3 points */
+.experience-box p { font-size:0.7rem; margin:0.2rem 0; color:#444; }
+
+/* center/enlarged card */
+.experience-box.center {
+  transform:scale(1.18) translateY(-10px);
+  box-shadow:0 20px 46px rgba(0,0,0,0.26); z-index:20;
+}
+
+/* slideshow area sits at top of card so image is visible */
+.slideshow-preview {
+  width:100%; aspect-ratio:1/1; border-radius:8px; overflow:hidden; position:relative; background:#efefef; flex:0 0 auto;
+}
+.slideshow-preview img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 0.6s ease; }
 .slideshow-preview img.active { opacity:1; }
 
-/* modal same behavior (images 2-per-row on desktop) */
+/* modal */
 .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.74); z-index:13000; justify-content:center; align-items:flex-start; overflow-y:auto; }
 .modal-content { background:#fff; color:#111; padding:1.25rem; width:calc(100% - 32px); max-width:920px; margin-top:calc(var(--header-height) + 20px); border-radius:12px; box-shadow:0 12px 36px rgba(0,0,0,0.35); position:relative; }
 #modal-inner { display:block; }
 #modal-inner img { width: calc(50% - 8px); margin:4px; vertical-align:top; border-radius:8px; }
 @media (max-width:600px) { #modal-inner img { width:100%; display:block; margin:8px 0; } }
 
-/* contact (full-width dark band) */
-#contact-section { background: #000; color:#fff; padding:3.5rem 1.25rem; text-align:center; box-sizing:border-box; }
+/* contact area */
+#contact-section { background:#000; color:#fff; padding:3.5rem 1.25rem; text-align:center; box-sizing:border-box; }
 #contact-section .contact-inner { max-width:920px; margin:0 auto; }
 #contact-section input, #contact-section textarea { width:100%; max-width:520px; padding:0.75rem; margin:0.4rem auto; display:block; border-radius:8px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.03); color:#fff; }
 #contact-section button { background:#0055a5; color:#000; padding:0.7rem 1rem; border-radius:8px; border:none; font-weight:700; cursor:pointer; }
 
-/* responsive tweaks */
+/* responsiveness */
 @media (max-width:1024px) {
   .sidebar { display:none; }
   .content { padding:1rem; }
@@ -169,12 +165,14 @@ nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
   .experience-slider-container { gap:0.8rem; padding:0.8rem 1rem; }
   .experience-box { width:150px; height:150px; margin:0 6px; }
   .ask-body { min-height:200px; max-height:320px; }
+  .slideshow-preview { aspect-ratio:1/1; }
+  .modal-content { width: calc(100% - 28px); margin-top:calc(var(--header-height) + 8px); }
 }
 </style>
 </head>
+
 <body>
 
-<!-- HEADER -->
 <header class="header-bg">
   <div class="header-left">
     <img src="https://www.gstatic.com/marketing-cms/assets/images/f5/d3/a7f9db7045429cb6dc6be56bdcbe/google-logo-about.svg" alt="Logo"/>
@@ -204,7 +202,7 @@ nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
   </div>
 </section>
 
-<!-- MIDDLE: SIDEBAR + MAIN CONTENT (professional summary -> ask box -> work/impact/invention -> contact) -->
+<!-- MIDDLE -->
 <div class="container">
   <aside class="sidebar">
     <img src="../images/my_picture.jpg" alt="Vivek" class="profile-pic"/>
@@ -213,13 +211,11 @@ nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
   </aside>
 
   <main class="content header-bg">
-    <!-- PROFESSIONAL SUMMARY (single section replacing many small ones) -->
     <section id="professional-summary" class="professional-summary">
       <h2>Professional Summary</h2>
-      <p>I am motivated to work at Google because of its unparalleled commitment to leveraging technology to solve complex, real-world problems at scale. The opportunity to work on projects involving AI, ML, computer vision, and generative AI, while directly impacting billions of users, aligns perfectly with my passion for applying technical knowledge to meaningful challenges. Google’s focus on fairness, accessibility, and inclusivity resonates with my values, and the company’s culture of innovation, collaboration, and continuous learning inspires me to contribute my best. Being part of an organization that encourages experimentation, embraces emerging technologies, and pushes the boundaries of what’s possible motivates me to grow as an engineer while contributing to transformative solutions.</p>
+      <p>{'I am a data driven engineer who builds real systems at the intersection of autonomy, machine learning, and electromechanical design. My recent work spans state estimation and sensor fusion for high-speed autonomous racecars (ROS2, IMU/GNSS/LiDAR fusion, MPC/PID, predictive grip modelling, fail-safe trajectory planning), domain-specific LLM systems and ETL pipelines for healthcare (OpenDental ↔ CRM sync, Qwen-3 fine-tuning, DeepSpeed/FSDP, COT command on H100 GPU), and neural methods for 3D medical image registration (high accuracy, high throughput volumetric alignment). I also hold a patented 3-phase BLDC wheel hub motor design and led the powertrain design for my university’s first SAE Baja ATV  project that combine hands on manufacturing, iterative simulation, and cost constrained engineering. Practically, I run multi parametric simulation sweeps, collect large experimental datasets, and apply ML models to analyse outputs and predict optimal next iteration configurations a workflow that moved me to collaborate mechanical design and machine learning which motivated my MS in Data Science at Indiana University. My strength is turning noisy, real world sensor and telemetry data into robust, deployable solutions that improve performance (e.g., predictive control & grip models that materially raised on-track performance), reliability, and safety in both research and production contexts.'}</p>
     </section>
 
-    <!-- ASK ABOUT ME - ChatGPT style box (inline, centered) -->
     <section id="ask-section">
       <div class="ask-box" role="region" aria-label="Ask about me">
         <div class="ask-head"><h2>Ask about me</h2></div>
@@ -242,7 +238,6 @@ nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
       </div>
     </section>
 
-    <!-- WORK EXPERIENCE -->
     <section id="work-section"><h2>Work Experience</h2>
       <div class="experience-slider-container" id="work-slider">
 <div class="experience-box" data-title="Research Engineer, VAIL IU">
@@ -523,7 +518,6 @@ nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
 </div>
     </section>
 
-    <!-- IMPACT PROJECTS -->
     <section id="impact-section"><h2>Impact Projects</h2>
       <div class="experience-slider-container" id="impact-slider">
 <div class="experience-box" data-title="Full-Stack Web Application for Restaurants">
@@ -687,10 +681,7 @@ nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
 </div>
     </section>
 
-    <!-- INVENTION -->
-    <section id="invention-section"><h2>Invention</h2>
-      <div class="experience-slider-container" id="invention-slider">
-        <div class="experience-box"><div class="experience-box" data-title="3-Phase BLDC Wheel Hub Motor Patent">
+    <!-- IMPORTANT: don't wrap <div class="experience-box" data-title="3-Phase BLDC Wheel Hub Motor Patent">
     <h3>3-Phase BLDC Wheel Hub Motor | Patent</h3>
     <div class="slideshow-preview">
         <img src="../images/design_motor.jpg" alt="3-Phase BLDC Wheel Hub Motor Design"/>
@@ -754,13 +745,80 @@ nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
 </div>
 
 
+ in another .experience-box to avoid duplicates -->
+    <section id="invention-section"><h2>Invention</h2>
+      <div class="experience-slider-container" id="invention-slider">
+        <div class="experience-box" data-title="3-Phase BLDC Wheel Hub Motor Patent">
+    <h3>3-Phase BLDC Wheel Hub Motor | Patent</h3>
+    <div class="slideshow-preview">
+        <img src="../images/design_motor.jpg" alt="3-Phase BLDC Wheel Hub Motor Design"/>
+        <img src="../images/temp_motor.png" alt="Inner Rotor and Outer Stator Assembly"/>
+    </div>
+    <p>Developed a high-efficiency 3-phase BLDC wheel hub motor for small electric vehicles and hybrid applications.</p>
+    <div class="full-content">
+        <h3>3-Phase BLDC Wheel Hub Motor - Patent</h3>
+        <p>
+            This invention focuses on the design, development, and optimization of a 3-phase BLDC wheel hub motor with an inner rotor and outer stator. The motor is designed to reduce wheel size while maintaining high torque and efficiency. Key components include the stator, rotor, and Hall sensors for precise rotor position detection.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="../images/design_motor.jpg" alt="Top view before"/>
+                <figcaption>Design of motor</figcaption>
+            </figure>
+            <figure>
+                <img src="../images/temp_motor.png" alt="Top view before"/>
+                <figcaption>Thermal simulation of motor</figcaption>
+            </figure>
+        </div>
+        <p>
+            The stator is constructed using laminated material to minimize eddy current losses and contains 18 slots arranged in a star winding pattern for copper coils. The **rotor** uses six high-flux Neodymium permanent magnets, chosen to maximize torque output in a compact form factor. Hall sensors are employed to synchronize stator excitation, enabling smooth rotation and efficient electronic commutation.
+        </p>
+        <p>
+            Each design parameter—pole count, slot number, coil turns, and rotor geometry—was evaluated through multiple iterative simulations, generating large datasets for performance, torque, thermal, and magnetic efficiency. I applied machine learning models to analyze these outputs, identify patterns, and predict optimal configurations for the next iteration, effectively connecting the dots between simulations and achieving highly efficient motor designs.
+        </p>
+        <p>
+            The design allows for direct integration into the wheel, eliminating the need for conventional drivetrains, gearboxes, axles, or differentials. This results in weight reduction, lower maintenance, improved vehicle dynamics, and greater interior design flexibility.
+        </p>
+        <p>
+            Design considerations included:
+            <ul>
+                <li>Inner rotor and outer stator configuration to reduce motor diameter and improve torque-to-size ratio.</li>
+                <li>Iterative optimization of pole count, slot number, and coil turns for desired performance using ML-assisted analysis.</li>
+                <li>Evaluation of multiple rotor core designs (curved, rectangular, perpendicular magnets) for optimal surface fit and torque efficiency.</li>
+                <li>Use of cost-effective materials while ensuring high thermal performance and reliability.</li>
+                <li>Minimized cogging torque and high dynamic response for fast acceleration and precise control.</li>
+            </ul>
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="../images/cd_motor.png" alt="Top view before"/>
+                <figcaption>Current Density simulation</figcaption>
+            </figure>
+            <figure>
+                <img src="../images/ct_motor.png" alt="Top view before"/>
+                <figcaption>Cogging Torque simulation</figcaption>
+            </figure>
+        </div>
+        <p>
+            Advantages of this motor include smaller wheel size, improved torque-to-size ratio, higher efficiency, reduced weight, and simplified drivetrain design. The motor can be used in hybrid or fully electric vehicles with small wheel rims (5.9–10 inches).
+        </p>
+        <p>
+            Working on this project sparked my interest in data-driven engineering and ML applications in mechatronics, inspiring me to pursue a Master’s in Data Science at Indiana University. This allowed me to deepen my expertise in data analysis, predictive modeling, and optimization, and eventually join the IU Autonomous Racing Team to apply these skills to real-world autonomous vehicle systems.
+        </p>
+        <p>
+            Overall, this patent project strengthened my skills in electromechanical design, motor optimization, iterative analysis, and innovation for electric vehicle systems, while also bridging my interest in data science and autonomous technologies.
+        </p>
+    </div>
 </div>
+
+
+
       </div>
     </section>
   </main>
 </div>
 
-<!-- CONTACT (unchanged; full-width dark band) -->
+<!-- CONTACT -->
 <section id="contact-section">
   <div class="contact-inner">
     <h2>Get In Touch</h2>
@@ -782,7 +840,7 @@ nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
   </div>
 </div>
 
-<!-- Floating chat icon/box (kept as before) -->
+<!-- chat icon/box -->
 <div class="chat-icon" id="chat-icon">💬</div>
 <div class="chat-box" id="chat-box" role="region" aria-label="Chat" style="display:none;">
   <div class="chat-header">Ask Me</div>
@@ -795,40 +853,78 @@ nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
 </div>
 
 <script>
-/* small helper: rotate suggestion chips */
+/* suggestion rotator and click-to-fill */
 (function suggestionRotator() {
   const chips = Array.from(document.querySelectorAll('.sugg-chip'));
   let idx = 0;
-  function activate(i) {
-    chips.forEach((c,ii)=>c.classList.toggle('active', ii===i));
-  }
+  function activate(i) { chips.forEach((c,ii)=>c.classList.toggle('active', ii===i)); }
   if (chips.length>0) { activate(0); setInterval(() => { idx = (idx+1) % chips.length; activate(idx); }, 3500); }
-  // clicking a chip injects into input
   chips.forEach(c => c.addEventListener('click', () => {
     document.getElementById('ask-input').value = c.textContent;
     document.getElementById('ask-send').click();
   }));
 })();
 
-/* Ask box send handler - reuse your existing backend endpoint */
-document.getElementById('ask-send').addEventListener('click', async function() {
+
+/* chnage job dis here */
+<div id="job-desc" style="display:none;">{Software Engineer III, AI/ML GenAI, Google Cloud Platforms: Minimum qualifications:
+Bachelor’s degree or equivalent practical experience.
+2 years of experience with software development in one or more programming languages, or 1 year of experience with an advanced degree.
+1 year of experience with ML infrastructure (e.g., model deployment, model evaluation, optimization, data processing, debugging).
+Experience with core GenAI concepts (LLM, Multi-Modal, Large Vision Models) and experience with text, image, video, or audio generation.
+
+Preferred qualifications:
+Master's degree or PhD in Computer Science or related technical fields.
+2 years of experience with data structures or algorithms.
+Experience developing accessible technologies.
+About the job
+Google's software engineers develop the next-generation technologies that change how billions of users connect, explore, and interact with information and one another. Our products need to handle information at massive scale, and extend well beyond web search. We're looking for engineers who bring fresh ideas from all areas, including information retrieval, distributed computing, large-scale system design, networking and data storage, security, artificial intelligence, natural language processing, UI design and mobile; the list goes on and is growing every day. As a software engineer, you will work on a specific project critical to Google’s needs with opportunities to switch teams and projects as you and our fast-paced business grow and evolve. We need our engineers to be versatile, display leadership qualities and be enthusiastic to take on new problems across the full-stack as we continue to push technology forward.
+
+Google Cloud accelerates every organization’s ability to digitally transform its business and industry. We deliver enterprise-grade solutions that leverage Google’s cutting-edge technology, and tools that help developers build more sustainably. Customers in more than 200 countries and territories turn to Google Cloud as their trusted partner to enable growth and solve their most critical business problems.
+
+The US base salary range for this full-time position is $141,000-$202,000 + bonus + equity + benefits. Our salary ranges are determined by role, level, and location. Within the range, individual pay is determined by work location and additional factors, including job-related skills, experience, and relevant education or training. Your recruiter can share more about the specific salary range for your preferred location during the hiring process.
+
+Please note that the compensation details listed in US role postings reflect the base salary only, and do not include bonus, equity, or benefits. Learn more about benefits at Google.
+Responsibilities
+Write product or system development code. 
+Collaborate with peers and stakeholders through design and code reviews to ensure best practices amongst available technologies (e.g., style guidelines, checking code in, accuracy, testability, and efficiency,)
+Contribute to existing documentation or educational content and adapt content based on product/program updates and user feedback.
+Triage product or system issues and debug/track/resolve by analyzing the sources of issues and the impact on hardware, network, or service operations and quality.
+Implement GenAI solutions, utilize ML infrastructure, and contribute to data preparation, optimization, and performance enhancements.}</div>
+
+/* ask-box send: uses same backend as floating chat */
+document.getElementById('ask-send').addEventListener('click', async function () {
   const input = document.getElementById('ask-input');
-  const query = input.value.trim();
-  if (!query) return;
+  const q = input.value.trim();
+  if (!q) return;
+
+  const jobDescription = (document.getElementById('job-desc')?.textContent || '').trim();
+
+  const payload = {
+    message: q,
+    job_description: jobDescription
+  };
+
   const body = document.getElementById('ask-messages');
-  body.innerHTML += `<div style="margin:8px 0; font-weight:600;">You: ${query}</div>`;
+  body.innerHTML += `<div style="margin:8px 0; font-weight:600;">You: ${q}</div>`;
   input.value = '';
-  // call same backend used by floating chat (if available)
+
   try {
     const res = await fetch('https://profile-az1i.onrender.com/ask', {
-      method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ message: query })
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
     });
+
     const data = await res.json();
     body.innerHTML += `<div style="margin:8px 0; color:#333;">${data.response}</div>`;
     body.scrollTop = body.scrollHeight;
-    // optionally save
+
+    // Save conversation
     await fetch('https://profile-az1i.onrender.com/save_conversation', {
-      method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ user: query, bot: data.response })
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user: q, bot: data.response })
     });
   } catch (err) {
     body.innerHTML += `<div style="margin:8px 0; color:#c00;">Error: could not get response.</div>`;
@@ -836,22 +932,18 @@ document.getElementById('ask-send').addEventListener('click', async function() {
   }
 });
 
-/* NAV toggle for small screens */
-document.getElementById('nav-toggle').addEventListener('click', function(e) {
-  const nav = document.getElementById('main-nav');
-  nav.classList.toggle('show');
+/* nav toggle */
+document.getElementById('nav-toggle').addEventListener('click', function () {
+  document.getElementById('main-nav').classList.toggle('show');
 });
 
-/* Slider logic - uses the robust pointerdown/pointerup click handling and modal cloning
-   (this is same logic as prior working version, slightly adapted) */
 
+/* slider init with single-card behavior */
 function initSlider(sliderId) {
   const slider = document.getElementById(sliderId);
   if (!slider) return;
   const cards = Array.from(slider.querySelectorAll('.experience-box'));
-  let slideshowInterval = null;
-  let idleTimer = null;
-  let isPaused = false;
+  let slideshowInterval = null, idleTimer = null, isPaused = false;
 
   function centerCard(card) {
     const sliderRect = slider.getBoundingClientRect();
@@ -862,7 +954,7 @@ function initSlider(sliderId) {
 
   function updateCenterCard() {
     const sliderCenter = slider.scrollLeft + slider.offsetWidth / 2;
-    let closest = null; let bestDist = Infinity;
+    let closest = null, bestDist = Infinity;
     cards.forEach(c => {
       const cCenter = c.offsetLeft + c.offsetWidth / 2;
       const d = Math.abs(sliderCenter - cCenter);
@@ -891,8 +983,16 @@ function initSlider(sliderId) {
     idleTimer = setTimeout(() => { isPaused = false; }, 5000);
   }
 
-  // init
-  if (cards.length) {
+  // single-card special handling: left-align and disable center/enlarge/autoplay
+  if (cards.length === 1) {
+    // remove large padding so left alignment
+    slider.style.paddingLeft = '1rem';
+    slider.style.paddingRight = '1rem';
+    // ensure no center class applied
+    cards[0].classList.remove('center');
+    // don't start autoplay
+  } else {
+    // multi-card init
     setTimeout(() => { centerCard(cards[0]); updateCenterCard(); startAutoplay(); }, 120);
   }
 
@@ -906,22 +1006,18 @@ function initSlider(sliderId) {
     card.addEventListener('touchstart', () => pauseWithTimeout(), {passive:true});
   });
 
-  // pointer logic to distinguish drag vs tap
+  // pointerdown/up to detect tap vs drag
   let pointerState = { active:false, startX:0, startY:0, target:null };
 
   slider.addEventListener('pointerdown', function(e) {
-    pointerState.active = true;
-    pointerState.startX = e.clientX;
-    pointerState.startY = e.clientY;
+    pointerState.active = true; pointerState.startX = e.clientX; pointerState.startY = e.clientY;
     pointerState.target = e.target.closest('.experience-box') || null;
-    isPaused = true;
-    if (idleTimer) clearTimeout(idleTimer);
+    isPaused = true; if (idleTimer) clearTimeout(idleTimer);
   });
 
   slider.addEventListener('pointerup', function(e) {
     if (!pointerState.active) return;
-    const dx = Math.abs(e.clientX - pointerState.startX);
-    const dy = Math.abs(e.clientY - pointerState.startY);
+    const dx = Math.abs(e.clientX - pointerState.startX), dy = Math.abs(e.clientY - pointerState.startY);
     const moved = Math.sqrt(dx*dx + dy*dy);
     const clickedCard = e.target.closest('.experience-box') || pointerState.target;
     pointerState.active = false;
@@ -933,19 +1029,32 @@ function initSlider(sliderId) {
       return;
     }
 
-    const centerEl = slider.querySelector('.experience-box.center');
-    if (centerEl === clickedCard) {
+    // if single card: just open modal (or do nothing if no .full-content)
+    if (cards.length === 1) {
       const content = clickedCard.querySelector('.full-content');
       if (content) {
         const modal = document.getElementById('modal');
         const modalInner = document.getElementById('modal-inner');
         modalInner.innerHTML = '';
-        // clone children preserving order
         const clone = content.cloneNode(true); clone.style.display='block';
         Array.from(clone.childNodes).forEach(child => modalInner.appendChild(child.cloneNode(true)));
-        // show modal
-        modal.style.display = 'flex'; modal.setAttribute('aria-hidden','false');
-        const header = document.querySelector('header'); document.getElementById('modal-content').style.marginTop = (header ? header.offsetHeight : 64) + 'px';
+        modal.style.display='flex'; modal.setAttribute('aria-hidden','false');
+        document.getElementById('modal-content').style.marginTop = (document.querySelector('header')?.offsetHeight || 64) + 'px';
+        document.getElementById('modal-content').focus();
+      }
+      return;
+    }
+
+    const centerEl = slider.querySelector('.experience-box.center');
+    if (centerEl === clickedCard) {
+      const content = clickedCard.querySelector('.full-content');
+      if (content) {
+        const modal = document.getElementById('modal'); const modalInner = document.getElementById('modal-inner');
+        modalInner.innerHTML = '';
+        const clone = content.cloneNode(true); clone.style.display='block';
+        Array.from(clone.childNodes).forEach(child => modalInner.appendChild(child.cloneNode(true)));
+        modal.style.display='flex'; modal.setAttribute('aria-hidden','false');
+        document.getElementById('modal-content').style.marginTop = (document.querySelector('header')?.offsetHeight || 64) + 'px';
         document.getElementById('modal-content').focus();
       }
     } else {
@@ -955,9 +1064,9 @@ function initSlider(sliderId) {
       setTimeout(updateCenterCard, 420);
     }
   });
+}
 
-} // end initSlider
-
+// init sliders
 initSlider('work-slider');
 initSlider('impact-slider');
 initSlider('invention-slider');
@@ -972,25 +1081,22 @@ document.querySelectorAll('.experience-box').forEach(box => {
   setInterval(()=>{ imgs[cur].classList.remove('active'); imgs[cur].style.opacity='0'; cur = (cur+1)%imgs.length; imgs[cur].classList.add('active'); imgs[cur].style.opacity='1'; }, 3000);
 });
 
-/* modal close handlers */
+/* modal close */
 (function modalSetup() {
-  const modal = document.getElementById('modal');
-  const modalClose = document.getElementById('modal-close');
+  const modal = document.getElementById('modal'); const modalClose = document.getElementById('modal-close');
   modalClose.addEventListener('click', ()=>{ modal.style.display='none'; modal.setAttribute('aria-hidden','true'); });
   window.addEventListener('click', e => { if (e.target === modal) { modal.style.display='none'; modal.setAttribute('aria-hidden','true'); } });
   window.addEventListener('keydown', e => { if (e.key === 'Escape') { if (modal.style.display === 'flex') { modal.style.display='none'; modal.setAttribute('aria-hidden','true'); } } });
 })();
 
-/* floating chat toggle + send (keeps previous behavior) */
+/* floating chat toggle & send (unchanged) */
 (function chatSetup() {
-  const chatIcon = document.getElementById('chat-icon');
-  const chatBox = document.getElementById('chat-box');
+  const chatIcon = document.getElementById('chat-icon'); const chatBox = document.getElementById('chat-box');
   chatIcon.addEventListener('click', ()=>{ chatBox.style.display = (chatBox.style.display === 'flex' ? 'none':'flex'); });
   const chatSend = document.getElementById('chat-send'), chatInput = document.getElementById('chat-input'), chatBody = document.getElementById('chat-body');
   chatSend.addEventListener('click', async ()=>{ const msg = chatInput.value.trim(); if(!msg) return; chatBody.innerHTML += `<div class="chat-message-user">${msg}</div>`; chatInput.value=''; try{ const res = await fetch('https://profile-az1i.onrender.com/ask', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ message: msg }) }); const data = await res.json(); chatBody.innerHTML += `<div class="chat-message-bot">${data.response}</div>`; await fetch('https://profile-az1i.onrender.com/save_conversation', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ user: msg, bot: data.response }) }); }catch(e){ chatBody.innerHTML += `<div class="chat-message-bot">Error: Could not fetch response.</div>`; }});
   chatInput.addEventListener('keypress', function(e){ if(e.key==='Enter'){ e.preventDefault(); chatSend.click(); } });
 })();
-
 </script>
 
 <footer style="text-align:center; margin:2rem 0; font-style:italic; font-size:0.95rem; color:#333; width:100%">
