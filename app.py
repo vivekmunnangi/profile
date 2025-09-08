@@ -76,6 +76,17 @@ def ask():
     except Exception as e:
         logging.exception("LLM request failed")
         answer = f"Error fetching response: {str(e)}"
+    finally:
+    # Write to log file regardless of success/failure
+        try:
+            with open("conversation_log.txt", "a", encoding="utf-8") as f:
+                f.write("User Prompt:\n")
+                f.write(prompt + "\n\n")
+                f.write("Assistant Answer / Error:\n")
+                f.write(answer + "\n")
+                f.write("-" * 60 + "\n")
+        except Exception as log_err:
+            logging.exception("Failed to write log file")
 
     # Save conversation to disk (including job description for traceability)
     try:
