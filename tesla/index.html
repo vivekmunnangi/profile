@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Portfolio</title>
+<style>
+:root { --header-height: 64px; }
+
+/* base */
+html,body { height:100%; }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin:0; padding:0;
+  background: url('../images/back.png') no-repeat center center fixed;
+  background-size: cover;
+  color:#333;
+  scroll-behavior:smooth;
+  overflow-x:hidden;
+}
+
+/* translucent panels - slightly more transparent so base bg shows */
+.header-bg, .content, .sidebar {
+  background: rgba(255,255,255,0.60);
+  backdrop-filter: blur(4px);
+}
+
+/* header */
+header {
+  position:fixed; top:0; left:0; right:0;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0.8rem 1.2rem; box-sizing:border-box;
+  border-bottom:1px solid rgba(0,0,0,0.08); z-index:1200;
+}
+.header-left { display:flex; gap:0.8rem; align-items:center; }
+header img { height:48px; width:auto; display:block; }
+#nav-toggle { display:none; background:transparent; border:none; font-size:1.4rem; cursor:pointer; }
+nav#main-nav { display:flex; gap:0.9rem; align-items:center; }
+nav#main-nav a { color:#0055a5; font-weight:600; text-decoration:none; padding:0.28rem 0.6rem; border-radius:6px; }
+nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
+
+/* hero */
+.hero {
+  width:100%;
+  min-height: calc(100vh - var(--header-height));
+  display:flex; align-items:flex-end; justify-content:flex-end;
+  padding:2rem; box-sizing:border-box; position:relative;
+  background: url('../images/ai_back.png') no-repeat center center/cover;
+}
+.hero::after { content:""; position:absolute; inset:0; background: rgba(0,0,0,0.32); pointer-events:none; }
+.hero-content { position:relative; z-index:2; color:#fff; max-width:540px; text-align:right; }
+.hero-content h1 { font-size:2.4rem; margin:0 0 0.35rem 0; color:#fff; }
+.hero-content h2 { font-size:1.05rem; color:#ddd; margin:0 0 0.6rem 0; }
+.hero-content p { color:#f1f1f1; }
+
+/* page layout */
+.container {
+  display:flex; gap:2rem; align-items:flex-start;
+  margin-top: calc(var(--header-height) + 0.6rem);
+  padding: 1rem 1.25rem 3rem 1.25rem; box-sizing:border-box;
+}
+
+/* sidebar */
+.sidebar {
+  width:220px;
+  position:sticky; top: calc(var(--header-height) + 16px);
+  height: calc(100vh - var(--header-height) - 32px);
+  padding:1.25rem; box-sizing:border-box; border-radius:10px;
+  box-shadow:0 8px 30px rgba(2,6,23,0.06);
+}
+.profile-pic { width:100%; border-radius:8px; display:block; margin-bottom:0.6rem; }
+.education { font-size:0.9rem; color:#333; text-align:center;font-style:italic; }
+
+/* content */
+.content { flex:1; min-width:260px; padding:1rem; box-sizing:border-box; border-radius:10px; }
+
+/* professional summary */
+.professional-summary { background: rgba(255,255,255,0.72); padding:1.1rem; border-radius:10px; margin-bottom:1.25rem; }
+.professional-summary h2 { color:#0055a5; margin:0 0 0.5rem 0; }
+.professional-summary p { color:#222; line-height:1.5; }
+
+/* Ask box (ChatGPT-style) */
+.ask-box { background: rgba(255,255,255,0.92); border-radius:12px; box-shadow:0 10px 30px rgba(2,6,23,0.06); max-width:920px; margin:1.2rem auto; padding:0.6rem; overflow:hidden; }
+.ask-head { text-align:center; padding:0.6rem 0; border-bottom:1px solid rgba(0,0,0,0.04); }
+.ask-head h2 { margin:0; color:#0055a5; }
+.ask-suggestions { display:flex; gap:0.6rem; padding:0.6rem; overflow:auto; align-items:center; justify-content:center; }
+.sugg-chip {
+  flex: 0 0 auto; background: linear-gradient(90deg,#f7f7f8,#fff); border-radius:999px; padding:0.5rem 0.9rem; font-weight:600; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.06); white-space:nowrap;
+}
+.sugg-chip.active { box-shadow:0 8px 20px rgba(0,0,0,0.12); transform:translateY(-2px); }
+.ask-body { padding:0.9rem; min-height:260px; max-height:420px; overflow:auto; background: linear-gradient(#fff,#fbfbfb); border-radius:8px; margin-top:0.75rem; }
+.ask-input-wrap { display:flex; gap:0.5rem; margin-top:0.7rem; }
+.ask-input { flex:1; padding:0.8rem; border-radius:8px; border:1px solid #e6e6e6; }
+.ask-send { background:#0055a5; color:#fff; border:none; padding:0.6rem 0.9rem; border-radius:8px; font-weight:700; cursor:pointer; }
+.job-desc-textarea { width:100%; padding:0.6rem; border-radius:8px; border:1px solid #e6e6e6; margin-top:0.6rem; }
+
+/* SLIDER - square cards */
+.experience-slider-container {
+  display:flex; align-items:center;
+  overflow-x:auto; overflow-y:hidden;
+  gap:1rem; padding:1rem  calc(50% - 160px);
+  scroll-behavior:smooth; scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling: touch; box-sizing:border-box;
+}
+.experience-slider-container::-webkit-scrollbar { display:none; }
+.experience-slider-container { -ms-overflow-style:none; scrollbar-width:none; }
+
+/* card */
+.experience-box {
+  scroll-snap-align:center;
+  width:260px; height:260px;
+  flex:0 0 auto;
+  background: rgba(255,255,255,0.98);
+  padding:0.6rem 0.8rem;
+  border-left:5px solid #0055a5;
+  border-radius:12px; box-shadow:0 6px 16px rgba(0,0,0,0.06);
+  display:flex; flex-direction:column; justify-content:flex-start; align-items:center;
+  text-align:center; cursor:pointer; transition: transform 0.36s, box-shadow 0.36s;
+  transform:scale(0.95); position:relative; overflow:hidden; margin:0 10px;
+}
+/* title smaller by ~1 point */
+.experience-box h3 { font-size:0.95rem; margin:0.5rem 0 0.35rem 0; }
+/* summary smaller by ~3 points */
+.experience-box p { font-size:0.7rem; margin:0.2rem 0; color:#444; }
+
+/* center/enlarged card */
+.experience-box.center {
+  transform:scale(1.18) translateY(-10px);
+  box-shadow:0 20px 46px rgba(0,0,0,0.26); z-index:20;
+}
+
+/* slideshow area sits at top of card so image is visible */
+.slideshow-preview {
+  width:100%; aspect-ratio:1/1; border-radius:8px; overflow:hidden; position:relative; background:#efefef; flex:0 0 auto;
+}
+.slideshow-preview img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 0.6s ease; }
+.slideshow-preview img.active { opacity:1; }
+
+/* modal */
+.modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.74); z-index:13000; justify-content:center; align-items:flex-start; overflow-y:auto; }
+.modal-content { background:#fff; color:#111; padding:1.25rem; width:calc(100% - 32px); max-width:920px; margin-top:calc(var(--header-height) + 20px); border-radius:12px; box-shadow:0 12px 36px rgba(0,0,0,0.35); position:relative; }
+#modal-inner { display:block; max-width:100%; box-sizing:border-box; }
+/* two images per row on desktop */
+#modal-inner .image-row { display:flex; flex-wrap:wrap; gap:8px; }
+#modal-inner .image-row figure { flex: 0 0 calc(50% - 8px); margin:0; }
+#modal-inner .image-row img { width:100%; height:auto; border-radius:8px; }
+@media (max-width:600px) {
+  #modal-inner .image-row figure { flex: 0 0 100%; }
+}
+
+/* contact area */
+#contact-section { background:#000; color:#fff; padding:3.5rem 1.25rem; text-align:center; box-sizing:border-box; }
+#contact-section .contact-inner { max-width:920px; margin:0 auto; }
+#contact-section input, #contact-section textarea { width:100%; max-width:520px; padding:0.75rem; margin:0.4rem auto; display:block; border-radius:8px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.03); color:#fff; }
+#contact-section button { background:#0055a5; color:#000; padding:0.7rem 1rem; border-radius:8px; border:none; font-weight:700; cursor:pointer; }
+
+/* responsiveness & hero mobile: bottom-right name */
+@media (max-width:1024px) {
+  .sidebar { display:none; }
+  .content { padding:1rem; }
+  .experience-box { width:200px; height:200px; }
+  .experience-slider-container { padding-left: 1rem; padding-right: 1rem; }
+}
+@media (max-width:768px) {
+  #nav-toggle { display:block; }
+  nav#main-nav { display:none; position:absolute; right:12px; top:calc(var(--header-height) + 6px); background:rgba(255,255,255,0.95); flex-direction:column; border-radius:8px; padding:0.4rem; box-shadow:0 8px 30px rgba(0,0,0,0.12); z-index:1300; }
+  nav#main-nav.show { display:flex; }
+  .hero { align-items:center; justify-content:center; padding:1.2rem; }
+  /* force bottom-right name on small screens */
+  .hero-content { position:absolute; bottom:20px; right:20px; text-align:right; max-width:90%; }
+  .experience-slider-container { gap:0.8rem; padding:0.8rem 1rem; }
+  .experience-box { width:150px; height:150px; margin:0 6px; }
+  .ask-body { min-height:200px; max-height:320px; }
+  .slideshow-preview { aspect-ratio:1/1; }
+  .modal-content { width: calc(100% - 28px); margin-top:calc(var(--header-height) + 8px); }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header-bg">
+  <div class="header-left">
+    <img src="../images/main_logo.webp" alt="Logo"/>
+    <div>
+      <div style="font-weight:700;">Career</div>
+      <div style="font-size:0.8rem; color:rgba(0,0,0,0.55);">Vivek Reddy Munnangi</div>
+    </div>
+  </div>
+
+  <button id="nav-toggle" aria-label="Toggle nav">☰</button>
+
+  <nav id="main-nav">
+    <a href="#professional-summary">Professional Summary</a>
+    <a href="#work-section">Work Experience</a>
+    <a href="#impact-section">Impact Projects</a>
+    <a href="#invention-section">Invention</a>
+    <a href="#contact-section">Get In Touch</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-content">
+    <h1>Vivek Reddy Munnangi</h1>
+    <h2>Data Scientist & Autonomous Systems Engineer</h2>
+    <p>Passionate about building intelligent systems,<br/>bridging AI with real-world applications.</p>
+  </div>
+</section>
+
+<!-- MIDDLE -->
+<div class="container">
+  <aside class="sidebar">
+    <img src="../images/my_picture.jpg" alt="Vivek" class="profile-pic"/>
+    <div class="education">Vivek Reddy Munnangi</div>
+    <div class="education">Masters in Data Science, IU Luddy</div>
+    <div class="education">Bachelors in Mechanical Engineering</div>
+  </aside>
+
+  <main class="content header-bg">
+    <section id="professional-summary" class="professional-summary">
+      <h2>Professional Summary</h2>
+      <p>I am a data driven engineer who builds real systems at the intersection of autonomy, machine learning, and electromechanical design. My recent work spans state estimation and sensor fusion for high-speed autonomous racecars (ROS2, IMU/GNSS/LiDAR fusion, MPC/PID, predictive grip modelling, fail-safe trajectory planning), domain-specific LLM systems and ETL pipelines for healthcare (OpenDental ↔ CRM sync, Qwen-3 fine-tuning, DeepSpeed/FSDP, COT command on H100 GPU), and neural methods for 3D medical image registration (high accuracy, high throughput volumetric alignment). I also hold a patented 3-phase BLDC wheel hub motor design and led the powertrain design for my university’s first SAE Baja ATV  project that combine hands on manufacturing, iterative simulation, and cost constrained engineering. Practically, I run multi parametric simulation sweeps, collect large experimental datasets, and apply ML models to analyse outputs and predict optimal next iteration configurations a workflow that moved me to collaborate mechanical design and machine learning which motivated my MS in Data Science at Indiana University. My strength is turning noisy, real world sensor and telemetry data into robust, deployable solutions that improve performance (e.g., predictive control & grip models that materially raised on-track performance), reliability, and safety in both research and production contexts.</p>
+    </section>
+
+    <section id="ask-section">
+      <div class="ask-box" role="region" aria-label="Ask about me">
+        <div class="ask-head"><h2>Ask about me</h2></div>
+
+        <div class="ask-suggestions" id="suggestions">
+          <div class="sugg-chip">Why this company</div>
+          <div class="sugg-chip">Motivation</div>
+          <div class="sugg-chip">How I'll fit the role</div>
+          <div class="sugg-chip">Key achievements</div>
+          <div class="sugg-chip">Technical strengths</div>
+        </div>
+
+        <div class="ask-body" id="ask-body">
+          <div id="ask-messages">
+            <div style="color:#444;">Try a suggestion above or type a question in the box below.</div>
+          </div>
+
+
+
+          <div class="ask-input-wrap">
+            <input id="ask-input" class="ask-input" placeholder="Ask something about my experience, motivation, or projects..." />
+            <button id="ask-send" class="ask-send">Ask</button>
+          </div>
+          <div style="color:#444;font-size:10px;">Note: I am using free version to deploy my api, instance will spin down with inactivity, which can delay requests by 50 seconds or more when redeploy, once deployed response are quick. Thank you for waiting.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="work-section"><h2>Work Experience</h2>
+      <div class="experience-slider-container" id="work-slider">
+<div class="experience-box" data-title="Research Engineer, VAIL IU">
+    <h3>Research Engineer, VAIL IU</h3>
+    <div class="slideshow-preview">
+        <img src="../images/s_withcar.jpg" alt="Vehicle Model"/>
+        <img src="../images/group_withcar.jpg" alt="Team"/>
+        <img src="../images/grip_analysis.png" alt="Dashboard"/>
+    </div>
+    <p>State estimation, vehicle dynamics, and control development for IU Luddy Racing’s autonomous Indy Autonomous Challenge car.</p>
+    <div class="full-content">
+        <h3>Research Engineer, Vehicle Autonomy and Intelligence Lab – IU Luddy Racing</h3>
+        <div class="image-row">
+            <figure>
+                <img src="../images/s_withcar.jpg" alt="Vehicle Model"/>
+                <figcaption>Dallara AV-24 – IU Luddy Racing Racecar</figcaption>
+            </figure>
+            <figure>
+                <img src="../images/group_withcar.jpg" alt="Team"/>
+                <figcaption>IU Luddy Racing Team – Laguna Seca Race Weekend</figcaption>
+            </figure>
+        </div>
+
+        <p>
+            I joined the team in <strong>August 2024</strong>, about seven months into development, shortly after
+            IU Luddy Racing announced its participation in the <strong>Indy Autonomous Challenge (IAC)</strong>.
+            My focus was on <strong>state estimation and vehicle dynamics</strong>, working alongside the
+            controller and localization leads to solve state-related problems and refine the dynamics model.
+        </p>
+
+        <p>
+            After onboarding, I identified the need for a more advanced dynamics model and proposed a
+            <strong>grip prediction module</strong> to estimate traction limits. This allowed us to design
+            safer, more aggressive <strong>velocity profiles</strong> using offline planners. I also analyzed
+            <strong>engine performance data</strong>, building strategies for <strong>optimal gear shifting</strong>
+            based on ECU and dynamometer data to adapt power delivery to track demands.
+        </p>
+
+        <p>
+            Our first dynamic module control tests took place at <strong>Las Vegas Motor Speedway (LVMS) in January 2025</strong>,
+            showing promising results. Over the next months, we prepared for <strong>multi-car racing</strong>, updating the
+            stack for robustness and safety. In <strong>July 2025</strong>, we competed at <strong>Laguna Seca Raceway</strong>
+            against eight international teams. Despite a late practice crash that forced speed adjustments,
+            we achieved <strong>4th place overall</strong> – a strong showing for our first-ever road course race
+            and only our third competition as a new team.
+        </p>
+
+        <div class="image-row">
+            <figure>
+                <img src="../images/grip_analysis.png" alt="Dashboard"/>
+                <figcaption>Grip Prediction and Race Data Analysis</figcaption>
+            </figure>
+        </div>
+
+        <p>
+            These milestones gave us valuable data on vehicle dynamics, localization, and controller behavior.
+            Going forward, I continue developing new modules to push performance and safety, helping
+            IU Luddy Racing compete at the cutting edge of autonomous motorsport.
+        </p>
+
+        <p><a href="https://vail-robotics.net/pages/people#" target="_blank">My Research Profile</a></p>
+    </div>
+</div>
+
+
+<div class="experience-box" data-title="Partner & AI Head, DentalMetrix.ai">
+    <h3>AI Head, DentalMetrix.ai</h3>
+    <div class="slideshow-preview">
+        <img src="../images/writeoff_description.png" alt="Dashboard"/>
+        <img src="../images/writeoff_distribution.png" alt="Distribution"/>
+    </div>
+    <p>Co-founded and developed a unified dental platform with real-time ETL pipelines and a fine-tuned AI agent for actionable practice insights.</p>
+
+    <div class="full-content">
+        <h3>AI Head, DentalMetrix.ai</h3>
+
+        <p>
+            At DentalMetrix.ai, we built a platform to help dental clinics unify their patient and lead data. 
+            Clinics often manage patient records in OpenDental and track new inquiries in GoHighLevel CRM. 
+            Our solution integrates these systems into a single database, allowing clinics to track existing patients 
+            and potential leads in one place. This unified data enables clinics to target marketing campaigns, convert 
+            potential patients into real appointments, and improve overall operational efficiency. So with this I started working on sync operations using API on <strong>September 2024</strong>
+        </p>
+
+        <p>
+            We also developed a domain-specific <strong>AI Agent</strong> to interact with clinic staff. Unlike generic 
+            chatbots, this agent is fine-tuned on dental terminology, CRM data structures, and official dental abbreviations. 
+            It provides answers to natural-language questions with either <strong>textual explanations or data visualizations</strong>. 
+            Examples of queries include: 
+            <em>"Which procedures have the highest write-offs?"</em> or 
+            <em>"Show conversion rates for new patient inquiries this month."</em>
+        </p>
+
+        <p>
+            The AI Agent uses a <strong>Qwen-3 base model</strong> for its multilingual capabilities, 
+            allowing clinics to translate campaigns and communications into languages like Spanish automatically. 
+            Fine-tuning was performed on <strong>2× H100 GPUs</strong> using <strong>DeepSpeed, Fully Sharded Data Parallel (FSDP), and parallel computing</strong> 
+            to accelerate training and optimize performance.
+        </p>
+
+        <p>
+            The backend includes a robust <strong>ETL pipeline</strong> that extracts and synchronizes structured data 
+            from OpenDental and the CRM into a centralized relational database. This enables real-time CRUD operations 
+            and ensures all patient and lead information is immediately up-to-date.
+        </p>
+        <p> When asked about <em>"Which procedures have the highest write-offs?"</em>, the agent reaponse as text was <em> "The WriteOff is calculated as: (Sum of all fees on procedures - Sum of all insurance estimates and insurance payments received) + WriteoffsAlreadySent.  It's not just a simple sum of all writeoffs.  The user can never directly edit this field, but it is possible to set it blank.  If the WriteOff value is higher than the WriteOffEst, then we show the WriteOff value in color red.  This means that it has been manually altered from the estimate. We don't currently track who changed it."</em>, and the visual response as shown below </p>
+        <div class="image-row">
+            <figure>
+                <img src="../images/writeoff_description.png" alt="Dashboard"/>
+                <figcaption>AI Agent visualization: Patient write-off insights</figcaption>
+            </figure>
+            <figure>
+                <img src="../images/writeoff_distribution.png" alt="Distribution"/>
+                <figcaption>AI Agent visualization: Distribution of total write-offs amount</figcaption>
+            </figure>
+        </div>
+
+        <p>
+            This platform provides dental clinics with a unified view of all contacts, actionable insights for resource planning, 
+            marketing, and patient management, and an intelligent assistant designed specifically for dental operations. 
+            With this foundation, clinics can better understand patient needs, optimize marketing efforts, 
+            and deliver higher quality care efficiently.
+        </p>
+        <p><a href="https://dentalmetrics.ai/" target="_blank">Link to site(Under development)</a></p>
+    </div>
+</div>
+
+
+<div class="experience-box" data-title="Research Assistant">
+    <h3>Research Assistant, Frontiers of Optical Imaging and Biology Lab</h3>
+    
+    <div class="slideshow-preview">
+        <img src="../images/lab_logo.png" alt="Lab Logo"/>
+        <img src="../images/Mice_Eye_3D.png" alt="3D Eye Scan"/>
+        <img src="../images/is_after.png" alt="Registered Eye Scan"/>
+    </div>
+    
+    <p>Developed a dynamic 3D image registration pipeline to correct cellular-level motion in high-resolution eye scans across multiple subjects.</p>
+    
+    <div class="full-content">
+        <h3>Research Assistant, Frontiers of Optical Imaging and Biology Lab</h3>
+        <p>
+            In this research, I worked on aligning 3D eye scan datasets from humans, mice, and bovine subjects. 
+            Each scan captures cellular structures at <strong>2 µm focus</strong>, where even small biological motions 
+            or scanner delays cause misalignment. The goal was to dynamically correct drift while preserving the natural movement of cells.
+        </p>
+        
+        <p>
+            The workflow included:
+            <ul>
+                <li><strong>Pixel classification:</strong> Identified cell bodies, nuclei, and background pixels using intensity distribution and pooling. Noise pixels were removed.</li>
+                <li><strong>Dynamic registration:</strong> Sequentially aligned frames by tracking drift and adjusting each frame relative to the first, while allowing live cells to move naturally.</li>
+                <li><strong>Subject-agnostic design:</strong> The code works across different species and datasets without manual tuning.</li>
+            </ul>
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="../images/sv_before_drift.png" alt="Side view before"/>
+                <figcaption>Side view before registration</figcaption>
+            </figure>
+            <figure>
+                <img src="../images/sv_after_drift.png" alt="Side view after"/>
+                <figcaption>Side view after registration</figcaption>
+            </figure>
+        </div>
+
+        <div class="image-row">
+            <figure>
+                <img src="../images/sv_before.png" alt="Front view before"/>
+                <figcaption>Front view before registration</figcaption>
+            </figure>
+            <figure>
+                <img src="../images/sv_after.png" alt="Front view after"/>
+                <figcaption>Front view after registration</figcaption>
+            </figure>
+        </div>
+
+        <p>
+            The registration consistently produced highly quality alignment with 97% and at  6.5 MB/s processing speed, making cellular structures clearly visible 
+            in top, front, and side views, and enabling downstream analysis of cell motion and behavior.
+        </p>
+        
+
+        <div class="image-row">
+            <figure>
+                <img src="../images/is_before.png" alt="Top view before"/>
+                <figcaption>Top view before registration (3D stack)</figcaption>
+            </figure>
+            <figure>
+                <img src="../images/is_after.png" alt="Top view after"/>
+                <figcaption>Top view after registration (3D stack)</figcaption>
+            </figure>
+        </div>
+        <div class="image-row">
+            <figure>
+                <img src="../images/Mice_Eye_3D.png" alt="Top view before"/>
+                <figcaption>Mice Eye constructed as 3D image from scan</figcaption>
+            </figure>
+        </div>
+        <p><a href="https://blogs.iu.edu/tankamlab/people/" target="_blank">My Research Profile</a></p>
+    </div>
+</div>
+
+<div class="experience-box" data-title="Consultant, EDD chat assistant">
+    <h3>Consultant, EDD chat assistant</h3>
+
+    <div class="slideshow-preview">
+        <img src="../images/edd_logo.png" alt="CEDS Dashboard"/>
+        <img src="../images/ceds_template.png" alt="AI Integration"/>
+        <img src="../images/edd_region.png" alt="AI Integration"/>
+    </div>
+
+    <p>Developed an AI-driven tool to assist Economic Development Districts (EDDs) in creating Comprehensive Economic Development Strategies (CEDS).</p>
+
+    <div class="full-content">
+        <h3>Consultant, EDD chat assistant</h3>
+
+        <p>
+            From August 2024 to January 2025, I worked on integrating AI into the **CEDS creation process** for under-resourced Economic Development Districts (EDDs). 
+            The CEDS is a strategic plan used to drive regional economic growth and is critical for securing federal funding through the Economic Development Administration (EDA). 
+            Many EDDs face challenges in creating strong CEDS documents due to limited resources, expertise, and access to data.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="../images/edd_region.png" alt="Top view before"/>
+                <figcaption>Interactive map of Economic Development District - EDD Zones</figcaption>
+            </figure>
+
+        <p>
+            <strong>Problem:</strong> Creating a robust CEDS is time-intensive and requires data analysis, stakeholder engagement, and alignment with EDA guidelines. Smaller districts often struggle to meet these requirements, delaying funding and limiting economic development opportunities.
+        </p>
+
+        <p>
+            <strong>Solution:</strong> The project aimed to develop an AI-driven CEDS generator that leverages generative AI and transformer-based models to automate key parts of the process. Key features include:
+            <ul>
+                <li><strong>Structured Input Interface:</strong> Predefined fields for entering regional data to ensure alignment with EDA guidelines.</li>
+                <li><strong>LLM Integration:</strong> Large language models process inputs and generate region-specific strategies using historical CEDS data.</li>
+                <li><strong>SWOT Automation:</strong> AI-assisted SWOT analyses and strategic recommendations based on regional data.</li>
+                <li><strong>Evaluation Framework Alignment:</strong> Automated feedback to ensure generated CEDS meets EDA evaluation criteria.</li>
+                <li><strong>Scalability:</strong> Modular design allowing use across multiple EDDs with regional customization.</li>
+            </ul>
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="../images/ceds_template.png" alt="Top view before"/>
+                <figcaption>Basic CEDS Template</figcaption>
+            </figure>
+            <figure>
+                <img src="../images/inital_proposal.png" alt="Top view after"/>
+                <figcaption>Initial Proposal</figcaption>
+            </figure>
+        </div>
+        <p>
+            <strong>Implementation Strategy:</strong> 
+            - Built a prototype integrating AI( used VLLM mistral architecture with mutiple Lora adaptors targeting different layers of base model) with SWOT analysis and draft CEDS generation.  
+            - Used cosine similarity to compare generated content against approved CEDS documents, focusing on areas like climate resilience and equity.  
+            - Incorporated feedback loops for planners to iteratively refine inputs and outputs.  
+            - Designed front-end mockups and modular agent frameworks for user-friendly interaction.
+        </p>
+
+        <p>
+            <strong>Impact:</strong> This project demonstrated the potential for AI to streamline CEDS creation, automate labor-intensive tasks, and improve document quality and compliance. The prototype empowered planners to create data-backed, EDA-compliant strategies more efficiently.  
+            While I paused working on this project after January 2025 due to time constraints, the foundation provides a scalable framework for future AI-assisted economic development tools.
+        </p>
+
+        <div class="image-row">
+            <figure>
+                <img src="../images/pn_analysis.png" alt="CEDS Dashboard"/>
+                <figcaption>Positive and negative statment analysis per topics</figcaption>
+            </figure>
+
+
+        </div>
+    </div>
+</div>
+
+
+</div>
+    </section>
+
+    <section id="impact-section"><h2>Impact Projects</h2>
+      <div class="experience-slider-container" id="impact-slider">
+<div class="experience-box" data-title="Full-Stack Web Application for Restaurants">
+    <h3>Full-Stack Web Application</h3>
+    <div class="slideshow-preview">
+        
+        <img src="../images/adt_logo2.png" alt="Customer Data Interface"/>
+    </div>
+    <p>Developed a full-stack web application using the MERN stack to manage customer preferences, allergies, and reservations efficiently.</p>
+    <div class="full-content">
+        <h3>Full-Stack Web Application for Restaurants | MERN Stack, Render</h3>
+        <p>
+            The goal was to create a comprehensive web application for restaurant owners and staff to store, retrieve, and manage customer details effectively.
+        </p>
+        <p>
+            This system centralizes key customer information, including food preferences, allergies, and special preparation instructions, ensuring both safety and personalized service. 
+            By integrating a user friendly interface, restaurant staff can efficiently handle reservations, walk-ins, and customer updates with minimal errors.
+        </p>
+        <p>
+            Technically, the application leverages the MERN stack (MongoDB, Express, React, Node.js) for full stack functionality, combined with Render for hosting. 
+            For advanced data processing and scalability, Databricks was used to enable large-scale machine learning workflows and optimized database queries.
+        </p>
+        <p>
+            <strong>Impact:</strong> This solution enhances restaurant operations by providing a reliable, intuitive system for managing customer data. 
+            It improves the overall dining experience by allowing staff to cater to individual preferences, manage allergies safely, and streamline food preparation workflows. 
+            Compared to existing systems, our application offers better integration, usability, and customization for the hospitality industry.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="../images/adt_loginpage.png" alt="Top view before"/>
+                <figcaption>Login page of the App</figcaption>
+            </figure>
+            <figure>
+                <img src="../images/retreival_page.png" alt="Top view after"/>
+                <figcaption>Retrieving customer info from database using mobile number</figcaption>
+            </figure>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="experience-box" data-title="Analyzing and Visualizing Usage for Common Coordinate Framework UIs">
+    <h3>Clicks Usage Analysis</h3>
+    <div class="slideshow-preview">
+        <img src="../images/cns_logo.png" alt="CCF UI Analytics Overview"/>
+        
+    </div>
+    <p>Analyzed and visualized user interaction data for the CCF's User Interfaces using Google Analytics</p>
+    <div class="full-content">
+        <h3>Analyzing and Visualizing Usage for Common Coordinate Framework User Interfaces | Google Analytics</h3>
+        <p>
+            This project focused on understanding how users interact with the Registration User Interface (RUI) and Exploration User Interface (EUI) of the Common Coordinate Framework (CCF), developed by Indiana University's Cyberinfrastructure for Network Science Center. 
+            By leveraging Google Analytics data, we examined user behavior patterns, element usage frequency, and engagement with spatial search and opacity features.
+        </p>
+        <p>
+            The project involved cleaning and preprocessing a dataset of <strong>192,271 user events</strong>, including event timestamps, page locations, and user identifiers. Critical steps included converting Unix epoch timestamps to human-readable formats, handling missing data, and ensuring data consistency for accurate analysis.
+        </p>
+        <p>
+            Our objectives were to:
+            <ul>
+                <li>Analyze frequency distributions of user events, such as clicks, mouse movements, and interactions with UI elements.</li>
+                <li>Identify the most and least used interface components to understand user engagement.</li>
+                <li>Quantify the frequency of opacity changes in the RUI and assess spatial search usage in the EUI.</li>
+                <li>Provide insights to guide interface improvements and feature prioritization.</li>
+            </ul>
+        </p>
+        <p>
+            Visualization techniques included time series analysis to capture engagement trends, bar and pie charts to illustrate UI element usage, and histograms for opacity and spatial search events. Key insights revealed:
+            <ul>
+                <li>Fluctuating engagement over time, highlighting peak usage periods and optimal times for feature rollouts.</li>
+                <li>High interaction with central UI elements, with underutilized features identified for refinement.</li>
+                <li>Specific adoption patterns of spatial search, suggesting areas for personalized feature enhancements.</li>
+                <li>Opacity adjustments in the RUI indicating user interest in visual customization, guiding future UI enhancements.</li>
+            </ul>
+        </p>
+        <p>
+            During validation, we addressed challenges such as data complexity, event identification, missing values, and visualization clarity by:
+            <ul>
+                <li>Implementing sophisticated data filtering and segmentation.</li>
+                <li>Standardizing timestamps and handling missing values through imputation or exclusion.</li>
+                <li>Creating focused, user-centric visualizations for each analytical question.</li>
+                <li>Categorizing user events with refined approaches to highlight meaningful interactions.</li>
+            </ul>
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="../images/fq_uielement.png" alt="Top view before"/>
+                <figcaption>Frequency of UI Elements</figcaption>
+            </figure>
+            <figure>
+                <img src="../images/dashboard_vis.png" alt="Top view after"/>
+                <figcaption>Dashboard to Visualize Google Analytics Data</figcaption>
+            </figure>
+        </div>
+        <p>
+            This work emphasizes the importance of continuous monitoring and data-driven design for improving UI usability. Insights from this analysis can inform longitudinal studies, user segmentation, interface personalization, and potential automated feedback loops, contributing to more responsive and user-friendly CCF interfaces.
+        </p>
+        <p><strong>Acknowledgments:</strong> Special thanks to Andreas Bueckle and Michael Patrick Ginda for guidance, and to all Indiana University Bloomington Visual Analytics course staff for their support.</p>
+    </div>
+</div>
+
+<div class="experience-box" data-title="Head of Powertrain - SAE Baja ATV">
+    <h3>Head of Powertrain - SAE Baja ATV</h3>
+    <div class="slideshow-preview">
+        <img src="../images/44_1.jpg" alt="ATV Gearbox and CVT Design"/>
+        <img src="../images/44_win1.jpg" alt="ATV Gearbox and Rear Hub Assembly"/>
+    </div>
+    <p>Led the design and manufacturing of the complete powertrain for SRM University's first SAE Baja ATV</p>
+    <div class="full-content">
+        <h3>Head of Powertrain - SRM University SAE Baja ATV | 2019</h3>
+        <div class="image-row">
+            <figure>
+                <img src="../images/44_grp.jpg" alt="Top view before"/>
+                <figcaption>Team at race weekend</figcaption>
+            </figure>
+            <figure>
+                <img src="../images/44_1.jpg" alt="Top view before"/>
+                <figcaption>Picture of SAE Baja ATV Car</figcaption>
+            </figure>
+        </div>
+        <p>
+            As the Head of Powertrain, I was responsible for the **complete design and manufacturing of the ATV’s transmission system** from scratch. This included the gearbox, CVT, drive shafts, gearbox mounting, and rear hub assembly. Key tasks involved defining tolerances, calculating loads on each structural component, designing angles, and ensuring efficient integration with the vehicle chassis. 
+        </p>
+        <p>
+            Working with a tight budget of approximately <strong>₹58,000 (~$800 USD)</strong> in 2019, we optimized costs by selectively manufacturing components in-house while strategically purchasing critical parts like drive shafts. Aluminum was chosen for several components due to its light weight and heat transfer properties, and careful design of cuts and holes helped reduce weight without compromising structural integrity. Air channeling techniques were integrated to ensure efficient cooling of critical powertrain components.
+        </p>
+        <p>
+            Challenges included managing the mechanical design of the CVT and gearbox housings, ensuring alignment and smooth transmission of power, and maintaining performance under dynamic loads. Despite these challenges, the design performed reliably during testing and competition.
+        </p>
+        <p>
+            Achievements during the competition:
+            <ul>
+                <li>Ranked top team for best acceleration and braking performance.</li>
+                <li>Placed top 5 in maneuverability out of 85 teams from leading Indian universities.</li>
+                <li>Successfully built the university’s first functional Baja vehicle, demonstrating practical engineering, cost optimization, and innovative design solutions.</li>
+            </ul>
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="../images/44_win1.jpg" alt="Top view before"/>
+                <figcaption>Top Step in Acceleration test</figcaption>
+            </figure>
+        </div>
+        
+        <p>
+            This experience not only strengthened my mechanical design, manufacturing, and project management skills, but also honed my ability to make high-impact decisions under budget and time constraints while leading a team to execute complex engineering projects.
+        </p>
+        <p>
+        After this I acted as Consultant for SAE Supra Student Formula team, used KTM 390 CC engine and modifed intake, exhaust, few engine head parts to extract maximum performance. Also helped them design gearbox and drive shaft for race car.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="../images/cons_fema.jpg" alt="Top view before"/>
+                <figcaption>SAE Supra car</figcaption>
+            </figure>
+    </div>
+</div>
+
+
+</div>
+    </section>
+
+    <!-- Invention: single card only; <div class="experience-box" data-title="3-Phase BLDC Wheel Hub Motor Patent">
+    <h3>3-Phase BLDC Wheel Hub Motor | Patent</h3>
+    <div class="slideshow-preview">
+        <img src="../images/design_motor.jpg" alt="3-Phase BLDC Wheel Hub Motor Design"/>
+        <img src="../images/temp_motor.png" alt="Inner Rotor and Outer Stator Assembly"/>
+    </div>
+    <p>Developed a high-efficiency 3-phase BLDC wheel hub motor for small electric vehicles and hybrid applications.</p>
+    <div class="full-content">
+        <h3>3-Phase BLDC Wheel Hub Motor - Patent</h3>
+        <p>
+            This invention focuses on the design, development, and optimization of a 3-phase BLDC wheel hub motor with an inner rotor and outer stator. The motor is designed to reduce wheel size while maintaining high torque and efficiency. Key components include the stator, rotor, and Hall sensors for precise rotor position detection.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="../images/design_motor.jpg" alt="Top view before"/>
+                <figcaption>Design of motor</figcaption>
+            </figure>
+            <figure>
+                <img src="../images/temp_motor.png" alt="Top view before"/>
+                <figcaption>Thermal simulation of motor</figcaption>
+            </figure>
+        </div>
+        <p>
+            The stator is constructed using laminated material to minimize eddy current losses and contains 18 slots arranged in a star winding pattern for copper coils. The **rotor** uses six high-flux Neodymium permanent magnets, chosen to maximize torque output in a compact form factor. Hall sensors are employed to synchronize stator excitation, enabling smooth rotation and efficient electronic commutation.
+        </p>
+        <p>
+            Each design parameter—pole count, slot number, coil turns, and rotor geometry—was evaluated through multiple iterative simulations, generating large datasets for performance, torque, thermal, and magnetic efficiency. I applied machine learning models to analyze these outputs, identify patterns, and predict optimal configurations for the next iteration, effectively connecting the dots between simulations and achieving highly efficient motor designs.
+        </p>
+        <p>
+            The design allows for direct integration into the wheel, eliminating the need for conventional drivetrains, gearboxes, axles, or differentials. This results in weight reduction, lower maintenance, improved vehicle dynamics, and greater interior design flexibility.
+        </p>
+        <p>
+            Design considerations included:
+            <ul>
+                <li>Inner rotor and outer stator configuration to reduce motor diameter and improve torque-to-size ratio.</li>
+                <li>Iterative optimization of pole count, slot number, and coil turns for desired performance using ML-assisted analysis.</li>
+                <li>Evaluation of multiple rotor core designs (curved, rectangular, perpendicular magnets) for optimal surface fit and torque efficiency.</li>
+                <li>Use of cost-effective materials while ensuring high thermal performance and reliability.</li>
+                <li>Minimized cogging torque and high dynamic response for fast acceleration and precise control.</li>
+            </ul>
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="../images/cd_motor.png" alt="Top view before"/>
+                <figcaption>Current Density simulation</figcaption>
+            </figure>
+            <figure>
+                <img src="../images/ct_motor.png" alt="Top view before"/>
+                <figcaption>Cogging Torque simulation</figcaption>
+            </figure>
+        </div>
+        <p>
+            Advantages of this motor include smaller wheel size, improved torque-to-size ratio, higher efficiency, reduced weight, and simplified drivetrain design. The motor can be used in hybrid or fully electric vehicles with small wheel rims (5.9–10 inches).
+        </p>
+        <p>
+            Working on this project sparked my interest in data-driven engineering and ML applications in mechatronics, inspiring me to pursue a Master’s in Data Science at Indiana University. This allowed me to deepen my expertise in data analysis, predictive modeling, and optimization, and eventually join the IU Autonomous Racing Team to apply these skills to real-world autonomous vehicle systems.
+        </p>
+        <p>
+            Overall, this patent project strengthened my skills in electromechanical design, motor optimization, iterative analysis, and innovation for electric vehicle systems, while also bridging my interest in data science and autonomous technologies.
+        </p>
+    </div>
+</div>
+
+
+ already contains .experience-box -->
+    <section id="invention-section"><h2>Invention</h2>
+      <div class="experience-slider-container" id="invention-slider">
+        <div class="experience-box" data-title="3-Phase BLDC Wheel Hub Motor Patent">
+    <h3>3-Phase BLDC Wheel Hub Motor | Patent</h3>
+    <div class="slideshow-preview">
+        <img src="../images/design_motor.jpg" alt="3-Phase BLDC Wheel Hub Motor Design"/>
+        <img src="../images/temp_motor.png" alt="Inner Rotor and Outer Stator Assembly"/>
+    </div>
+    <p>Developed a high-efficiency 3-phase BLDC wheel hub motor for small electric vehicles and hybrid applications.</p>
+    <div class="full-content">
+        <h3>3-Phase BLDC Wheel Hub Motor - Patent</h3>
+        <p>
+            This invention focuses on the design, development, and optimization of a 3-phase BLDC wheel hub motor with an inner rotor and outer stator. The motor is designed to reduce wheel size while maintaining high torque and efficiency. Key components include the stator, rotor, and Hall sensors for precise rotor position detection.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="../images/design_motor.jpg" alt="Top view before"/>
+                <figcaption>Design of motor</figcaption>
+            </figure>
+            <figure>
+                <img src="../images/temp_motor.png" alt="Top view before"/>
+                <figcaption>Thermal simulation of motor</figcaption>
+            </figure>
+        </div>
+        <p>
+            The stator is constructed using laminated material to minimize eddy current losses and contains 18 slots arranged in a star winding pattern for copper coils. The **rotor** uses six high-flux Neodymium permanent magnets, chosen to maximize torque output in a compact form factor. Hall sensors are employed to synchronize stator excitation, enabling smooth rotation and efficient electronic commutation.
+        </p>
+        <p>
+            Each design parameter—pole count, slot number, coil turns, and rotor geometry—was evaluated through multiple iterative simulations, generating large datasets for performance, torque, thermal, and magnetic efficiency. I applied machine learning models to analyze these outputs, identify patterns, and predict optimal configurations for the next iteration, effectively connecting the dots between simulations and achieving highly efficient motor designs.
+        </p>
+        <p>
+            The design allows for direct integration into the wheel, eliminating the need for conventional drivetrains, gearboxes, axles, or differentials. This results in weight reduction, lower maintenance, improved vehicle dynamics, and greater interior design flexibility.
+        </p>
+        <p>
+            Design considerations included:
+            <ul>
+                <li>Inner rotor and outer stator configuration to reduce motor diameter and improve torque-to-size ratio.</li>
+                <li>Iterative optimization of pole count, slot number, and coil turns for desired performance using ML-assisted analysis.</li>
+                <li>Evaluation of multiple rotor core designs (curved, rectangular, perpendicular magnets) for optimal surface fit and torque efficiency.</li>
+                <li>Use of cost-effective materials while ensuring high thermal performance and reliability.</li>
+                <li>Minimized cogging torque and high dynamic response for fast acceleration and precise control.</li>
+            </ul>
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="../images/cd_motor.png" alt="Top view before"/>
+                <figcaption>Current Density simulation</figcaption>
+            </figure>
+            <figure>
+                <img src="../images/ct_motor.png" alt="Top view before"/>
+                <figcaption>Cogging Torque simulation</figcaption>
+            </figure>
+        </div>
+        <p>
+            Advantages of this motor include smaller wheel size, improved torque-to-size ratio, higher efficiency, reduced weight, and simplified drivetrain design. The motor can be used in hybrid or fully electric vehicles with small wheel rims (5.9–10 inches).
+        </p>
+        <p>
+            Working on this project sparked my interest in data-driven engineering and ML applications in mechatronics, inspiring me to pursue a Master’s in Data Science at Indiana University. This allowed me to deepen my expertise in data analysis, predictive modeling, and optimization, and eventually join the IU Autonomous Racing Team to apply these skills to real-world autonomous vehicle systems.
+        </p>
+        <p>
+            Overall, this patent project strengthened my skills in electromechanical design, motor optimization, iterative analysis, and innovation for electric vehicle systems, while also bridging my interest in data science and autonomous technologies.
+        </p>
+    </div>
+</div>
+
+
+
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- CONTACT: Google Form embed (replace YOUR_GOOGLE_FORM_EMBED_SRC with your form's embed src) -->
+<section id="contact-section">
+  <div class="contact-inner">
+    <h2>Get In Touch</h2>
+    <p>You can use the AI powered chat box to know more about me. If have anymore questions or would like to connect, leave your contact details below and I will reach out.</p>
+
+    <div style="max-width:920px; margin:1rem auto;">
+      <!-- REPLACE the src below with your form embed URL (Send -> Embed on Google Forms) -->
+      <iframe
+        src="https://docs.google.com/forms/d/e/1FAIpQLSceicp5iY8h6Ps41ZhNP1tOEmFTrZ7Lo_rYM5M_ui0jDFoTBg/viewform?usp=header"
+        width="80%%"
+        height="440"
+        frameborder="0"
+        marginheight="0"
+        marginwidth="0"
+        style="position:relative; z-index:1000;">
+        Loading…
+      </iframe>
+    </div>
+
+
+  </div>
+</section>
+
+<!-- Hidden (server-side) job description fallback (optional) -->
+<div id="job-desc" style="display:none;">
+I am appying to 3 jobs at tesla and you know about tesla so go throught all these job discription and give a genralized answer, below is the discription of these 3 jobs at tesla:
+Job1: What to Expect
+Tesla’s Robotics Software Engineering team designs and develops robotic controls and fleet management systems for manufacturing, material flow, and logistics use cases. This includes managing Autonomous Mobile Robots (AMRs), Automated Storage and Retrieval Systems (ASRSs), and conveyor systems. We are seeking a software engineer to drive new features and improvements for both onboard robot controllers and server-side fleet management systems, while also addressing sustaining engineering needs. The team operates in Fremont, CA, and Austin, TX, with up to 15% travel to Tesla factories worldwide for onsite support during project launches. This position will be located in Austin, TX. 
+What You’ll Do
+Responsible for developing, maintaining, and improving algorithms and models associated with perception, navigation, safety, and fleet management of autonomous mobile robots 
+Path planning: Vehicle kinematics and Motion Controls; Model predictive control and dynamics-based trajectory optimization 
+Perception: State estimation, Mapping & Localization using SLAM; Obstacle detection and avoidance; Precision Docking; Object tracking 
+Contribute to and take ownership of the end-to-end design and implementation of features from early prototype to production release 
+Collaborate with cross-functional teams to gather feedback and identify areas for improvement, planning them within the engineering design cycle iterations 
+Support ongoing projects in production by identifying, debugging, and resolving issues to ensure service uptime 
+What You’ll Bring
+Degree in Computer Science, Robotics or a related field, or equivalent industry experience 
+2+ years of proven experience in industrial robotics controls systems, particularly with algorithms related to state estimation, perception, localization, navigation, and path planning for autonomous mobile robots 
+Experience developing and debugging real-time, multithreaded software systems using C/C++ on Linux based platforms (Familiarity with RTPreempt and Linux kernel configuration is a plus) 
+Familiarity with sensor technologies such as LIDAR, IMU, cameras, depth sensors, and their integration in robotics applications 
+Familiarity with functional safety standards is a plus 
+Ability to adapt to fast-paced, iterative development cycles in a dynamic environment, using standard CI tools like Git while following rigorous documentation and testing standards 
+Excellent problem-solving skills and ability to work on complex technical challenges 
+Effective communication skills for collaborating with cross-functional teams 
+Self-motivated and proactive in learning new concepts and technologies 
+Ability to travel up to 15% of the time.
+
+Job2: What to Expect
+At Tesla, you will have access to unparalleled resources that set us apart from other companies in the AI industry. With the world's largest self-driving dataset, you will have a unique opportunity to develop and optimize a large-scale data engine that powers our autonomous driving systems. Tesla's extensive fleet of vehicles generates massive amounts of real-world data daily, giving you unprecedented access to diverse driving scenarios and edge cases. Additionally, Tesla offers one of the highest GPU resources per engineer in the industry. This combination of rich data and substantial infrastructure enables you to tackle data engineering challenges on a scale unmatched in the industry.
+
+What You’ll Do
+Improve end-to-end driving policy model performance with a focus in data quantity, quality, and diversity
+Research and implement optimal data mixture strategies for pre-training and post-training
+Develop innovative methods for data acquisition, clustering, and cleaning
+Build robust metrics to track model improvements across various driving scenarios
+What You’ll Bring
+Experience in building large models and large datasets
+Proficiency in Python and a deep understanding of software engineering best practices
+Proficiency in deep learning frameworks such as PyTorch, TensorFlow, or JAX
+Strong problem-solving skills and ability to work effectively in cross-functional teams
+Strong work ethics and willingness to take on multiple roles.
+
+Job3:What to Expect
+The Self-Driving Data and Analytics team is responsible for mining fleet data from millions of Tesla cars to improve our neural networks and creating real-time analytics to measure Self-Driving performance. This is a very high-impact role that helps the team set overall goals and priorities, but also contributes directly to those goals by sourcing high volume and high-quality data.  
+
+What You’ll Do
+Design and implement data pipelines from ingestion to visualization to unlock the full potential of Tesla’s fleet data by sourcing, transforming, and serving new datasets
+Define and build metrics that measure Self-Driving performance and specific driving events, then turn them into insights that drive decisions
+Monitor and maintain infrastructure health with robust alerting, logging, and automation for scale and reliability
+Build automation, developer tools, and internal libraries that accelerate analysis and visualization across the company
+Manage inflow rate and volume of fleet data
+Iterate with AI engineering partners on effectiveness of new datasets
+Deliver world class, interactive visualizations and tooling that turns complex data into actionable insights
+What You’ll Bring
+Bachelor's Degree in Computer Science, Engineering, Physics, Math, proof of exceptional skills in related field, or equivalent experience
+Expert in Python and SQL with experience building data models, performant queries, and ETLs at scale
+Experience with distributed systems is a plus
+Ability to own projects end-to-end from defining the right data to collect, building robust pipelines, to delivering actionable metrics and tooling
+Ability to thrive in a rapidly changing environment with high ambiguity; self-starter mentality.
+
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal" aria-hidden="true" role="dialog">
+  <div class="modal-content" id="modal-content" tabindex="-1">
+    <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+    <div id="modal-inner"></div>
+  </div>
+</div>
+
+<!-- chat icon/box -->
+<div class="chat-icon" id="chat-icon">💬</div>
+<div class="chat-box" id="chat-box" role="region" aria-label="Chat" style="display:none;">
+  <div class="chat-header">Ask Me</div>
+  <div class="chat-body" id="chat-body"><div class="chat-message-bot">Hi! How can I help you?</div></div>
+  <div class="chat-input">
+    <input type="text" id="chat-input" placeholder="Type a message..."/>
+    <button id="chat-send">Send</button>
+    <button id="chat-voice" title="Voice input">🎤</button>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const header = document.querySelector('header');
+  const nav = document.getElementById('main-nav');
+  const navToggle = document.getElementById('nav-toggle');
+  const hero = document.getElementById('hero');
+
+  function setHeaderHeightVar() {
+    const h = header.offsetHeight || 64;
+    document.documentElement.style.setProperty('--header-height', h + 'px');
+    if (hero) hero.style.minHeight = 'calc(100vh - ' + h + 'px)';
+  }
+
+  setHeaderHeightVar();
+  window.addEventListener('resize', function() { setHeaderHeightVar(); if (window.innerWidth > 768) nav.classList.remove('show'); });
+
+  navToggle.addEventListener('click', function(e) { e.stopPropagation(); nav.classList.toggle('show'); setHeaderHeightVar(); });
+
+  document.addEventListener('click', function(e) {
+    if (nav.classList.contains('show') && !nav.contains(e.target) && !navToggle.contains(e.target)) {
+      nav.classList.remove('show');
+    }
+  });
+
+  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { nav.classList.remove('show'); }));
+});
+
+/* suggestion rotator and click-to-fill */
+(function suggestionRotator() {
+  const chips = Array.from(document.querySelectorAll('.sugg-chip'));
+  let idx = 0;
+  function activate(i) { chips.forEach((c,ii)=>c.classList.toggle('active', ii===i)); }
+  if (chips.length>0) { activate(0); setInterval(() => { idx = (idx+1) % chips.length; activate(idx); }, 3500); }
+  chips.forEach(c => c.addEventListener('click', () => {
+    document.getElementById('ask-input').value = c.textContent;
+    sendAsk(); // immediately send on chip click
+  }));
+})();
+
+/* sendAsk - sends message + job description (prefers pasted textarea, falls back to hidden server JD) */
+async function sendAsk() {
+  const input = document.getElementById('ask-input');
+  const q = (input?.value || '').trim();
+  if (!q) return;
+
+  const jdArea = document.getElementById('job-desc-textarea');
+  const fallbackJD = document.getElementById('job-desc');
+  const jobDescription = (jdArea && jdArea.value.trim()) || (fallbackJD && fallbackJD.textContent.trim()) || '';
+
+  const bodyUI = document.getElementById('ask-messages');
+  bodyUI.innerHTML += `<div style="margin:8px 0; font-weight:600;">You: ${q}</div>`;
+  input.value = '';
+
+  try {
+    const res = await fetch('https://profile-az1i.onrender.com/ask', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: q, job_description: jobDescription })
+    });
+    if (!res.ok) {
+      const t = await res.text();
+      bodyUI.innerHTML += `<div style="margin:8px 0; color:#c00;">Error: ${res.status} ${res.statusText} - ${t}</div>`;
+      bodyUI.scrollTop = bodyUI.scrollHeight;
+      return;
+    }
+    const data = await res.json();
+    bodyUI.innerHTML += `<div style="margin:8px 0; color:#333;">${data.response}</div>`;
+    bodyUI.scrollTop = bodyUI.scrollHeight;
+
+    // save conversation (best-effort)
+    fetch('https://profile-az1i.onrender.com/save_conversation', {
+      method:'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user: q, bot: data.response, job_description: jobDescription })
+    }).catch(()=>{});
+  } catch (err) {
+    bodyUI.innerHTML += `<div style="margin:8px 0; color:#c00;">Network error: ${err.message}</div>`;
+    bodyUI.scrollTop = bodyUI.scrollHeight;
+  }
+}
+
+/* wire up Ask input/button */
+document.getElementById('ask-send').addEventListener('click', sendAsk);
+document.getElementById('ask-input').addEventListener('keypress', function(e) { if (e.key === 'Enter') { e.preventDefault(); sendAsk(); } });
+
+/* nav toggle */
+document.getElementById('nav-toggle').addEventListener('click', function () {
+  document.getElementById('main-nav').classList.toggle('show');
+});
+
+/* Slider initialization (center + loop + pause on pointer inside card) */
+function initSlider(sliderId) {
+  const slider = document.getElementById(sliderId);
+  if (!slider) return;
+  const cards = Array.from(slider.querySelectorAll('.experience-box'));
+  let slideshowInterval = null;
+  let idleTimer = null;
+  let isPaused = false;
+
+  function centerCard(card) {
+    const sliderRect = slider.getBoundingClientRect();
+    const cardRect = card.getBoundingClientRect();
+    const left = (cardRect.left - sliderRect.left) + slider.scrollLeft - (slider.clientWidth / 2 - card.clientWidth / 2);
+    slider.scrollTo({ left: left, behavior: 'smooth' });
+  }
+
+  function updateCenterCard() {
+    const sliderCenter = slider.scrollLeft + slider.offsetWidth / 2;
+    let closest = null; let bestDist = Infinity;
+    cards.forEach(c => {
+      const cCenter = c.offsetLeft + c.offsetWidth / 2;
+      const d = Math.abs(sliderCenter - cCenter);
+      if (d < bestDist) { bestDist = d; closest = c; }
+    });
+    cards.forEach(c => c.classList.remove('center'));
+    if (closest) closest.classList.add('center');
+    return closest;
+  }
+
+  function startAutoplay() {
+    if (slideshowInterval) clearInterval(slideshowInterval);
+    slideshowInterval = setInterval(() => {
+      if (isPaused) return;
+      const current = slider.querySelector('.experience-box.center') || cards[0];
+      const next = current.nextElementSibling || cards[0];
+      centerCard(next);
+      setTimeout(updateCenterCard, 420);
+    }, 3500);
+  }
+
+  function pauseWithTimeout() {
+    isPaused = true;
+    if (idleTimer) clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => { isPaused = false; }, 5000);
+  }
+
+  if (cards.length === 0) return;
+
+  // single-card special handling: left-align and disable center/enlarge/autoplay
+  if (cards.length === 1) {
+    slider.style.paddingLeft = '1rem';
+    slider.style.paddingRight = '1rem';
+    cards[0].classList.remove('center');
+  } else {
+    setTimeout(() => { centerCard(cards[0]); updateCenterCard(); startAutoplay(); }, 120);
+  }
+
+  slider.addEventListener('scroll', () => { updateCenterCard(); });
+  window.addEventListener('resize', updateCenterCard);
+
+  cards.forEach(card => {
+    card.addEventListener('pointerenter', () => pauseWithTimeout());
+    card.addEventListener('pointermove', () => pauseWithTimeout());
+    card.addEventListener('pointerleave', () => { isPaused = false; });
+    card.addEventListener('touchstart', () => pauseWithTimeout(), {passive:true});
+  });
+
+  // detect click vs drag
+  let pointerState = { active:false, startX:0, startY:0, target:null };
+
+  slider.addEventListener('pointerdown', function(e) {
+    pointerState.active = true;
+    pointerState.startX = e.clientX; pointerState.startY = e.clientY;
+    pointerState.target = e.target.closest('.experience-box') || null;
+    isPaused = true; if (idleTimer) clearTimeout(idleTimer);
+  });
+
+  slider.addEventListener('pointerup', function(e) {
+    if (!pointerState.active) return;
+    const dx = Math.abs(e.clientX - pointerState.startX), dy = Math.abs(e.clientY - pointerState.startY);
+    const moved = Math.sqrt(dx*dx + dy*dy);
+    const clickedCard = e.target.closest('.experience-box') || pointerState.target;
+    pointerState.active = false;
+    if (idleTimer) clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => { isPaused = false; }, 2000);
+
+    if (!clickedCard || moved > 8) {
+      return;
+    }
+
+    // single card => open modal directly
+    if (cards.length === 1) {
+      const content = clickedCard.querySelector('.full-content');
+      if (content) {
+        const modal = document.getElementById('modal');
+        document.getElementById('modal-inner').innerHTML = content.innerHTML;
+        modal.style.display = 'flex'; modal.setAttribute('aria-hidden','false');
+        document.getElementById('modal-content').style.marginTop = (document.querySelector('header')?.offsetHeight || 64) + 'px';
+      }
+      return;
+    }
+
+    const centerEl = slider.querySelector('.experience-box.center');
+    if (centerEl === clickedCard) {
+      // second click -> open modal
+      const content = clickedCard.querySelector('.full-content');
+      if (content) {
+        const modal = document.getElementById('modal');
+        document.getElementById('modal-inner').innerHTML = content.innerHTML;
+        modal.style.display = 'flex'; modal.setAttribute('aria-hidden','false');
+        document.getElementById('modal-content').style.marginTop = (document.querySelector('header')?.offsetHeight || 64) + 'px';
+      }
+    } else {
+      // first click -> center
+      centerCard(clickedCard);
+      setTimeout(updateCenterCard, 420);
+    }
+  });
+}
+
+// init sliders
+initSlider('work-slider');
+initSlider('impact-slider');
+initSlider('invention-slider');
+
+/* per-card slideshow images - works on desktop & mobile */
+document.querySelectorAll('.experience-box').forEach(box => {
+  const imgs = Array.from(box.querySelectorAll('.slideshow-preview img'));
+  if (!imgs.length) return;
+  let cur = 0;
+  imgs.forEach((im,i) => { im.classList.remove('active'); im.style.opacity = i===0 ? '1' : '0'; });
+  imgs[0].classList.add('active');
+  setInterval(() => {
+    imgs[cur].classList.remove('active'); imgs[cur].style.opacity = '0';
+    cur = (cur + 1) % imgs.length;
+    imgs[cur].classList.add('active'); imgs[cur].style.opacity = '1';
+  }, 3000);
+});
+
+/* modal close / accessibility */
+(function modalSetup() {
+  const modal = document.getElementById('modal'); const modalClose = document.getElementById('modal-close');
+  modalClose.addEventListener('click', () => { modal.style.display = 'none'; modal.setAttribute('aria-hidden','true'); });
+  window.addEventListener('click', e => { if (e.target === modal) { modal.style.display = 'none'; modal.setAttribute('aria-hidden','true'); } });
+  window.addEventListener('keydown', e => { if (e.key === 'Escape') { if (modal.style.display === 'flex') { modal.style.display = 'none'; modal.setAttribute('aria-hidden','true'); } } });
+})();
+
+/* floating chat toggle & send (unchanged semantics - adjust endpoint if needed) */
+(function chatSetup() {
+  const chatIcon = document.getElementById('chat-icon'); const chatBox = document.getElementById('chat-box');
+  chatIcon.addEventListener('click', () => { chatBox.style.display = (chatBox.style.display === 'flex' ? 'none':'flex'); });
+  const chatSend = document.getElementById('chat-send'), chatInput = document.getElementById('chat-input'), chatBody = document.getElementById('chat-body');
+  chatSend.addEventListener('click', async () => {
+    const msg = chatInput.value.trim(); if(!msg) return;
+    chatBody.innerHTML += `<div class="chat-message-user">${msg}</div>`; chatInput.value='';
+    try {
+      const res = await fetch('/ask', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ message: msg }) });
+      const data = await res.json();
+      chatBody.innerHTML += `<div class="chat-message-bot">${data.response}</div>`;
+      await fetch('/save_conversation', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ user: msg, bot: data.response }) });
+    } catch (e) {
+      chatBody.innerHTML += `<div class="chat-message-bot">Error: Could not fetch response.</div>`;
+    }
+  });
+  chatInput.addEventListener('keypress', function(e) { if(e.key==='Enter'){ e.preventDefault(); chatSend.click(); } });
+})();
+</script>
+
+<footer style="text-align:center; margin:2rem 0; font-style:italic; font-size:1.2rem; color:#333; width:100%">
+  Vivek Reddy Munnangi |
+  <a href="../resume.pdf" target="_blank" style="color:#0055a5; text-decoration:none; margin-left:0.3rem;">Resume</a>
+</footer>
+</body>
+</html>
