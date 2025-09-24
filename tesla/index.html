@@ -220,7 +220,7 @@ nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
   <main class="content header-bg">
     <section id="professional-summary" class="professional-summary">
       <h2>Professional Summary</h2>
-      <p>I am a data driven engineer who builds real systems at the intersection of autonomy, machine learning, and electromechanical design. My recent work spans state estimation and sensor fusion for high-speed autonomous racecars (ROS2, IMU/GNSS/LiDAR fusion, MPC/PID, predictive grip modelling, fail-safe trajectory planning), domain-specific LLM systems and ETL pipelines for healthcare (OpenDental ↔ CRM sync, Qwen-3 fine-tuning, DeepSpeed/FSDP, COT command on H100 GPU), and neural methods for 3D medical image registration (high accuracy, high throughput volumetric alignment). I also hold a patented 3-phase BLDC wheel hub motor design and led the powertrain design for my university’s first SAE Baja ATV  project that combine hands on manufacturing, iterative simulation, and cost constrained engineering. Practically, I run multi parametric simulation sweeps, collect large experimental datasets, and apply ML models to analyse outputs and predict optimal next iteration configurations a workflow that moved me to collaborate mechanical design and machine learning which motivated my MS in Data Science at Indiana University. My strength is turning noisy, real world sensor and telemetry data into robust, deployable solutions that improve performance (e.g., predictive control & grip models that materially raised on-track performance), reliability, and safety in both research and production contexts.</p>
+      <p>I am a data-driven engineer who builds practical systems at the intersection of autonomy, machine learning, and electromechanical design. I prefer a hands-on, iterative approach: I prototype in code and hardware, run multi-parameter simulations and field tests, then rapidly fold results back into the next design cycle. I lead by example, writing production code, documenting decisions, and mentoring teammates also I keep cross-team communication simple and action-oriented so engineers, researchers, and hardware partners align quickly. My work style emphasizes measurable outcomes: I prioritize clean, testable inputs (data sanitization and validation), clear evaluation metrics, and predictable delivery (unit tests, CI, and reproducible pipelines). Under pressure I stay methodical and calm, focusing on safety and reliability first while recovering performance with minimal disruption. Colleagues rely on me to translate messy telemetry into reliable datasets, implement pragmatic algorithms that scale to real products, and drive practical trade-offs between performance, cost, and schedule.</p>
     </section>
 
     <section id="ask-section">
@@ -243,7 +243,7 @@ nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
 
 
           <div class="ask-input-wrap">
-            <input id="ask-input" class="ask-input" placeholder="Ask something about my experience, motivation, or projects..." />
+            <input id="ask-input" class="ask-input" placeholder="I am AI Assistant, speaking on behalf of Vivek my creator, ask something about my experience, motivation, or projects..." />
             <button id="ask-send" class="ask-send">Ask</button>
           </div>
           <div style="color:#444;font-size:10px;">Note: I am using free version to deploy my api, instance will spin down with inactivity, which can delay requests by 50 seconds or more when redeploy, once deployed response are quick. Thank you for waiting.</div>
@@ -857,60 +857,74 @@ nav#main-nav a:hover { background: rgba(0,0,0,0.04); }
 
 <!-- Hidden (server-side) job description fallback (optional) -->
 <div id="job-desc" style="display:none;">
-I am appying to 3 jobs at tesla and you know about tesla so go throught all these job discription and give a genralized answer, below is the discription of these 3 jobs at tesla:
+I am appying to 3 jobs at stack and you know about stack(amazon owned autonomus system for driverless cars) so go throught all these job discription and give a genralized answer, below is the discription of these 3 jobs at stack:
 Job1: What to Expect
-Tesla’s Robotics Software Engineering team designs and develops robotic controls and fleet management systems for manufacturing, material flow, and logistics use cases. This includes managing Autonomous Mobile Robots (AMRs), Automated Storage and Retrieval Systems (ASRSs), and conveyor systems. We are seeking a software engineer to drive new features and improvements for both onboard robot controllers and server-side fleet management systems, while also addressing sustaining engineering needs. The team operates in Fremont, CA, and Austin, TX, with up to 15% travel to Tesla factories worldwide for onsite support during project launches. This position will be located in Austin, TX. 
+Tesla is building robust embodied intelligence through humanoid robots. Core to reaching this goal are real-time algorithms that enable operation of our humanoid robot in dynamic, unstructured environments.  You will design and implement estimation pipelines that fuse sensor data to provide accurate state feedback for locomotion, manipulation, and high-level autonomy. Most importantly, you will see your work repeatedly shipped to and utilized by thousands of Humanoid Robots in real world applications. 
 What You’ll Do
-Responsible for developing, maintaining, and improving algorithms and models associated with perception, navigation, safety, and fleet management of autonomous mobile robots 
-Path planning: Vehicle kinematics and Motion Controls; Model predictive control and dynamics-based trajectory optimization 
-Perception: State estimation, Mapping & Localization using SLAM; Obstacle detection and avoidance; Precision Docking; Object tracking 
-Contribute to and take ownership of the end-to-end design and implementation of features from early prototype to production release 
-Collaborate with cross-functional teams to gather feedback and identify areas for improvement, planning them within the engineering design cycle iterations 
-Support ongoing projects in production by identifying, debugging, and resolving issues to ensure service uptime 
+Design, implement, and optimize state estimation algorithms (e.g., EKF, UKF, particle filters) for humanoid robots 
+
+Fuse data from multiple sensors (IMU, joint encoders, cameras, force/torque sensors) for accurate pose and velocity estimation 
+
+Collaborate with sensor teams to drive hardware design decisions and support calibration processes 
+
+Analyze and improve estimation robustness in the presence of sensor noise, latency, and failures 
+
+Develop simulation and real-world experiments to validate estimation performance. 
+
+Contribute to software architecture design, including interfaces between subsystems. 
+
+Ship production-quality, safety-critical software 
+
 What You’ll Bring
-Degree in Computer Science, Robotics or a related field, or equivalent industry experience 
-2+ years of proven experience in industrial robotics controls systems, particularly with algorithms related to state estimation, perception, localization, navigation, and path planning for autonomous mobile robots 
-Experience developing and debugging real-time, multithreaded software systems using C/C++ on Linux based platforms (Familiarity with RTPreempt and Linux kernel configuration is a plus) 
-Familiarity with sensor technologies such as LIDAR, IMU, cameras, depth sensors, and their integration in robotics applications 
-Familiarity with functional safety standards is a plus 
-Ability to adapt to fast-paced, iterative development cycles in a dynamic environment, using standard CI tools like Git while following rigorous documentation and testing standards 
-Excellent problem-solving skills and ability to work on complex technical challenges 
-Effective communication skills for collaborating with cross-functional teams 
-Self-motivated and proactive in learning new concepts and technologies 
-Ability to travel up to 15% of the time.
+Experience writing production-quality, modern C++ 
+
+Strong background in state estimation, sensor fusion, and modeling 
+
+Solid understanding of robotics fundamentals, including geometry, linear algebra, kinematics, dynamics, mechanics, and real-time systems 
+
+Experience with humanoids or legged robots preferred.
 
 Job2: What to Expect
-At Tesla, you will have access to unparalleled resources that set us apart from other companies in the AI industry. With the world's largest self-driving dataset, you will have a unique opportunity to develop and optimize a large-scale data engine that powers our autonomous driving systems. Tesla's extensive fleet of vehicles generates massive amounts of real-world data daily, giving you unprecedented access to diverse driving scenarios and edge cases. Additionally, Tesla offers one of the highest GPU resources per engineer in the industry. This combination of rich data and substantial infrastructure enables you to tackle data engineering challenges on a scale unmatched in the industry.
+Tesla is on a path to build humanoid bi-pedal robots at scale to automate repetitive and boring tasks. As a member of the software team, you will design and implement reliable & efficient control code for bipedal locomotion, object manipulation and state estimation. You will work on improving the robot’s behavior in the real world, and reflecting those capabilities in a simulation engine for fast iteration. The code you will write will at term run in thousands of humanoid robots in real world situations and will therefore be held to high quality standards.
+
+
 
 What You’ll Do
-Improve end-to-end driving policy model performance with a focus in data quantity, quality, and diversity
-Research and implement optimal data mixture strategies for pre-training and post-training
-Develop innovative methods for data acquisition, clustering, and cleaning
-Build robust metrics to track model improvements across various driving scenarios
+Experience programming in C or C++
+Practical experience with closed-loop controls system development, modeling, and implementation in an embedded environment  
+Solid background in linear systems analysis, stability, and controller design  
+Familiarity with control of non-linear systems  
+Capability of delivering high-quality code in an embedded environment
 What You’ll Bring
-Experience in building large models and large datasets
-Proficiency in Python and a deep understanding of software engineering best practices
-Proficiency in deep learning frameworks such as PyTorch, TensorFlow, or JAX
-Strong problem-solving skills and ability to work effectively in cross-functional teams
+Experience with state estimation through IMU, encoders, force sensors etc
+Experience working on bipedal robots or other multi-DOF robotic hardware
+Experience with shipping control algorithms on real products at scale.
+
+job3: What to Expect
+Tesla is on a path to build humanoid robots at scale to automate repetitive and boring tasks. The goal of our Machine Learning team is to build and demonstrate a general robot learning system that can leverage AI to perform complex physical tasks, ranging from full body locomotion, and precise manipulation This specific role will do hands-on data analysis for Optimus’s Machine Learning team, as well as build data pipelines, tools and applications to automate those analysis. This is a unique opportunity to work on state-of-the-art algorithms for object manipulation culminating in their deployment to real world production applications.   
+What You’ll Do
+Write fleet queries and Python scripts to source new datasets  
+
+Analyze distributions of various components of robot data to spot anomalies.  
+
+Write scripts to sanitize data, based on heuristics or learned models.  
+
+Develop innovative methods for data acquisition, clustering, and cleaning  
+
+Build robust metrics to track model improvements across different dataset mixtures 
+
+Write alerts to flag anomalies during data collection 
+
+What You’ll Bring
+Experience in building large models and large datasets 
+
+Experience with Python (Pandas, NumPy) and SQL (PostgreSQL), MATLAB, R 
+
+Proficiency in deep learning frameworks such as PyTorch, TensorFlow, or JAX 
+
+Strong problem-solving skills and ability to work effectively in cross-functional teams 
+
 Strong work ethics and willingness to take on multiple roles.
-
-Job3:What to Expect
-The Self-Driving Data and Analytics team is responsible for mining fleet data from millions of Tesla cars to improve our neural networks and creating real-time analytics to measure Self-Driving performance. This is a very high-impact role that helps the team set overall goals and priorities, but also contributes directly to those goals by sourcing high volume and high-quality data.  
-
-What You’ll Do
-Design and implement data pipelines from ingestion to visualization to unlock the full potential of Tesla’s fleet data by sourcing, transforming, and serving new datasets
-Define and build metrics that measure Self-Driving performance and specific driving events, then turn them into insights that drive decisions
-Monitor and maintain infrastructure health with robust alerting, logging, and automation for scale and reliability
-Build automation, developer tools, and internal libraries that accelerate analysis and visualization across the company
-Manage inflow rate and volume of fleet data
-Iterate with AI engineering partners on effectiveness of new datasets
-Deliver world class, interactive visualizations and tooling that turns complex data into actionable insights
-What You’ll Bring
-Bachelor's Degree in Computer Science, Engineering, Physics, Math, proof of exceptional skills in related field, or equivalent experience
-Expert in Python and SQL with experience building data models, performant queries, and ETLs at scale
-Experience with distributed systems is a plus
-Ability to own projects end-to-end from defining the right data to collect, building robust pipelines, to delivering actionable metrics and tooling
-Ability to thrive in a rapidly changing environment with high ambiguity; self-starter mentality.
 
 </div>
 
